@@ -1,9 +1,9 @@
 "use client";
 import React from "react";
+import Image from "next/image";
 import { Container } from "./container";
 import { Logo } from "./logo";
 import {
-  IconBrandGithubFilled,
   IconBrandGoogleFilled,
 } from "@tabler/icons-react";
 import { Button } from "./elements/button";
@@ -13,10 +13,18 @@ export const Register = () => {
     <Container className="h-screen max-w-lg mx-auto flex flex-col items-center justify-center">
       <Logo />
       <h1 className="text-xl md:text-4xl font-bold my-4">
-        Sign up for Foreko
+        Create a Foreko Account
       </h1>
+      <p className="text-neutral-400 text-center mb-4">
+        One last step before starting your free trial
+      </p>
 
       <form className="w-full my-4">
+        <input
+          type="text"
+          placeholder="Full Name"
+          className="h-10 pl-4 w-full mb-4 rounded-md text-sm bg-charcoal border border-neutral-800 text-white placeholder-neutral-500 outline-none focus:outline-none active:outline-none focus:ring-2 focus:ring-neutral-800"
+        />
         <input
           type="email"
           placeholder="Email Address"
@@ -27,19 +35,32 @@ export const Register = () => {
           placeholder="Password"
           className="h-10 pl-4 w-full mb-4 rounded-md text-sm bg-charcoal border border-neutral-800 text-white placeholder-neutral-500 outline-none focus:outline-none active:outline-none focus:ring-2 focus:ring-neutral-800"
         />
+        <input
+          type="password"
+          placeholder="Confirm Password"
+          className="h-10 pl-4 w-full mb-4 rounded-md text-sm bg-charcoal border border-neutral-800 text-white placeholder-neutral-500 outline-none focus:outline-none active:outline-none focus:ring-2 focus:ring-neutral-800"
+        />
         <Button variant="muted" type="submit" className="w-full py-3">
-          <span className="text-sm">Sign up</span>
+          <span className="text-sm">Create Foreko Account</span>
         </Button>
       </form>
 
       <Divider />
 
-      <div className="flex flex-col sm:flex-row gap-4 w-full">
-        <button className="flex flex-1 justify-center space-x-2 items-center bg-white px-4 py-3 rounded-md text-black hover:bg-white/80 transition duration-200 shadow-[0px_1px_0px_0px_#00000040_inset]">
-          <IconBrandGithubFilled className="h-4 w-4 text-black" />
-          <span className="text-sm">Login with GitHub</span>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
+        <button className="flex justify-center space-x-2 items-center bg-white px-4 py-3 rounded-md text-black hover:bg-white/80 transition duration-200 shadow-[0px_1px_0px_0px_#00000040_inset]">
+          <Image src="/images/apple.png" alt="Apple" width={16} height={16} />
+          <span className="text-sm">Login with Apple</span>
         </button>
-        <button className="flex flex-1 justify-center space-x-2 items-center bg-white px-4 py-3 rounded-md text-black hover:bg-white/80 transition duration-200 shadow-[0px_1px_0px_0px_#00000040_inset]">
+        <button className="flex justify-center space-x-2 items-center bg-white px-4 py-3 rounded-md text-black hover:bg-white/80 transition duration-200 shadow-[0px_1px_0px_0px_#00000040_inset]">
+          <Image src="/images/facebook.png" alt="Facebook" width={16} height={16} />
+          <span className="text-sm">Login with Facebook</span>
+        </button>
+        <button className="flex justify-center space-x-2 items-center bg-white px-4 py-3 rounded-md text-black hover:bg-white/80 transition duration-200 shadow-[0px_1px_0px_0px_#00000040_inset]">
+          <Image src="/images/microsoft.png" alt="Microsoft" width={16} height={16} />
+          <span className="text-sm">Login with Microsoft</span>
+        </button>
+        <button className="flex justify-center space-x-2 items-center bg-white px-4 py-3 rounded-md text-black hover:bg-white/80 transition duration-200 shadow-[0px_1px_0px_0px_#00000040_inset]">
           <IconBrandGoogleFilled className="h-4 w-4 text-black" />
           <span className="text-sm">Login with Google</span>
         </button>
