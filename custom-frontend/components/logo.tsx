@@ -15,7 +15,7 @@ export const Logo = ({ image, locale }: { image?: Image, locale?: string }) => {
       {image && (
         <BlurImage
           src={getImageUrl(image?.url)}
-          alt={image.alternativeText || image.alt || "Foreko Logo"}
+          alt={image.alternativeText || "Foreko Logo"}
           width={200}
           height={200}
           className="h-10 w-10 rounded-xl mr-2"
