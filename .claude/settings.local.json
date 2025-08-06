@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:launch-pad-roan.vercel.app)"
+    ],
+    "deny": []
+  }
+}
