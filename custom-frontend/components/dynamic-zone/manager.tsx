@@ -28,7 +28,10 @@ const componentMapping: { [key: string]: any } = {
   'dynamic-zone.blog-grid': dynamic(() => import('./blog-grid').then(mod => mod.BlogGrid), { ssr: false }),
   'dynamic-zone.team-static': dynamic(() => import('./team-static').then(mod => mod.TeamStatic), { ssr: false }),
   'dynamic-zone.contact-form': dynamic(() => import('./contact-form').then(mod => mod.ContactForm), { ssr: false }),
-  'dynamic-zone.company-info': dynamic(() => import('./company-info').then(mod => mod.CompanyInfo), { ssr: false })
+  'dynamic-zone.company-info': dynamic(() => import('./company-info').then(mod => mod.CompanyInfo), { ssr: false }),
+  'dynamic-zone.privacy-policy': dynamic(() => import('./privacy-policy').then(mod => mod.PrivacyPolicy), { ssr: false }),
+  'dynamic-zone.cookie-policy': dynamic(() => import('./cookie-policy').then(mod => mod.CookiePolicy), { ssr: false }),
+  'dynamic-zone.terms-of-service': dynamic(() => import('./terms-of-service').then(mod => mod.TermsOfService), { ssr: false })
 }
 
 const DynamicZoneManager: React.FC<Props> = ({ dynamicZone, locale }) => {

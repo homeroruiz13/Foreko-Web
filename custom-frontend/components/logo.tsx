@@ -18,10 +18,9 @@ export const Logo = ({ image, locale }: { image?: Image, locale?: string }) => {
           alt={image.alternativeText || "Foreko Logo"}
           width={200}
           height={200}
-          className="h-10 w-10 rounded-xl mr-2"
+          className="h-14 w-14 rounded-xl"
         />
       )}
-      <span className="text-white font-bold">Foreko</span>
     </Link>
   );
 };

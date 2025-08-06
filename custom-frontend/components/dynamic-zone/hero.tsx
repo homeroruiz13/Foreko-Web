@@ -10,7 +10,7 @@ import { Button } from "../elements/button";
 import { Cover } from "../decorations/cover";
 import { motion } from "framer-motion";
 
-export const Hero = ({ heading, sub_heading, CTAs, locale }: { heading: string; sub_heading: string; CTAs: any[], locale: string }) => {
+export const Hero = ({ heading, sub_heading, CTAs, locale, updated_date }: { heading: string; sub_heading: string; CTAs: any[], locale: string, updated_date?: string }) => {
   return (
     <div className="h-screen overflow-hidden relative flex flex-col items-center justify-center">
       <motion.div
@@ -21,6 +21,13 @@ export const Hero = ({ heading, sub_heading, CTAs, locale }: { heading: string; 
         <StarBackground />
         <ShootingStars />
       </motion.div>
+      {updated_date && (
+        <div className="text-center mb-4 relative z-10">
+          <p className="text-neutral-400 text-sm md:text-base">
+            {updated_date}
+          </p>
+        </div>
+      )}
       <Heading
         as="h1"
         className="text-4xl md:text-4xl lg:text-8xl font-semibold max-w-7xl mx-auto text-center mt-6 relative z-10  py-6"

@@ -1412,60 +1412,16 @@ export const mockPages = {
       {
         __component: "dynamic-zone.hero",
         id: 1,
+        updated_date: "Updated August 06, 2025",
         heading: "Privacy Policy",
         sub_heading: "How Foreko protects your business data and privacy",
-        CTAs: [
-          {
-            id: 1,
-            text: "Contact Privacy Team",
-            URL: "/contact",
-            variant: "outline"
-          }
-        ]
+        CTAs: []
       },
       {
-        __component: "dynamic-zone.features",
+        __component: "dynamic-zone.privacy-policy",
         id: 2,
-        heading: "Data Protection Commitment",
-        sub_heading: "Your business data security is our top priority",
-        globe_card: {
-          id: 1,
-          title: "Bank-Level Encryption",
-          description: "All your business data is encrypted in transit and at rest using AES-256 encryption standards",
-          span: "two"
-        },
-        ray_card: {
-          id: 2,
-          title: "SOC 2 Compliant",
-          description: "We maintain SOC 2 Type II compliance for data security and availability",
-          span: "one"
-        },
-        graph_card: {
-          id: 3,
-          title: "Data Ownership",
-          description: "Your business data belongs to you. We never sell or share your data with third parties",
-          span: "two"
-        },
-        social_media_card: {
-          id: 4,
-          title: "GDPR & CCPA Ready",
-          description: "Full compliance with international data protection regulations",
-          span: "one"
-        }
-      },
-      {
-        __component: "dynamic-zone.cta",
-        id: 3,
-        heading: "Questions About Privacy?",
-        sub_heading: "Our privacy team is here to help with any concerns",
-        CTAs: [
-          {
-            id: 1,
-            text: "Contact Privacy Team",
-            URL: "/contact",
-            variant: "primary"
-          }
-        ]
+        heading: "Privacy Policy",
+        sub_heading: "Your privacy and data protection are our top priorities"
       }
     ],
     localizations: []
@@ -1483,6 +1439,7 @@ export const mockPages = {
         id: 1,
         heading: "Terms of Service",
         sub_heading: "Fair and transparent terms for using Foreko's dashboard suite",
+        updated_date: "Updated August 06 2025",
         CTAs: [
           {
             id: 1,
@@ -1493,48 +1450,10 @@ export const mockPages = {
         ]
       },
       {
-        __component: "dynamic-zone.features",
+        __component: "dynamic-zone.terms-of-service",
         id: 2,
-        heading: "Service Agreement",
-        sub_heading: "Clear terms designed for small business owners",
-        globe_card: {
-          id: 1,
-          title: "Fair Usage Policy",
-          description: "Reasonable usage limits designed to ensure service quality for all small business customers",
-          span: "two"
-        },
-        ray_card: {
-          id: 2,
-          title: "No Lock-In",
-          description: "Cancel anytime with 30 days notice. Export your data whenever you want",
-          span: "one"
-        },
-        graph_card: {
-          id: 3,
-          title: "Service Level Agreement",
-          description: "99.9% uptime guarantee with transparent monitoring and status updates",
-          span: "two"
-        },
-        social_media_card: {
-          id: 4,
-          title: "Support Guarantee",
-          description: "Dedicated support team with guaranteed response times for all plan levels",
-          span: "one"
-        }
-      },
-      {
-        __component: "dynamic-zone.cta",
-        id: 3,
-        heading: "Questions About Our Terms?",
-        sub_heading: "We believe in transparent, fair business practices",
-        CTAs: [
-          {
-            id: 1,
-            text: "Contact Us",
-            URL: "/contact",
-            variant: "primary"
-          }
-        ]
+        heading: "Foreko Terms of Service",
+        sub_heading: "Welcome to Foreko. These Terms of Service govern your access to and use of the Foreko platform."
       }
     ],
     localizations: []
@@ -1823,74 +1742,30 @@ export const mockPages = {
     slug: "security",
     locale: "en",
     seo: {
-      metaTitle: "Data Security - Foreko",
-      metaDescription: "Learn about Foreko's comprehensive data security measures and compliance standards"
+      metaTitle: "Cookie Policy - Foreko",
+      metaDescription: "Learn about how Foreko uses cookies and similar tracking technologies when you visit our website or use our platform"
     },
     dynamic_zone: [
       {
         __component: "dynamic-zone.hero",
         id: 1,
-        heading: "Data Security",
-        sub_heading: "Enterprise-grade security for your business data",
+        heading: "Cookie Policy",
+        sub_heading: "Learn how we use cookies and tracking technologies",
+        updated_date: "Updated August 06 2025",
         CTAs: [
           {
             id: 1,
-            text: "Security Whitepaper",
+            text: "Contact Privacy Team",
             URL: "/contact",
             variant: "outline"
           }
         ]
       },
       {
-        __component: "dynamic-zone.features",
+        __component: "dynamic-zone.cookie-policy",
         id: 2,
-        heading: "Security Infrastructure",
-        sub_heading: "Multi-layered protection for your business data",
-        globe_card: {
-          id: 1,
-          title: "End-to-End Encryption",
-          description: "All data is encrypted using AES-256 encryption both in transit and at rest, ensuring your business information is always protected",
-          span: "two"
-        },
-        ray_card: {
-          id: 2,
-          title: "SOC 2 Type II",
-          description: "Independently audited and certified for security, availability, and confidentiality",
-          span: "one"
-        },
-        graph_card: {
-          id: 3,
-          title: "Regular Penetration Testing",
-          description: "Quarterly security assessments by third-party security experts to identify and address potential vulnerabilities",
-          span: "two"
-        },
-        social_media_card: {
-          id: 4,
-          title: "24/7 Monitoring",
-          description: "Continuous monitoring and threat detection to protect against unauthorized access",
-          span: "one"
-        }
-      },
-      {
-        __component: "dynamic-zone.testimonials",
-        id: 3,
-        heading: "Trusted by Businesses",
-        sub_heading: "Security you can count on",
-        testimonials: [
-          {
-            id: 1,
-            text: "As a business handling sensitive customer data, Foreko's security standards give us complete peace of mind. Their compliance certifications were exactly what we needed.",
-            user: {
-              firstname: "David",
-              lastname: "Chen",
-              job: "IT Director, Retail Solutions Inc",
-              image: {
-                url: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUwIiBoZWlnaHQ9IjE1MCIgdmlld0JveD0iMCAwIDE1MCAxNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxNTAiIGhlaWdodD0iMTUwIiBmaWxsPSIjMzc0MTUxIi8+Cjx0ZXh0IHg9Ijc1IiB5PSI3NSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjI0IiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkRDPC90ZXh0Pgo8L3N2Zz4K",
-                alternativeText: "David Chen"
-              }
-            }
-          }
-        ]
+        heading: "Foreko Cookie Policy",
+        sub_heading: "This Cookie Policy explains how Foreko uses cookies and similar tracking technologies when you visit our website or use our platform."
       }
     ],
     localizations: []
@@ -1963,18 +1838,49 @@ export const mockGlobalData = {
     },
     description: "AI-powered dashboard suite designed specifically for small businesses. Real-time inventory management, order tracking, and actionable insights to replace manual spreadsheets.",
     copyright: "© 2024 Foreko. All rights reserved.",
+    sections: [
+      {
+        title: "Foreko",
+        links: [
+          { text: "Home", URL: "/" },
+          { text: "Features", URL: "/features" },
+          { text: "Pricing", URL: "/pricing" },
+          { text: "Use Cases", URL: "/use-cases" },
+          { text: "Resources", URL: "/resources" },
+          { text: "Company", URL: "/company" },
+          { text: "Contact", URL: "/contact" }
+        ]
+      },
+      {
+        title: "Legal",
+        links: [
+          { text: "Privacy Policy", URL: "/privacy" },
+          { text: "Terms of Service", URL: "/terms" },
+          { text: "Cookie Policy", URL: "/security" }
+        ]
+      },
+      {
+        title: "Socials",
+        links: [
+          { text: "Twitter", URL: "https://twitter.com/foreko" },
+          { text: "LinkedIn", URL: "https://www.linkedin.com/company/foreko-inventory-intelligence-platform/?viewAsMember=true" },
+          { text: "Facebook", URL: "https://facebook.com/foreko" }
+        ]
+      }
+    ],
     internal_links: [
       { text: "Home", URL: "/" },
       { text: "Features", URL: "/features" },
       { text: "Pricing", URL: "/pricing" },
       { text: "Use Cases", URL: "/use-cases" },
       { text: "Resources", URL: "/resources" },
-      { text: "Company", URL: "/company" }
+      { text: "Company", URL: "/company" },
+      { text: "Contact", URL: "/contact" }
     ],
     policy_links: [
       { text: "Privacy Policy", URL: "/privacy" },
       { text: "Terms of Service", URL: "/terms" },
-      { text: "Data Security", URL: "/security" }
+      { text: "Cookie Policy", URL: "/security" }
     ],
     social_media_links: [
       { text: "Twitter", URL: "https://twitter.com/foreko" },
