@@ -13,7 +13,7 @@ export const Login = () => {
     <Container className="h-screen max-w-lg mx-auto flex flex-col items-center justify-center">
       <Logo />
       <h1 className="text-xl md:text-4xl font-bold my-4">
-        Sign in to Foreko
+        Log in to Foreko
       </h1>
 
       <form className="w-full my-4">
@@ -28,7 +28,7 @@ export const Login = () => {
           className="h-10 pl-4 w-full mb-4 rounded-md text-sm bg-charcoal border border-neutral-800 text-white placeholder-neutral-500 outline-none focus:outline-none active:outline-none focus:ring-2 focus:ring-neutral-800"
         />
         <Button variant="muted" type="submit" className="w-full py-3">
-          <span className="text-sm">Sign in</span>
+          <span className="text-sm">Log in</span>
         </Button>
       </form>
 

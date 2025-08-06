@@ -1974,7 +1974,7 @@ export const mockGlobalData = {
       { text: "Company", URL: "/company", target: "_self" }
     ],
     right_navbar_items: [
-      { text: "Sign In", URL: "/sign-in", target: "_self" },
+      { text: "Log In", URL: "/sign-in", target: "_self" },
       { text: "Start Free Trial", URL: "/sign-up", target: "_self" }
     ]
   },
