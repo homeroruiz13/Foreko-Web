@@ -10,7 +10,11 @@ import { useCart } from "@/context/cart-context";
 import { getImageUrl } from "@/lib/api/imageUtils";
 
 export const SingleProduct = ({ product }: { product: Product }) => {
-  const [activeThumbnail, setActiveThumbnail] = useState(getImageUrl(product.images[0].url));
+  const [activeThumbnail, setActiveThumbnail] = useState(
+    product.images && product.images.length > 0 
+      ? getImageUrl(product.images[0].url) 
+      : "/images/square.png"
+  );
   const { addToCart } = useCart();
   
   return (
@@ -41,24 +45,37 @@ export const SingleProduct = ({ product }: { product: Product }) => {
           </motion.div>
           {/* </AnimatePresence> */}
           <div className="flex gap-4 justify-center items-center mt-4">
-            {product.images && product.images.map((image, index) => (
+            {product.images && product.images.length > 0 ? (
+              product.images.map((image, index) => (
+                <button
+                  onClick={() => setActiveThumbnail(getImageUrl(image.url))}
+                  key={"product-image" + index}
+                  className={cn(
+                    "h-20 w-20 rounded-xl",
+                    activeThumbnail === getImageUrl(image.url)
+                      ? "border-2 border-neutral-200"
+                      : "border-2 border-transparent"
+                  )}
+                  style={{
+                    backgroundImage: `url(${getImageUrl(image.url)})`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                    backgroundRepeat: "no-repeat",
+                  }}
+                ></button>
+              ))
+            ) : (
               <button
-                onClick={() => setActiveThumbnail(getImageUrl(image.url))}
-                key={"product-image" + index}
-                className={cn(
-                  "h-20 w-20 rounded-xl",
-                  activeThumbnail === image
-                    ? "border-2 border-neutral-200"
-                    : "border-2 border-transparent"
-                )}
+                onClick={() => setActiveThumbnail("/images/square.png")}
+                className="h-20 w-20 rounded-xl border-2 border-neutral-200"
                 style={{
-                  backgroundImage: `url(${getImageUrl(image.url)})`,
+                  backgroundImage: `url(/images/square.png)`,
                   backgroundSize: "cover",
                   backgroundPosition: "center",
                   backgroundRepeat: "no-repeat",
                 }}
               ></button>
-            ))}
+            )}
           </div>
         </div>
         <div>

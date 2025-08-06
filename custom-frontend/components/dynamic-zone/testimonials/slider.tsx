@@ -6,6 +6,7 @@ import { Transition } from "@headlessui/react";
 import { SparklesCore } from "../../ui/sparkles";
 import { cn } from "@/lib/utils";
 import { getImageUrl } from "@/lib/api/imageUtils";
+import { FaLinkedin } from "react-icons/fa";
 
 export const TestimonialsSlider = ({ testimonials }: { testimonials: any }) => {
   const [active, setActive] = useState<number>(0);
@@ -82,7 +83,7 @@ export const TestimonialsSlider = ({ testimonials }: { testimonials: any }) => {
                     <div className="absolute inset-0 h-full -z-10">
                       <Image
                         className="relative top-11 left-1/2 -translate-x-1/2 rounded-full"
-                        src={getImageUrl(item.user?.image?.url || "/default-avatar.png")}
+                        src={getImageUrl(item.user?.image?.url || "/images/square.png")}
                         width={56}
                         height={56}
                         alt={`${item.user?.firstname || ""} ${item.user?.lastname || ""}`}
@@ -117,32 +118,43 @@ export const TestimonialsSlider = ({ testimonials }: { testimonials: any }) => {
             {/* Buttons */}
             <div className="flex flex-wrap justify-center -m-1.5 px-8 sm:px-6">
               {slicedTestimonials.map((item: any, index: number) => (
-                <button
-                  className={cn(
-                    `px-2 py-1 rounded-full m-1.5 text-xs border border-transparent text-neutral-300 transition duration-150 ease-in-out [background:linear-gradient(theme(colors.neutral.900),_theme(colors.neutral.900))_padding-box,_conic-gradient(theme(colors.neutral.400),_theme(colors.neutral.700)_25%,_theme(colors.neutral.700)_75%,_theme(colors.neutral.400)_100%)_border-box] relative before:absolute before:inset-0 before:bg-neutral-800/30 before:rounded-full before:pointer-events-none ${active === index
-                      ? "border-secondary/50"
-                      : "border-transparent opacity-70"
-                    }`
-                  )}
-                  key={index}
-                  onClick={() => {
-                    setActive(index);
-                    setAutorotate(false);
-                  }}
-                >
-                  <span className="relative">
-                    <span className="text-neutral-50 font-bold">
-                      {item.user?.firstname || ""}{item.user?.lastname || ""}
-                    </span>{" "}
-                    <br className="block sm:hidden" />
-                    <span className="text-neutral-600 hidden sm:inline-block">
-                      -
-                    </span>{" "}
-                    <span className="hidden sm:inline-block">
-                      {item.user?.job || ""}
+                <div key={index} className="flex flex-col items-center m-1.5">
+                  <button
+                    className={cn(
+                      `px-2 py-1 rounded-full text-xs border border-transparent text-neutral-300 transition duration-150 ease-in-out [background:linear-gradient(theme(colors.neutral.900),_theme(colors.neutral.900))_padding-box,_conic-gradient(theme(colors.neutral.400),_theme(colors.neutral.700)_25%,_theme(colors.neutral.700)_75%,_theme(colors.neutral.400)_100%)_border-box] relative before:absolute before:inset-0 before:bg-neutral-800/30 before:rounded-full before:pointer-events-none ${active === index
+                        ? "border-secondary/50"
+                        : "border-transparent opacity-70"
+                      }`
+                    )}
+                    onClick={() => {
+                      setActive(index);
+                      setAutorotate(false);
+                    }}
+                  >
+                    <span className="relative">
+                      <span className="text-neutral-50 font-bold">
+                        {item.user?.firstname || ""} {item.user?.lastname || ""}
+                      </span>{" "}
+                      <br className="block sm:hidden" />
+                      <span className="text-neutral-600 hidden sm:inline-block">
+                        -
+                      </span>{" "}
+                      <span className="hidden sm:inline-block">
+                        {item.user?.job || ""}
+                      </span>
                     </span>
-                  </span>
-                </button>
+                  </button>
+                  {item.user?.linkedin && (
+                    <a
+                      href={item.user.linkedin}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-2 text-blue-400 hover:text-blue-300 transition-colors"
+                    >
+                      <FaLinkedin className="h-5 w-5" />
+                    </a>
+                  )}
+                </div>
               ))}
             </div>
           </div>

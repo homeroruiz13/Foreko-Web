@@ -4,6 +4,10 @@ const nextConfig = {
     remotePatterns: [
       { hostname: "images.unsplash.com" },
       { hostname: "via.placeholder.com" },
+      { hostname: "cdn.worldvectorlogo.com" },
+      { hostname: "seeklogo.com" },
+      { hostname: "logos-world.net" },
+      { hostname: "upload.wikimedia.org" },
       { hostname: process.env.IMAGE_HOSTNAME || "localhost" }
     ],
   },

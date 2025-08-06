@@ -26,7 +26,13 @@ export const BlogCard = ({ article, locale }: { article: Article, locale: string
           />
         ) : (
           <div className="h-full flex items-center justify-center group-hover:bg-neutral-900">
-            {/* <Logo /> */}
+            <Image
+              src="/images/square.png"
+              alt="Default placeholder"
+              width={150}
+              height={150}
+              className="object-cover rounded-2xl opacity-50"
+            />
           </div>
         )}
       </div>
@@ -85,7 +91,13 @@ export const BlogCardVertical = ({ article, locale }: { article: Article, locale
           />
         ) : (
           <div className=" h-64 md:h-96 flex items-center justify-center group-hover:bg-neutral-900">
-            {/* <Logo /> */}
+            <Image
+              src="/images/square.png"
+              alt="Default placeholder"
+              width={200}
+              height={200}
+              className="object-cover rounded-2xl opacity-50"
+            />
           </div>
         )}
       </div>

@@ -72,7 +72,7 @@ export const Brands = ({ heading, sub_heading, logos }: { heading: string, sub_h
               className="relative"
             >
               <Image
-                src={getImageUrl(logo?.image?.url || "/default-logo.png")}
+                src={getImageUrl(logo?.image?.url || "/images/square.png")}
                 alt={logo?.image?.alternativeText || logo?.title || "Logo"}
                 width="400"
                 height="400"

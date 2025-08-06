@@ -4,8 +4,8 @@ export const mockPageData = {
     {
       __component: "dynamic-zone.hero",
       id: 1,
-      heading: "Foreko Complete Dashboard Suite",
-      sub_heading: "AI-powered inventory management and business insights for small businesses",
+      heading: "Inventory Reimagined",
+      sub_heading: "AI-powered inventory management that predicts exactly what to order and when.",
       CTAs: [
         {
           id: 1,
@@ -23,25 +23,37 @@ export const mockPageData = {
       globe_card: {
         id: 1,
         title: "Real-Time Data",
-        description: "Live updates on inventory, orders, and financials, reducing errors and delays",
-        span: "two"
+        description: "Live inventory tracking, order status updates, and financial insights refreshed every minute",
+        span: "one"
       },
       ray_card: {
         id: 2,
         title: "AI Automation",
-        description: "Simplifies decision-making with predictive insights and plain-language recommendations",
+        description: "Smart reorder alerts, demand forecasting, and cost optimization recommendations in plain English",
         span: "one"
       },
       graph_card: {
         id: 3,
         title: "Seamless Integration",
-        description: "Syncs with POS systems (Shopify, Square) and accounting software (QuickBooks)",
-        span: "two"
+        description: "Connects instantly with Shopify, Square, QuickBooks, and 50+ business tools you already use",
+        span: "one"
       },
       social_media_card: {
         id: 4,
         title: "Cost-Effective",
-        description: "Affordable cloud-based solution with no need for dedicated IT teams",
+        description: "Complete business intelligence starting at $49/month - no IT team required",
+        span: "one"
+      },
+      advanced_analytics_card: {
+        id: 5,
+        title: "Advanced Analytics",
+        description: "Turn data into actionable insights with profit margin analysis, trend forecasting, and performance dashboards",
+        span: "one"
+      },
+      mobile_access_card: {
+        id: 6,
+        title: "Mobile Access",
+        description: "Monitor your business anywhere with our mobile-optimized dashboard and instant push notifications",
         span: "one"
       }
     },
@@ -59,7 +71,7 @@ export const mockPageData = {
             lastname: "Chen",
             job: "Owner, Chen's Boutique",
             image: {
-              url: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUwIiBoZWlnaHQ9IjE1MCIgdmlld0JveD0iMCAwIDE1MCAxNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxNTAiIGhlaWdodD0iMTUwIiBmaWxsPSIjNEY0NkU1Ii8+Cjx0ZXh0IHg9Ijc1IiB5PSI3NSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjI0IiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPlNDPC90ZXh0Pgo8L3N2Zz4K",
+              url: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
               alternativeText: "Sarah Chen"
             }
           }
@@ -72,7 +84,7 @@ export const mockPageData = {
             lastname: "Rodriguez",
             job: "Founder, Rodriguez Auto Parts",
             image: {
-              url: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjREMyNjI2Ii8+Cjx0ZXh0IHg9IjEwMCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+TVI8L3RleHQ+Cjwvc3ZnPgo=",
+              url: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
               alternativeText: "Mike Rodriguez"
             }
           }
@@ -85,7 +97,7 @@ export const mockPageData = {
             lastname: "Thompson",
             job: "CEO, Thompson's Online Store",
             image: {
-              url: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUwIiBoZWlnaHQ9IjE1MCIgdmlld0JveD0iMCAwIDE1MCAxNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxNTAiIGhlaWdodD0iMTUwIiBmaWxsPSIjMDU5NjY5Ii8+Cjx0ZXh0IHg9Ijc1IiB5PSI3NSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjI0IiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkVUPC90ZXh0Pgo8L3N2Zz4K",
+              url: "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
               alternativeText: "Emma Thompson"
             }
           }
@@ -102,7 +114,7 @@ export const mockPageData = {
           id: 1,
           title: "Shopify",
           image: {
-            url: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDIwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMTAwIiBmaWxsPSIjOTVGN0YzIi8+Cjx0ZXh0IHg9IjEwMCIgeT0iNTAiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5TaG9waWZ5PC90ZXh0Pgo8L3N2Zz4K",
+            url: "https://cdn.worldvectorlogo.com/logos/shopify.svg",
             alternativeText: "Shopify Logo"
           }
         },
@@ -110,7 +122,7 @@ export const mockPageData = {
           id: 2,
           title: "Square",
           image: {
-            url: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDIwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMTAwIiBmaWxsPSIjMDAwMDAwIi8+Cjx0ZXh0IHg9IjEwMCIgeT0iNTAiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5TcXVhcmU8L3RleHQ+Cjwvc3ZnPgo=",
+            url: "/images/square.png",
             alternativeText: "Square Logo"
           }
         },
@@ -118,7 +130,7 @@ export const mockPageData = {
           id: 3,
           title: "QuickBooks",
           image: {
-            url: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDIwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMTAwIiBmaWxsPSIjMDA4QzQ0Ii8+Cjx0ZXh0IHg9IjEwMCIgeT0iNTAiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5RdWlja0Jvb2tzPC90ZXh0Pgo8L3N2Zz4K",
+            url: "https://cdn.worldvectorlogo.com/logos/quickbooks.svg",
             alternativeText: "QuickBooks Logo"
           }
         },
@@ -126,7 +138,7 @@ export const mockPageData = {
           id: 4,
           title: "WooCommerce",
           image: {
-            url: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDIwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMTAwIiBmaWxsPSIjOTY5OTY5Ii8+Cjx0ZXh0IHg9IjEwMCIgeT0iNTAiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5Xb29Db21tZXJjZTwvdGV4dD4KPC9zdmc+Cg==",
+            url: "https://cdn.worldvectorlogo.com/logos/woocommerce.svg",
             alternativeText: "WooCommerce Logo"
           }
         }
@@ -150,52 +162,157 @@ export const mockPageData = {
 };
 
 export const mockBlogPage = {
-  heading: "Foreko Blog",
-  sub_heading: "Latest insights on small business management and inventory optimization"
+  heading: "Foreko Resources",
+  sub_heading: "Latest insights on AI inventory management and small business optimization"
 };
 
 export const mockArticles = {
   data: [
     {
       id: 1,
-      title: "5 Ways AI is Transforming Small Business Inventory Management",
-      description: "Discover how artificial intelligence is revolutionizing inventory management for small businesses",
-      slug: "ai-inventory-management",
-      publishedAt: "2024-01-15T00:00:00.000Z",
-      createdAt: "2024-01-15T00:00:00.000Z",
-      updatedAt: "2024-01-15T00:00:00.000Z",
+      title: "Not a Guide to Integrating Foreko with Your Existing Systems",
+      description: "Looking to streamline your inventory management and delivery? This comprehensive guide walks you through the seamless integration of Foreko with your business systems. We'll cover everything (false) from initial setup to advanced configurations (nope), ensuring you have all the tools you need to send your inventory soaring (sure...).",
+      slug: "foreko-integration-guide",
+      publishedAt: "2024-09-11T00:00:00.000Z",
+      createdAt: "2024-09-11T00:00:00.000Z",
+      updatedAt: "2024-09-11T00:00:00.000Z",
       locale: "en",
-      content: "Small businesses are increasingly turning to AI-powered solutions to streamline their inventory management processes...",
+      content: "Looking to streamline your inventory management and delivery? This comprehensive guide walks you through the seamless integration of Foreko with your business systems. We'll cover everything from initial setup to advanced configurations, ensuring you have all the tools you need to send your inventory soaring. Small businesses are increasingly turning to AI-powered solutions to streamline their inventory management processes...",
       dynamic_zone: [],
       image: {
-        url: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCIgdmlld0JveD0iMCAwIDUwMCA1MDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI1MDAiIGhlaWdodD0iNTAwIiBmaWxsPSIjMDA4QzQ0Ii8+Cjx0ZXh0IHg9IjI1MCIgeT0iMjUwIiBmb250LZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5BSSBJbnZlbnRvcnk8L3RleHQ+Cjwvc3ZnPgo=",
-        alternativeText: "AI Inventory Management"
+        url: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+        alternativeText: "Foreko Integration Guide"
       },
-      categories: [],
+      categories: [
+        { name: "inventory" },
+        { name: "software" }
+      ],
       seo: {
-        metaTitle: "AI Inventory Management for Small Businesses",
-        metaDescription: "Learn how AI is transforming inventory management for small businesses"
+        metaTitle: "Foreko Integration Guide for Small Businesses",
+        metaDescription: "Learn how to integrate Foreko AI inventory management with your existing business systems"
       }
     },
     {
       id: 2,
-      title: "From Spreadsheets to Smart Dashboards: A Small Business Guide",
-      description: "How to transition from manual spreadsheets to automated dashboard solutions",
-      slug: "spreadsheets-to-dashboards",
-      publishedAt: "2024-01-10T00:00:00.000Z",
-      createdAt: "2024-01-10T00:00:00.000Z",
-      updatedAt: "2024-01-10T00:00:00.000Z",
+      title: "5 Reasons Why Your Inventory Needs to Go AI-Powered",
+      description: "Discover the top five benefits of launching your inventory into the future with Foreko's AI-powered management system. From predictive analytics to automated reordering...",
+      slug: "inventory-ai-powered",
+      publishedAt: "2024-09-11T00:00:00.000Z",
+      createdAt: "2024-09-11T00:00:00.000Z",
+      updatedAt: "2024-09-11T00:00:00.000Z",
       locale: "en",
-      content: "Many small businesses still rely on manual spreadsheets for their business operations...",
+      content: "Discover the top five benefits of launching your inventory into the future with Foreko's AI-powered management system. From predictive analytics to automated reordering, learn why smart businesses are making the switch from manual spreadsheets to intelligent automation...",
       dynamic_zone: [],
       image: {
-        url: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCIgdmlld0JveD0iMCAwIDUwMCA1MDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI1MDAiIGhlaWdodD0iNTAwIiBmaWxsPSIjRkY2QjM5Ii8+Cjx0ZXh0IHg9IjI1MCIgeT0iMjUwIiBmb250LZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5TcHJlYWRzaGVldHMgdG8gRGFzaGJvYXJkczwvdGV4dD4KPC9zdmc+Cg==",
-        alternativeText: "Spreadsheets to Dashboards"
+        url: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+        alternativeText: "AI-Powered Inventory"
       },
-      categories: [],
+      categories: [
+        { name: "inventory" }
+      ],
       seo: {
-        metaTitle: "From Spreadsheets to Smart Dashboards",
-        metaDescription: "Guide to transitioning from manual spreadsheets to automated dashboards"
+        metaTitle: "5 Reasons to Use AI-Powered Inventory Management",
+        metaDescription: "Discover the benefits of AI-powered inventory management for small businesses"
+      }
+    },
+    {
+      id: 3,
+      title: "Case Study: How Rodriguez Electronics Launched Their Inventory to New Heights",
+      description: "In this case study, we explore how Rodriguez Electronics leveraged Foreko to revolutionize their multi-channel inventory management, reducing costs by 30% and eliminating stockouts...",
+      slug: "rodriguez-electronics-case-study",
+      publishedAt: "2024-09-12T00:00:00.000Z",
+      createdAt: "2024-09-12T00:00:00.000Z",
+      updatedAt: "2024-09-12T00:00:00.000Z",
+      locale: "en",
+      content: "In this case study, we explore how Rodriguez Electronics leveraged Foreko to revolutionize their multi-channel inventory management. Managing 500+ SKUs across multiple channels was overwhelming until they discovered AI-powered automation...",
+      dynamic_zone: [],
+      image: {
+        url: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+        alternativeText: "Rodriguez Electronics Case Study"
+      },
+      categories: [
+        { name: "analytics" },
+        { name: "inventory" },
+        { name: "case-study" }
+      ],
+      seo: {
+        metaTitle: "Rodriguez Electronics Foreko Case Study",
+        metaDescription: "How Rodriguez Electronics used Foreko to transform their inventory management"
+      }
+    },
+    {
+      id: 4,
+      title: "The Ultimate Guide to Restaurant Inventory Management with AI",
+      description: "From food waste to perfect portion planning - learn how restaurants are using Foreko's AI to reduce waste by 40% and optimize their supply chain operations...",
+      slug: "restaurant-inventory-ai-guide",
+      publishedAt: "2024-09-10T00:00:00.000Z",
+      createdAt: "2024-09-10T00:00:00.000Z",
+      updatedAt: "2024-09-10T00:00:00.000Z",
+      locale: "en",
+      content: "Restaurant inventory management presents unique challenges - perishable goods, fluctuating demand, and tight margins. Learn how AI-powered solutions are helping restaurants optimize their operations and reduce waste...",
+      dynamic_zone: [],
+      image: {
+        url: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+        alternativeText: "Restaurant Inventory Management"
+      },
+      categories: [
+        { name: "restaurant" },
+        { name: "inventory" },
+        { name: "guide" }
+      ],
+      seo: {
+        metaTitle: "Restaurant Inventory Management with AI - Complete Guide",
+        metaDescription: "Learn how restaurants use AI inventory management to reduce waste and optimize operations"
+      }
+    },
+    {
+      id: 5,
+      title: "Why Construction Companies Are Ditching Spreadsheets for Smart Inventory",
+      description: "Field & trades businesses are discovering the power of mobile-first inventory management. See how contractors are managing materials across job sites with 35% efficiency gains...",
+      slug: "construction-smart-inventory",
+      publishedAt: "2024-09-09T00:00:00.000Z",
+      createdAt: "2024-09-09T00:00:00.000Z",
+      updatedAt: "2024-09-09T00:00:00.000Z",
+      locale: "en",
+      content: "Construction and field service companies face unique inventory challenges - materials scattered across job sites, unpredictable demand, and mobile workforce requirements. Discover how smart inventory solutions are solving these problems...",
+      dynamic_zone: [],
+      image: {
+        url: "https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+        alternativeText: "Construction Smart Inventory"
+      },
+      categories: [
+        { name: "construction" },
+        { name: "inventory" },
+        { name: "mobile" }
+      ],
+      seo: {
+        metaTitle: "Smart Inventory for Construction Companies",
+        metaDescription: "How construction companies are using mobile inventory management for better efficiency"
+      }
+    },
+    {
+      id: 6,
+      title: "From Chaos to Control: E-commerce Multi-Channel Inventory Mastery",
+      description: "Managing inventory across Shopify, Amazon, and physical stores? Learn the secrets to unified reporting and preventing overselling with AI-powered synchronization...",
+      slug: "ecommerce-multichannel-inventory",
+      publishedAt: "2024-09-08T00:00:00.000Z",
+      createdAt: "2024-09-08T00:00:00.000Z",
+      updatedAt: "2024-09-08T00:00:00.000Z",
+      locale: "en",
+      content: "E-commerce businesses selling across multiple channels face the constant challenge of inventory synchronization. Learn how AI-powered solutions can unify your inventory management across all sales channels...",
+      dynamic_zone: [],
+      image: {
+        url: "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+        alternativeText: "E-commerce Multi-Channel Inventory"
+      },
+      categories: [
+        { name: "ecommerce" },
+        { name: "inventory" },
+        { name: "multichannel" }
+      ],
+      seo: {
+        metaTitle: "E-commerce Multi-Channel Inventory Management",
+        metaDescription: "Master multi-channel inventory management for your e-commerce business"
       }
     }
   ]
@@ -910,8 +1027,8 @@ export const mockPages = {
     slug: "use-cases",
     locale: "en",
     seo: {
-      metaTitle: "Use Cases - Foreko Dashboard Suite",
-      metaDescription: "See how different types of small businesses use Foreko to streamline operations and boost profitability"
+      metaTitle: "Use Cases - Foreko AI Inventory Management",
+      metaDescription: "See how different types of small businesses use Foreko to streamline inventory operations and boost profitability"
     },
     dynamic_zone: [
       {
@@ -931,7 +1048,7 @@ export const mockPages = {
       {
         __component: "dynamic-zone.testimonials",
         id: 2,
-        heading: "Retail & E-commerce",
+        heading: "Retail",
         sub_heading: "From inventory chaos to streamlined operations",
         testimonials: [
           {
@@ -942,7 +1059,7 @@ export const mockPages = {
               lastname: "Mitchell",
               job: "Owner, Mitchell's Outdoor Gear",
               image: {
-                url: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUwIiBoZWlnaHQ9IjE1MCIgdmlld0JveD0iMCAwIDE1MCAxNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxNTAiIGhlaWdodD0iMTUwIiBmaWxsPSIjMDA4QzQ0Ii8+Cjx0ZXh0IHg9Ijc1IiB5PSI3NSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjI0IiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPlNNPC90ZXh0Pgo8L3N2Zz4K",
+                url: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
                 alternativeText: "Sarah Mitchell"
               }
             }
@@ -955,7 +1072,7 @@ export const mockPages = {
               lastname: "Rodriguez",
               job: "Founder, Rodriguez Electronics",
               image: {
-                url: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUwIiBoZWlnaHQ9IjE1MCIgdmlld0JveD0iMCAwIDE1MCAxNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxNTAiIGhlaWdodD0iMTUwIiBmaWxsPSIjRkY2QjM5Ii8+Cjx0ZXh0IHg9Ijc1IiB5PSI3NSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjI0IiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPlI8L3RleHQ+Cjwvc3ZnPgo=",
+                url: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
                 alternativeText: "Carlos Rodriguez"
               }
             }
@@ -963,34 +1080,106 @@ export const mockPages = {
         ]
       },
       {
-        __component: "dynamic-zone.features",
+        __component: "dynamic-zone.testimonials",
         id: 3,
-        heading: "Common Business Scenarios",
-        sub_heading: "How Foreko solves everyday small business challenges",
-        globe_card: {
-          id: 1,
-          title: "Multi-Channel Selling",
-          description: "Sync inventory across Shopify, Amazon, and physical stores. Get unified reporting and prevent overselling",
-          span: "two"
-        },
-        ray_card: {
-          id: 2,
-          title: "Seasonal Businesses",
-          description: "AI learns your seasonal patterns and adjusts forecasting for holiday rushes and slow periods",
-          span: "one"
-        },
-        graph_card: {
-          id: 3,
-          title: "Growing Operations",
-          description: "Scale from 50 to 5,000 SKUs without losing control. Automated workflows grow with your business",
-          span: "two"
-        },
-        social_media_card: {
-          id: 4,
-          title: "Cash Flow Management",
-          description: "Know exactly when to reorder to optimize cash flow and avoid tying up capital in excess inventory",
-          span: "one"
-        }
+        heading: "E-commerce",
+        sub_heading: "From spreadsheets to smart inventory automation",
+        testimonials: [
+          {
+            id: 3,
+            text: "Before Foreko, I was constantly either out of stock or overstocked. The AI forecasting helped me optimize my inventory levels and increase profits by 25%.",
+            user: {
+              firstname: "Emma",
+              lastname: "Thompson",
+              job: "CEO, Thompson's Online Store",
+              image: {
+                url: "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
+                alternativeText: "Emma Thompson"
+              }
+            }
+          },
+          {
+            id: 4,
+            text: "The integration with our Shopify store is seamless. We can track everything from inventory to customer insights in real-time across all our sales channels.",
+            user: {
+              firstname: "Michael",
+              lastname: "Chen",
+              job: "Founder, Chen's Tech Store",
+              image: {
+                url: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
+                alternativeText: "Michael Chen"
+              }
+            }
+          }
+        ]
+      },
+      {
+        __component: "dynamic-zone.testimonials",
+        id: 4,
+        heading: "Restaurants",
+        sub_heading: "From food waste to perfect portion planning",
+        testimonials: [
+          {
+            id: 5,
+            text: "Foreko's AI helped us reduce food waste by 40% by predicting exactly how much inventory we need based on seasonal patterns and local events.",
+            user: {
+              firstname: "Maria",
+              lastname: "Garcia",
+              job: "Owner, Garcia's Family Restaurant",
+              image: {
+                url: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
+                alternativeText: "Maria Garcia"
+              }
+            }
+          },
+          {
+            id: 6,
+            text: "Managing inventory for three restaurant locations was a nightmare. Now I can see all locations in one dashboard and optimize ordering across all sites.",
+            user: {
+              firstname: "Antonio",
+              lastname: "Rossi",
+              job: "Chef & Owner, Rossi's Italian Kitchen",
+              image: {
+                url: "https://images.unsplash.com/photo-1583394838336-acd977736f90?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
+                alternativeText: "Antonio Rossi"
+              }
+            }
+          }
+        ]
+      },
+      {
+        __component: "dynamic-zone.testimonials",
+        id: 5,
+        heading: "Field & Trades",
+        sub_heading: "From tool chaos to organized efficiency",
+        testimonials: [
+          {
+            id: 7,
+            text: "As a contractor, keeping track of materials across multiple job sites was impossible. Foreko's mobile dashboard lets me manage inventory from anywhere.",
+            user: {
+              firstname: "James",
+              lastname: "Wilson",
+              job: "Owner, Wilson Construction",
+              image: {
+                url: "https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
+                alternativeText: "James Wilson"
+              }
+            }
+          },
+          {
+            id: 8,
+            text: "The AI predictions help us stock the right parts before service calls. Our technician efficiency improved by 35% since we're never missing critical components.",
+            user: {
+              firstname: "Lisa",
+              lastname: "Johnson",
+              job: "Operations Manager, Johnson HVAC",
+              image: {
+                url: "https://images.unsplash.com/photo-1494790108755-2616c669c8c0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
+                alternativeText: "Lisa Johnson"
+              }
+            }
+          }
+        ]
       }
     ],
     localizations: []
@@ -999,95 +1188,108 @@ export const mockPages = {
     slug: "resources",
     locale: "en",
     seo: {
-      metaTitle: "Resources - Foreko Dashboard Suite",
-      metaDescription: "Free resources, guides, and tools to help small businesses optimize their inventory management and operations"
+      metaTitle: "Resources - Foreko AI Inventory Management",
+      metaDescription: "Latest insights on AI inventory management and small business optimization. Guides, case studies, and best practices."
     },
     dynamic_zone: [
       {
-        __component: "dynamic-zone.hero",
+        __component: "dynamic-zone.blog-grid",
         id: 1,
-        heading: "Resources for Small Business Success",
-        sub_heading: "Free guides, templates, and tools to help you optimize your business operations",
-        CTAs: [
+        heading: "Foreko Resources",
+        sub_heading: "Latest insights on AI inventory management and small business optimization",
+        articles: [
           {
             id: 1,
-            text: "Download Free Inventory Template",
-            URL: "/contact",
-            variant: "primary"
-          }
-        ]
-      },
-      {
-        __component: "dynamic-zone.features",
-        id: 2,
-        heading: "Free Business Tools",
-        sub_heading: "Essential resources to get started",
-        globe_card: {
-          id: 1,
-          title: "Inventory Management Template",
-          description: "Excel template with formulas for reorder points, safety stock calculations, and inventory turnover tracking",
-          span: "two"
-        },
-        ray_card: {
-          id: 2,
-          title: "Cash Flow Calculator",
-          description: "Simple tool to project your cash flow and optimize purchasing decisions",
-          span: "one"
-        },
-        graph_card: {
-          id: 3,
-          title: "ROI Calculator",
-          description: "Calculate the return on investment for inventory management software and automation tools",
-          span: "two"
-        },
-        social_media_card: {
-          id: 4,
-          title: "Setup Checklist",
-          description: "Step-by-step guide to implementing Foreko in your business in under 30 minutes",
-          span: "one"
-        }
-      },
-      {
-        __component: "dynamic-zone.features",
-        id: 3,
-        heading: "Learning Center",
-        sub_heading: "Master inventory management with our expert guides",
-        globe_card: {
-          id: 1,
-          title: "Small Business Inventory Guide",
-          description: "Complete guide covering ABC analysis, economic order quantity, and demand forecasting basics",
-          span: "two"
-        },
-        ray_card: {
-          id: 2,
-          title: "Integration Tutorials",
-          description: "Step-by-step videos for connecting Shopify, Square, QuickBooks, and other platforms",
-          span: "one"
-        },
-        graph_card: {
-          id: 3,
-          title: "Best Practices Library",
-          description: "Industry-specific tips for retail, e-commerce, manufacturing, and service businesses",
-          span: "two"
-        },
-        social_media_card: {
-          id: 4,
-          title: "Webinar Series",
-          description: "Monthly webinars covering advanced inventory strategies and AI-powered optimization",
-          span: "one"
-        }
-      },
-      {
-        __component: "dynamic-zone.cta",
-        id: 4,
-        heading: "Ready to Transform Your Business?",
-        sub_heading: "Join thousands of small businesses using Foreko to optimize their operations",
-        CTAs: [
+            title: "Not a Guide to Integrating Foreko with Your Existing Systems",
+            description: "Looking to streamline your inventory management and delivery? This comprehensive guide walks you through the seamless integration of Foreko with your business systems. We'll cover everything (false) from initial setup to advanced configurations (nope), ensuring you have all the tools you need to send your inventory soaring (sure...).",
+            slug: "foreko-integration-guide",
+            publishedAt: "September 11, 2024",
+            image: {
+              url: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+              alternativeText: "Foreko Integration Guide"
+            },
+            categories: [
+              { name: "inventory" },
+              { name: "software" }
+            ]
+          },
           {
-            id: 1,
-            text: "Start Free Trial",
-            URL: "/sign-up",
-            variant: "primary"
+            id: 2,
+            title: "5 Reasons Why Your Inventory Needs to Go AI-Powered",
+            description: "Discover the top five benefits of launching your inventory into the future with Foreko's AI-powered management system. From predictive analytics to automated reordering...",
+            slug: "inventory-ai-powered",
+            publishedAt: "September 11, 2024",
+            image: {
+              url: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+              alternativeText: "AI-Powered Inventory"
+            },
+            categories: [
+              { name: "inventory" }
+            ]
+          },
+          {
+            id: 3,
+            title: "Case Study: How Rodriguez Electronics Launched Their Inventory to New Heights",
+            description: "In this case study, we explore how Rodriguez Electronics leveraged Foreko to revolutionize their multi-channel inventory management, reducing costs by 30% and eliminating stockouts...",
+            slug: "rodriguez-electronics-case-study",
+            publishedAt: "September 12, 2024",
+            image: {
+              url: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+              alternativeText: "Rodriguez Electronics Case Study"
+            },
+            categories: [
+              { name: "analytics" },
+              { name: "inventory" },
+              { name: "case-study" }
+            ]
+          },
+          {
+            id: 4,
+            title: "The Ultimate Guide to Restaurant Inventory Management with AI",
+            description: "From food waste to perfect portion planning - learn how restaurants are using Foreko's AI to reduce waste by 40% and optimize their supply chain operations...",
+            slug: "restaurant-inventory-ai-guide",
+            publishedAt: "September 10, 2024",
+            image: {
+              url: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+              alternativeText: "Restaurant Inventory Management"
+            },
+            categories: [
+              { name: "restaurant" },
+              { name: "inventory" },
+              { name: "guide" }
+            ]
+          },
+          {
+            id: 5,
+            title: "Why Construction Companies Are Ditching Spreadsheets for Smart Inventory",
+            description: "Field & trades businesses are discovering the power of mobile-first inventory management. See how contractors are managing materials across job sites with 35% efficiency gains...",
+            slug: "construction-smart-inventory",
+            publishedAt: "September 9, 2024",
+            image: {
+              url: "https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+              alternativeText: "Construction Smart Inventory"
+            },
+            categories: [
+              { name: "construction" },
+              { name: "inventory" },
+              { name: "mobile" }
+            ]
+          },
+          {
+            id: 6,
+            title: "From Chaos to Control: E-commerce Multi-Channel Inventory Mastery",
+            description: "Managing inventory across Shopify, Amazon, and physical stores? Learn the secrets to unified reporting and preventing overselling with AI-powered synchronization...",
+            slug: "ecommerce-multichannel-inventory",
+            publishedAt: "September 8, 2024",
+            image: {
+              url: "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+              alternativeText: "E-commerce Multi-Channel Inventory"
+            },
+            categories: [
+              { name: "ecommerce" },
+              { name: "inventory" },
+              { name: "multichannel" }
+            ]
           }
         ]
       }
@@ -1097,81 +1299,104 @@ export const mockPages = {
   company: {
     slug: "company",
     locale: "en",
-          seo: {
-        metaTitle: "Company - Foreko",
-        metaDescription: "Learn about Foreko's mission, team, and commitment to empowering small businesses with AI-powered solutions"
-      },
+    seo: {
+      metaTitle: "Company - Foreko AI Inventory Management",
+      metaDescription: "Learn about Foreko's mission, team, and commitment to empowering small businesses with AI-powered inventory management solutions"
+    },
     dynamic_zone: [
       {
         __component: "dynamic-zone.hero",
         id: 1,
-        heading: "About Foreko",
-        sub_heading: "Empowering small businesses with AI-powered dashboard solutions",
+        heading: "Our Mission",
+        sub_heading: "Born from the struggle of small business owners, we're on a mission to level the playing field",
         CTAs: [
           {
             id: 1,
             text: "Start Free Trial",
             URL: "/sign-up",
             variant: "primary"
-          },
-          {
-            id: 2,
-            text: "Contact Us",
-            URL: "/contact",
-            variant: "outline"
           }
         ]
       },
       {
-        __component: "dynamic-zone.testimonials",
+        __component: "dynamic-zone.team-static",
         id: 2,
-        heading: "Our Story",
-        sub_heading: "Built by entrepreneurs, for entrepreneurs",
+        heading: "Meet Our CEO",
+        sub_heading: "The visionary leading our mission to transform small business success",
         testimonials: [
           {
             id: 1,
-            text: "We started Foreko because we experienced firsthand the challenges of managing a small business with spreadsheets and disconnected tools.",
+            text: "As a Computer Science student at the University of Arkansas, I witnessed firsthand how small businesses struggled with inventory chaos while having no access to the advanced tools that could help them. At Foreko, I lead all software development including AI model architecture, front-end development, and the core technology that powers our inventory intelligence platform. Foreko was born from the belief that every entrepreneur deserves the same technological advantages, regardless of their company's size.",
             user: {
-              firstname: "Alex",
-              lastname: "Johnson",
-              job: "Co-Founder & CEO, Foreko",
+              firstname: "Homero",
+              lastname: "Ruiz",
+              job: "Chief Executive Officer & Founder",
               image: {
-                url: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUwIiBoZWlnaHQ9IjE1MCIgdmlld0JveD0iMCAwIDE1MCAxNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxNTAiIGhlaWdodD0iMTUwIiBmaWxsPSIjMDA4QzQ0Ii8+Cjx0ZXh0IHg9Ijc1IiB5PSI3NSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjI0IiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkFKPC90ZXh0Pgo8L3N2Zz4K",
-                alternativeText: "Alex Johnson"
-              }
+                url: "/images/Homero.png",
+                alternativeText: "Homero Ruiz"
+              },
+              linkedin: "https://www.linkedin.com/in/homero-ruiz-77708621a/"
             }
           }
         ]
       },
       {
-        __component: "dynamic-zone.features",
+        __component: "dynamic-zone.team-static",
         id: 3,
-        heading: "Our Core Values",
-        sub_heading: "What drives us every day",
-        globe_card: {
-          id: 1,
-          title: "Small Business First",
-          description: "Every feature we build is designed specifically for the unique challenges and constraints of small businesses",
-          span: "two"
-        },
-        ray_card: {
-          id: 2,
-          title: "AI for Everyone",
-          description: "Making advanced AI accessible and understandable for business owners without technical backgrounds",
-          span: "one"
-        },
-        graph_card: {
-          id: 3,
-          title: "Transparent Pricing",
-          description: "No hidden fees, no surprise charges. Simple, affordable pricing that scales with your business",
-          span: "two"
-        },
-        social_media_card: {
-          id: 4,
-          title: "Customer Success",
-          description: "Your success is our success. We're here to help you grow your business, not just sell software",
-          span: "one"
-        }
+        heading: "Meet Our President",
+        sub_heading: "Leading our strategic vision and business operations",
+        testimonials: [
+          {
+            id: 2,
+            text: "Pursuing Information Systems with Business Analytics concentration and Supply Chain Management minor at University of Arkansas. As President, Jason leads our database infrastructure and algorithm development, ensuring our software can scale efficiently. He combines deep technical expertise in data architecture with strategic business vision, helping shape Foreko's roadmap and core inventory intelligence algorithms.",
+            user: {
+              firstname: "Jason",
+              lastname: "Luu",
+              job: "President",
+              image: {
+                url: "/images/jason.png",
+                alternativeText: "Jason Luu"
+              },
+              linkedin: "https://www.linkedin.com/in/jasonmluu/"
+            }
+          }
+        ]
+      },
+      {
+        __component: "dynamic-zone.team-static",
+        id: 4,
+        heading: "Our Team",
+        sub_heading: "A passionate team dedicated to revolutionizing inventory management through AI",
+        testimonials: [
+          {
+            id: 3,
+            text: "Supply Chain Management student at University of Arkansas specializing in logistics optimization. At Foreko, Alexis leads our marketing initiatives and develops the sophisticated logistical algorithms that power our inventory management models. His expertise ensures our AI understands real-world supply chain complexities and delivery optimization challenges that small businesses face daily.",
+            user: {
+              firstname: "Alexis",
+              lastname: "Rodas",
+              job: "Co-Founder",
+              image: {
+                url: "/images/alexis.png",
+                alternativeText: "Alexis Rodas"
+              },
+              linkedin: "https://www.linkedin.com/in/alexis-rodas-3b6890230/"
+            }
+          },
+          {
+            id: 4,
+            text: "University of Arkansas graduate with extensive financial analysis and Fintech background, including hands-on experience with SAP, Power Automate, and SQL at Tyson Foods. At Foreko, Hao specializes in financial analytics for our AI models, ensuring our inventory intelligence platform delivers accurate cost optimization and ROI predictions. His expertise helps small businesses make data-driven financial decisions about their inventory investments.",
+            user: {
+              firstname: "Hao",
+              lastname: "Pham", 
+              job: "Co-Founder",
+              image: {
+                url: "/images/hao.png",
+                alternativeText: "Hao Pham"
+              },
+              linkedin: "https://www.linkedin.com/in/hao-pham912849/"
+            }
+          }
+        ]
       }
     ],
     localizations: []
@@ -1394,130 +1619,171 @@ export const mockPages = {
     slug: "pricing",
     locale: "en",
     seo: {
-      metaTitle: "Pricing - Foreko Dashboard Suite",
-      metaDescription: "Affordable pricing plans for Foreko's AI-powered dashboard suite designed for small businesses"
+      metaTitle: "Pricing - Foreko AI Inventory Management",
+      metaDescription: "AI-powered inventory management for small businesses. Choose from our affordable pricing plans starting at $25/month."
     },
     dynamic_zone: [
       {
-        __component: "dynamic-zone.hero",
-        id: 1,
-        heading: "Simple, Affordable Pricing",
-        sub_heading: "Choose the plan that fits your small business budget",
-        CTAs: [
-          {
-            id: 1,
-            text: "Start 14-Day Free Trial",
-            URL: "/sign-up",
-            variant: "primary"
-          }
-        ]
-      },
-      {
         __component: "dynamic-zone.pricing",
-        id: 2,
-        heading: "Choose Your Dashboard Suite",
-        sub_heading: "All plans include access to all 5 core dashboards",
+        id: 1,
+        heading: "Choose Your AI Inventory Management Plan",
+        sub_heading: "Choose your payload.",
         plans: [
           {
             id: 1,
-            name: "Starter",
-            price: 49,
+            name: "Starter Inventory",
+            price: 25,
             sub_text: "Perfect for small businesses just getting started",
             featured: false,
             CTA: {
-              text: "Start Free Trial",
+              text: "Get Started",
               URL: "/sign-up",
               variant: "outline"
             },
             perks: [
-              { text: "All 5 Core Dashboards" },
-              { text: "Up to 1,000 SKUs" },
-              { text: "Basic AI Insights" },
+              { text: "Track up to 500 inventory items" },
+              { text: "Basic AI Reorder Alerts" },
+              { text: "Standard Analytics Dashboard" },
               { text: "Email Support" },
-              { text: "2 Integrations" }
+              { text: "Essential Inventory Reports" }
             ],
             additional_perks: []
           },
           {
             id: 2,
-            name: "Professional",
-            price: 99,
-            sub_text: "Great for growing businesses",
-            featured: true,
+            name: "Pro Inventory",
+            price: 75,
+            sub_text: "Great for growing businesses with expanding inventory",
+            featured: false,
             CTA: {
-              text: "Start Free Trial",
+              text: "Get Started",
               URL: "/sign-up",
-              variant: "primary"
+              variant: "outline"
             },
             perks: [
-              { text: "Everything in Starter" },
-              { text: "Up to 10,000 SKUs" },
-              { text: "Advanced AI Predictions" },
-              { text: "Live Chat Support" },
-              { text: "Unlimited Integrations" },
-              { text: "Custom Reports" }
+              { text: "Track up to 5,000 inventory items" },
+              { text: "Advanced AI Demand Forecasting" },
+              { text: "Advanced Analytics Dashboard" },
+              { text: "Advanced inventory analytics" },
+              { text: "Priority Support" },
+              { text: "Multi-location inventory tracking" }
             ],
             additional_perks: [
-              { text: "API Access" },
-              { text: "Priority Support" }
+              { text: "Everything included from Starter Inventory" }
             ]
           },
           {
             id: 3,
-            name: "Enterprise",
-            price: 199,
-            sub_text: "For established businesses with complex needs",
+            name: "Business Intelligence",
+            price: 150,
+            sub_text: "For established businesses with complex inventory needs",
+            featured: true,
+            CTA: {
+              text: "Get Started",
+              URL: "/sign-up",
+              variant: "primary"
+            },
+            perks: [
+              { text: "Track up to 50,000 inventory items" },
+              { text: "Collaborative AI Control Dashboard" },
+              { text: "High-Speed Data Processing" },
+              { text: "Advanced analytics and reporting" },
+              { text: "Priority Support" },
+              { text: "Team collaboration tools" },
+              { text: "Custom integrations and workflows" }
+            ],
+            additional_perks: [
+              { text: "Everything included from Starter Inventory" },
+              { text: "Everything included from Pro Inventory" }
+            ]
+          },
+          {
+            id: 4,
+            name: "Enterprise Inventory",
+            price: null,
+            sub_text: "Custom solutions for large organizations",
             featured: false,
             CTA: {
-              text: "Contact Sales",
+              text: "Contact us",
               URL: "/contact",
               variant: "outline"
             },
             perks: [
-              { text: "Everything in Professional" },
-              { text: "Unlimited SKUs" },
-              { text: "Custom AI Models" },
-              { text: "Phone Support" },
-              { text: "White-label Options" },
-              { text: "Advanced Security" }
+              { text: "Unlimited inventory items per system" },
+              { text: "Customizable AI Control Dashboard" },
+              { text: "Ultra-Speed Data Processing" },
+              { text: "Comprehensive analytics and reporting" },
+              { text: "Dedicated Support Team" },
+              { text: "Custom Integrations and Solutions" },
+              { text: "White-label deployment options" }
             ],
             additional_perks: [
-              { text: "Dedicated Account Manager" },
-              { text: "Custom SLA" },
-              { text: "On-premise Deployment" }
+              { text: "Everything included from Starter Inventory" },
+              { text: "Everything included from Pro Inventory" },
+              { text: "Everything included from Business Intelligence" }
             ]
           }
         ]
       },
       {
-        __component: "dynamic-zone.features",
+        __component: "dynamic-zone.brands",
         id: 3,
-        heading: "Why Choose Foreko?",
-        sub_heading: "More than just dashboards - a complete business transformation",
-        globe_card: {
-          id: 1,
-          title: "14-Day Free Trial",
-          description: "Try all features risk-free. No credit card required, cancel anytime during trial",
-          span: "two"
-        },
-        ray_card: {
-          id: 2,
-          title: "No Setup Fees",
-          description: "Get started immediately with our simple onboarding process",
-          span: "one"
-        },
-        graph_card: {
-          id: 3,
-          title: "Money-Back Guarantee",
-          description: "30-day money-back guarantee if you're not completely satisfied",
-          span: "two"
-        },
-        social_media_card: {
-          id: 4,
-          title: "Cancel Anytime",
-          description: "No long-term contracts or cancellation fees. Your data is always yours",
-          span: "one"
-        }
+        heading: "Trusted by Leading Small Businesses",
+        sub_heading: "Foreko is trusted by small business owners nationwide.",
+        logos: [
+          {
+            id: 1,
+            title: "Shopify",
+            image: {
+              url: "https://cdn.worldvectorlogo.com/logos/shopify.svg",
+              alternativeText: "Shopify Logo"
+            }
+          },
+          {
+            id: 2,
+            title: "Square",
+            image: {
+              url: "/images/square.png",
+              alternativeText: "Square Logo"
+            }
+          },
+          {
+            id: 3,
+            title: "QuickBooks",
+            image: {
+              url: "https://cdn.worldvectorlogo.com/logos/quickbooks.svg",
+              alternativeText: "QuickBooks Logo"
+            }
+          },
+          {
+            id: 4,
+            title: "WooCommerce",
+            image: {
+              url: "https://cdn.worldvectorlogo.com/logos/woocommerce.svg",
+              alternativeText: "WooCommerce Logo"
+            }
+          }
+        ]
+      },
+      {
+        __component: "dynamic-zone.cta",
+        id: 4,
+        heading: "Ready to Launch Your Inventory Management?",
+        sub_heading: "Join Foreko and start managing your inventory with the speed and reliability of AI-powered automation.",
+        CTAs: [
+          {
+            id: 1,
+            text: "Book a demo",
+            URL: "/contact",
+            variant: "outline"
+          },
+          {
+            id: 2,
+            text: "Sign up now",
+            URL: "/sign-up",
+            variant: "primary"
+          }
+        ]
       }
     ],
     localizations: []
@@ -1736,7 +2002,7 @@ export const mockGlobalData = {
     ],
     social_media_links: [
       { text: "Twitter", URL: "https://twitter.com/foreko" },
-      { text: "LinkedIn", URL: "https://linkedin.com/company/foreko" },
+      { text: "LinkedIn", URL: "https://www.linkedin.com/company/foreko-inventory-intelligence-platform/?viewAsMember=true" },
       { text: "Facebook", URL: "https://facebook.com/foreko" }
     ]
   }

@@ -58,20 +58,21 @@ export const SkeletonTwo = () => {
         className="absolute inset-0 flex flex-col group p-8 z-40"
       >
         <Container className="mt-10 ml-4">
-          <Cover>2,052</Cover>
-          satellite
+          <Cover>REORDER</Cover>
+          Widget Bolts
         </Container>
         <Container className="mt-4 ml-10 group-hover:border-secondary transition duration-200 group-hover:scale-[1.02]">
-          <Cover>8,230,002</Cover>
-          Starlinks
+          <Cover>LOW STOCK</Cover>
+          Premium Screws
         </Container>
         <Container className="mt-4 ml-4">
-          <Cover>7,224</Cover>
-          rockets
+          <Cover>FORECAST</Cover>
+          Holiday Rush +40%
         </Container>
         <Cursor
           className="top-40 left-0 group-hover:left-40 group-hover:top-20"
           textClassName="group-hover:text-secondary"
+          text="AI Assistant"
         />
       </div>
       <div className="absolute inset-0 flex flex-col group p-8 ml-20">
@@ -81,7 +82,7 @@ export const SkeletonTwo = () => {
           }}
           className="mt-10 ml-4"
         >
-          1 satellite
+          Manual tracking
         </Container>
         <Container
           style={{
@@ -89,7 +90,7 @@ export const SkeletonTwo = () => {
           }}
           className="mt-4 ml-10 group-hover:border-secondary transition duration-200 "
         >
-          7 satellites
+          Spreadsheet alerts
         </Container>
         <Container
           style={{
@@ -97,13 +98,13 @@ export const SkeletonTwo = () => {
           }}
           className="mt-4 ml-4"
         >
-          4 rockets
+          Guesswork planning
         </Container>
 
         <Cursor
           className="top-60 left-12 group-hover:left-32 group-hover:top-44"
           textClassName="group-hover:text-white"
-          text="Tyler Durden"
+          text="Old Method"
           style={{
             opacity: 1 - sliderXPercent * 0.015,
           }}

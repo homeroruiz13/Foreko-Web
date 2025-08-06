@@ -22,7 +22,7 @@ export const TestimonialsMarquee = ({ testimonials }: { testimonials: any }) => 
               <Quote>{testimonial?.text}</Quote>
               <div className="flex gap-2 items-center mt-8">
                 <Image
-                  src={getImageUrl(testimonial?.user?.image?.url || "/default-avatar.png")}
+                  src={getImageUrl(testimonial?.user?.image?.url || "/images/square.png")}
                   alt={`${testimonial?.user?.firstname || ""} ${testimonial?.user?.lastname || ""}`}
                   width={40}
                   height={40}
@@ -53,7 +53,7 @@ export const TestimonialsMarquee = ({ testimonials }: { testimonials: any }) => 
               <Quote>{testimonial.text}</Quote>
               <div className="flex gap-2 items-center mt-8">
                 <Image
-                  src={getImageUrl(testimonial?.user?.image?.url || "/default-avatar.png")}
+                  src={getImageUrl(testimonial?.user?.image?.url || "/images/square.png")}
                   alt={`${testimonial?.user?.firstname || ""} ${testimonial?.user?.lastname || ""}`}
                   width={40}
                   height={40}

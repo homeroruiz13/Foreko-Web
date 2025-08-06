@@ -9,8 +9,8 @@ export async function generateMetadata({
   params: { locale: string };
 }): Promise<Metadata> {
   return {
-    title: 'Foreko Complete Dashboard Suite - AI-Powered Business Management',
-    description: 'Streamlined, AI-powered solution designed specifically for small businesses. Real-time inventory management, order tracking, and actionable insights through five core dashboards.',
+    title: 'Inventory Reimagined - AI-Powered Inventory Management | Foreko',
+    description: 'AI-powered inventory management that predicts exactly what to order and when. Smart reordering, demand forecasting, and real-time insights for small businesses.',
   };
 }
 

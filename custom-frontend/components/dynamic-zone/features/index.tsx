@@ -19,6 +19,8 @@ const SkeletonOne = dynamic(() => import("./skeletons/first").then(mod => ({ def
 const SkeletonTwo = dynamic(() => import("./skeletons/second").then(mod => ({ default: mod.SkeletonTwo })), { ssr: false });
 const SkeletonThree = dynamic(() => import("./skeletons/third").then(mod => ({ default: mod.SkeletonThree })), { ssr: false });
 const SkeletonFour = dynamic(() => import("./skeletons/fourth").then(mod => ({ default: mod.SkeletonFour })), { ssr: false });
+const SkeletonFive = dynamic(() => import("./skeletons/fifth").then(mod => ({ default: mod.SkeletonFive })), { ssr: false });
+const SkeletonSix = dynamic(() => import("./skeletons/sixth").then(mod => ({ default: mod.SkeletonSix })), { ssr: false });
 
 // Error Boundary component
 class ErrorBoundary extends React.Component<
@@ -57,7 +59,7 @@ function convertWordToNumber(word: string) {
   return wordToNumber[word.toLowerCase()] || 1;
 }
 
-export const Features = ({ heading, sub_heading, globe_card, ray_card, graph_card, social_media_card }: { heading: string, sub_heading: string, globe_card: any, ray_card: any, graph_card: any, social_media_card: any }) => {
+export const Features = ({ heading, sub_heading, globe_card, ray_card, graph_card, social_media_card, advanced_analytics_card, mobile_access_card }: { heading: string, sub_heading: string, globe_card?: any, ray_card?: any, graph_card?: any, social_media_card?: any, advanced_analytics_card?: any, mobile_access_card?: any }) => {
   return (
     <GradientContainer className="md:my-20">
       <Container className="py-20 max-w-7xl mx-auto relative z-40">
@@ -133,6 +135,38 @@ export const Features = ({ heading, sub_heading, globe_card, ray_card, graph_car
               <CardTitle>{social_media_card.title}</CardTitle>
               <CardDescription>
                 {social_media_card.description}
+              </CardDescription>
+            </Card>
+          )}
+
+          {advanced_analytics_card && (
+            <Card className="md:col-span-1" >
+              <CardSkeletonContainer showGradient={false}>
+                <React.Suspense fallback={<div className="w-full h-full bg-gray-800 animate-pulse rounded-lg" />}>
+                  <ErrorBoundary>
+                    <SkeletonFive />
+                  </ErrorBoundary>
+                </React.Suspense>
+              </CardSkeletonContainer>
+              <CardTitle>{advanced_analytics_card.title}</CardTitle>
+              <CardDescription>
+                {advanced_analytics_card.description}
+              </CardDescription>
+            </Card>
+          )}
+
+          {mobile_access_card && (
+            <Card className="md:col-span-1" >
+              <CardSkeletonContainer showGradient={false}>
+                <React.Suspense fallback={<div className="w-full h-full bg-gray-800 animate-pulse rounded-lg" />}>
+                  <ErrorBoundary>
+                    <SkeletonSix />
+                  </ErrorBoundary>
+                </React.Suspense>
+              </CardSkeletonContainer>
+              <CardTitle>{mobile_access_card.title}</CardTitle>
+              <CardDescription>
+                {mobile_access_card.description}
               </CardDescription>
             </Card>
           )}

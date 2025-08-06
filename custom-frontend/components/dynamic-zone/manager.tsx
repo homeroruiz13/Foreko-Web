@@ -24,7 +24,9 @@ const componentMapping: { [key: string]: any } = {
   'dynamic-zone.form-next-to-section': dynamic(() => import('./form-next-to-section').then(mod => mod.FormNextToSection), { ssr: false }),
   'dynamic-zone.faq': dynamic(() => import('./faq').then(mod => mod.FAQ), { ssr: false }),
   'dynamic-zone.related-products': dynamic(() => import('./related-products').then(mod => mod.RelatedProducts), { ssr: false }),
-  'dynamic-zone.related-articles': dynamic(() => import('./related-articles').then(mod => mod.RelatedArticles), { ssr: false })
+  'dynamic-zone.related-articles': dynamic(() => import('./related-articles').then(mod => mod.RelatedArticles), { ssr: false }),
+  'dynamic-zone.blog-grid': dynamic(() => import('./blog-grid').then(mod => mod.BlogGrid), { ssr: false }),
+  'dynamic-zone.team-static': dynamic(() => import('./team-static').then(mod => mod.TeamStatic), { ssr: false })
 }
 
 const DynamicZoneManager: React.FC<Props> = ({ dynamicZone, locale }) => {

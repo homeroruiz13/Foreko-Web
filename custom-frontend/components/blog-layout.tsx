@@ -35,8 +35,14 @@ export async function BlogLayout({
             alt={article.title}
           />
         ) : (
-          <div className="h-40 md:h-96 w-full aspect-squace rounded-3xl shadow-derek bg-neutral-900 flex items-center justify-center">
-            {/* <Logo /> */}
+          <div className="h-40 md:h-96 w-full aspect-square rounded-3xl shadow-derek bg-neutral-900 flex items-center justify-center">
+            <Image
+              src="/images/square.png"
+              alt="Default placeholder"
+              width={200}
+              height={200}
+              className="object-cover rounded-2xl opacity-50"
+            />
           </div>
         )}
       </div>

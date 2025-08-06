@@ -43,13 +43,23 @@ const ProductItem = ({ product, locale }: { product: Product, locale: string }) 
       <div className="relative border border-neutral-800  rounded-md overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black transition-all duration-200 z-30" />
 
-        <Image
-          src={getImageUrl(product.images[0].url)}
-          alt={product.name}
-          width={600}
-          height={600}
-          className="h-full w-full object-cover group-hover:scale-105 transition duration-200"
-        />
+        {product.images && product.images.length > 0 ? (
+          <Image
+            src={getImageUrl(product.images[0].url)}
+            alt={product.name}
+            width={600}
+            height={600}
+            className="h-full w-full object-cover group-hover:scale-105 transition duration-200"
+          />
+        ) : (
+          <Image
+            src="/images/square.png"
+            alt="Default placeholder"
+            width={600}
+            height={600}
+            className="h-full w-full object-cover group-hover:scale-105 transition duration-200 opacity-50"
+          />
+        )}
       </div>
 
       <div className="mt-8">

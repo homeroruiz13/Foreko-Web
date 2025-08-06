@@ -4,127 +4,104 @@ import { cn } from "@/lib/utils";
 import StarBackground from "@/components/decorations/star-background";
 import ShootingStars from "@/components/decorations/shooting-star";
 import { motion } from "framer-motion";
-import { IconContainer } from "../icon-container";
-import {
-  FacebookIcon,
-  InstagramIcon,
-  LinkedInIcon,
-  MetaIcon,
-  SlackIcon,
-  TiktokIcon,
-  TwitterIcon,
-} from "@/components/icons/illustrations";
 
 var loopInterval: NodeJS.Timeout;
 export const SkeletonFour = () => {
-  const icons = useMemo(
+  const features = useMemo(
     () => [
       {
-        title: "Twitter",
-        icon: TwitterIcon,
-        className: "left-2 top-2",
+        title: "$49/mo",
+        content: "Starter Plan",
+        className: "left-4 top-4",
       },
       {
-        title: "Meta2",
-        icon: MetaIcon,
-        className: "left-32 top-32",
+        title: "No Setup",
+        content: "Ready in 30min",
+        className: "left-1/2 top-8 transform -translate-x-1/2",
       },
       {
-        title: "Instagram",
-        icon: InstagramIcon,
-        className: "left-1/2 top-1/2",
+        title: "Cloud-Based",
+        content: "No IT Required",
+        className: "right-4 top-4",
       },
       {
-        title: "LinkedIn2",
-        icon: LinkedInIcon,
-        className: "left-1/2 top-20",
+        title: "ROI",
+        content: "300% in Year 1",
+        className: "left-8 top-1/2 transform -translate-y-1/2",
       },
       {
-        title: "Facebook",
-        icon: FacebookIcon,
-        className: "right-20 top-20",
+        title: "Support",
+        content: "24/7 Available",
+        className: "right-8 top-1/2 transform -translate-y-1/2",
       },
       {
-        title: "Slack2",
-        icon: SlackIcon,
-        className: "right-20 bottom-0",
+        title: "Scale",
+        content: "Grows with you",
+        className: "left-4 bottom-4",
       },
       {
-        title: "Tiktok",
-        icon: TiktokIcon,
-        className: "left-52 bottom-10",
+        title: "Updates",
+        content: "Always included",
+        className: "left-1/2 bottom-8 transform -translate-x-1/2",
       },
       {
-        title: "Meta",
-        icon: MetaIcon,
-        className: "left-32 bottom-60",
-      },
-      {
-        title: "Twitter2",
-        icon: TwitterIcon,
-        className: "right-96 top-24",
-      },
-      {
-        title: "Instagram2",
-        icon: InstagramIcon,
-        className: "left-10 bottom-0",
-      },
-      {
-        title: "LinkedIn",
-        icon: LinkedInIcon,
-        className: "right-40 top-0",
-      },
-      {
-        title: "Facebook2",
-        icon: FacebookIcon,
-        className: "right-40 top-40",
-      },
-      {
-        title: "Slack",
-        icon: SlackIcon,
-        className: "right-0 bottom-60",
-      },
-      {
-        title: "Tiktok2",
-        icon: TiktokIcon,
-        className: "right-10 bottom-80",
+        title: "Free Trial",
+        content: "14 Days",
+        className: "right-4 bottom-4",
       },
     ],
     []
   );
 
-  const [active, setActive] = useState(icons[0]);
+  const [active, setActive] = useState(features[0]);
 
   useEffect(() => {
     loopInterval = setInterval(() => {
-      setActive(icons[Math.floor(Math.random() * icons.length)]);
+      setActive(features[Math.floor(Math.random() * features.length)]);
     }, 3000);
     return () => clearInterval(loopInterval);
-  }, [icons]);
+  }, [features]);
 
   return (
-    <div className="p-8 overflow-hidden h-full relative flex flex-col group [perspective:8000px] [transform-style:preserve-3d]">
+    <div className="p-6 overflow-hidden h-full relative flex flex-col group bg-gradient-to-br from-green-900/20 to-blue-900/20">
       <StarBackground />
       <ShootingStars />
 
-      {icons.map((icon) => (
-        <IconContainer
+      {/* Center cost visualization */}
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div className="text-center space-y-2">
+          <div className="text-4xl font-bold text-green-400">$49</div>
+          <div className="text-sm text-gray-300">per month</div>
+          <div className="text-xs text-gray-500">vs $15k+ for custom software</div>
+        </div>
+      </div>
+
+      {/* Floating feature badges */}
+      {features.map((feature) => (
+        <div
           className={cn(
-            "rounded-full opacity-20 mx-2 absolute",
-            icon.className,
-            active.title === icon.title && "opacity-100"
+            "absolute p-3 rounded-lg bg-gray-800/80 border border-gray-600/50 opacity-60 transition-all duration-300",
+            feature.className,
+            active.title === feature.title && "opacity-100 scale-110 border-green-400/50 bg-green-900/20"
           )}
-          key={icon.title}
+          key={feature.title}
         >
-          {<icon.icon />}
-          {active.title === icon.title && (
+          <div className="text-xs font-medium text-white">{feature.title}</div>
+          <div className="text-xs text-gray-400">{feature.content}</div>
+          {active.title === feature.title && (
             <motion.div
               layoutId="bubble"
-              className="absolute h-16 w-16 inset-0 rounded-full border-2  -ml-0.5 -mt-0.5 border-indigo-500"
+              className="absolute inset-0 rounded-lg border-2 border-green-400/50"
             ></motion.div>
           )}
-        </IconContainer>
+        </div>
       ))}
+
+      {/* ROI indicator */}
+      <div className="absolute bottom-4 right-4 text-right">
+        <div className="text-lg font-bold text-green-400">300%</div>
+        <div className="text-xs text-gray-400">First Year ROI</div>
+      </div>
     </div>
   );
 };

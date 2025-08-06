@@ -43,13 +43,23 @@ const FeaturedItem = ({ product, locale }: { product: Product, locale:string }) 
           ${formatNumber(product.price)}
         </span>
       </div>
-      <Image
-        src={getImageUrl(product.images[0].url)}
-        alt={product.name}
-        width={1000}
-        height={1000}
-        className="h-full w-full object-cover group-hover:scale-105 transition duration-200"
-      />
+      {product.images && product.images.length > 0 ? (
+        <Image
+          src={getImageUrl(product.images[0].url)}
+          alt={product.name}
+          width={1000}
+          height={1000}
+          className="h-full w-full object-cover group-hover:scale-105 transition duration-200"
+        />
+      ) : (
+        <Image
+          src="/images/square.png"
+          alt="Default placeholder"
+          width={1000}
+          height={1000}
+          className="h-full w-full object-cover group-hover:scale-105 transition duration-200 opacity-50"
+        />
+      )}
     </Link>
   );
 };
