@@ -1552,48 +1552,23 @@ export const mockPages = {
         id: 1,
         heading: "Contact Foreko",
         sub_heading: "We're here to help your small business succeed",
-        CTAs: [
-          {
-            id: 1,
-            text: "Start Free Trial",
-            URL: "/sign-up",
-            variant: "primary"
-          }
-        ]
+        CTAs: []
       },
       {
-        __component: "dynamic-zone.features",
+        __component: "dynamic-zone.contact-form",
         id: 2,
         heading: "Get in Touch",
-        sub_heading: "Multiple ways to reach our dedicated support team",
-        globe_card: {
-          id: 1,
-          title: "Email Support",
-          description: "General inquiries: hello@foreko.com | Technical support: support@foreko.com | Sales: sales@foreko.com",
-          span: "two"
-        },
-        ray_card: {
-          id: 2,
-          title: "Live Chat",
-          description: "Available Monday-Friday, 9 AM - 6 PM EST for real-time assistance",
-          span: "one"
-        },
-        graph_card: {
-          id: 3,
-          title: "Phone Support",
-          description: "Call +1 (555) 123-4567 for immediate help with your dashboard setup and questions",
-          span: "two"
-        },
-        social_media_card: {
-          id: 4,
-          title: "Community",
-          description: "Join our community forum and follow @foreko on social media for tips and updates",
-          span: "one"
-        }
+        sub_heading: "Fill out the form below and we'll get back to you as soon as possible"
+      },
+      {
+        __component: "dynamic-zone.company-info",
+        id: 3,
+        heading: "Company Information",
+        sub_heading: "Everything you need to know about reaching Foreko"
       },
       {
         __component: "dynamic-zone.testimonials",
-        id: 3,
+        id: 4,
         heading: "What Our Customers Say About Support",
         sub_heading: "We're proud of our customer service",
         testimonials: [
@@ -1971,7 +1946,8 @@ export const mockGlobalData = {
       { text: "Pricing", URL: "/pricing", target: "_self" },
       { text: "Use Cases", URL: "/use-cases", target: "_self" },
       { text: "Resources", URL: "/resources", target: "_self" },
-      { text: "Company", URL: "/company", target: "_self" }
+      { text: "Company", URL: "/company", target: "_self" },
+      { text: "Contact", URL: "/contact", target: "_self" }
     ],
     right_navbar_items: [
       { text: "Log In", URL: "/sign-in", target: "_self" },

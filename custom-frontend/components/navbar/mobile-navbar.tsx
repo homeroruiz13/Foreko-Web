@@ -7,7 +7,6 @@ import { IoIosClose } from "react-icons/io";
 import { Button } from "@/components/elements/button";
 import { Logo } from "@/components/logo";
 import { useMotionValueEvent, useScroll } from "framer-motion";
-import { LocaleSwitcher } from "../locale-switcher";
 
 type Props = {
   leftNavbarItems: {
@@ -59,7 +58,6 @@ export const MobileNavbar = ({ leftNavbarItems, rightNavbarItems, logo, locale }
           <div className="flex items-center justify-between w-full px-5">
             <Logo locale={locale} image={logo?.image} />
             <div className="flex items-center space-x-2">
-              <LocaleSwitcher currentLocale={locale} />
               <IoIosClose
                 className="h-8 w-8 text-white"
                 onClick={() => setOpen(!open)}

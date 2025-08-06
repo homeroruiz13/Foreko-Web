@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { useRouter } from "next/navigation";
 import { Container } from "../container";
 import { FeatureIconContainer } from "./features/feature-icon-container";
 import { Heading } from "../elements/heading";
@@ -29,8 +30,14 @@ type Plan = {
 };
 
 export const Pricing = ({ heading, sub_heading, plans }: { heading: string, sub_heading: string, plans: any[] }) => {
+  const router = useRouter();
+  
   const onClick = (plan: Plan) => {
-    console.log("click", plan);
+    if (plan.CTA?.URL) {
+      router.push(plan.CTA.URL);
+    } else {
+      router.push("/sign-up");
+    }
   };
   return (
     <div className="pt-40">
