@@ -1,0 +1,8 @@
+# Ignore everything except custom-frontend
+*
+!.gitignore
+!custom-frontend/
+!custom-frontend/**
+
+# Specifically ignore .claude directory
+.claude/

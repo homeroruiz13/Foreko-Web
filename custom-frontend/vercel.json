@@ -1,0 +1,14 @@
+{
+  "buildCommand": "yarn build",
+  "outputDirectory": ".next",
+  "framework": "nextjs",
+  "installCommand": "yarn install",
+  "functions": {
+    "app/**/*.ts": {
+      "runtime": "nodejs18.x"
+    },
+    "middleware.ts": {
+      "runtime": "nodejs18.x"
+    }
+  }
+}

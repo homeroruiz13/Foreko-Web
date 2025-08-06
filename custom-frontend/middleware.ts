@@ -24,6 +24,16 @@ function getLocale(request: NextRequest): string {
 }
 
 export function middleware(request: NextRequest) {
+  // Skip middleware for static files and API routes
+  if (
+    request.nextUrl.pathname.startsWith('/_next') ||
+    request.nextUrl.pathname.startsWith('/api') ||
+    request.nextUrl.pathname.startsWith('/favicon') ||
+    request.nextUrl.pathname.startsWith('/images')
+  ) {
+    return NextResponse.next()
+  }
+
   const pathname = request.nextUrl.pathname
   const pathnameIsMissingLocale = i18n.locales.every(
     locale => !pathname.startsWith(`/${locale}/`) && pathname !== `/${locale}`
@@ -39,6 +49,8 @@ export function middleware(request: NextRequest) {
       )
     )
   }
+
+  return NextResponse.next()
 }
 
 export const config = {
