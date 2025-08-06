@@ -64,7 +64,7 @@ export const ContactForm = ({
               Message Sent!
             </h2>
             <p className="text-neutral-400 text-lg">
-              Thank you for contacting us. We'll get back to you soon.
+              Thank you for contacting us. We&apos;ll get back to you soon.
             </p>
           </div>
         </Container>
