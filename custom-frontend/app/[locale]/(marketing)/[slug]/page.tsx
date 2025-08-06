@@ -39,7 +39,7 @@ export default async function Page({ params }: { params: { locale: string, slug:
     return (
       <div className="container mx-auto px-4 py-20 text-center">
         <h1 className="text-4xl font-bold mb-4">Page Not Found</h1>
-        <p className="text-gray-600 mb-8">The page &quot;{params.slug}&quot; could not be found.</p>
+        <p className="text-gray-600 mb-8">The page &ldquo;{params.slug}&rdquo; could not be found.</p>
         <a href={`/${params.locale}`} className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700">
           Go Home
         </a>

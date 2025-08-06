@@ -117,7 +117,7 @@ export default function FeaturesPage() {
         </FeatureIconContainer>
         <Heading className="pt-4">Complete Feature Suite</Heading>
         <Subheading className="max-w-3xl mx-auto">
-          Discover all of Foreko&apos;s powerful capabilities designed to transform your inventory management and business operations
+          Discover all of Foreko&rsquo;s powerful capabilities designed to transform your inventory management and business operations
         </Subheading>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 py-10">
