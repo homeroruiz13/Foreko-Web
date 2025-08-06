@@ -11,8 +11,7 @@ import { Button } from "./elements/button";
 export const Register = () => {
   return (
     <Container className="h-screen max-w-lg mx-auto flex flex-col items-center justify-center">
-      <Logo />
-      <h1 className="text-xl md:text-4xl font-bold my-4">
+      <h1 className="text-2xl md:text-5xl font-bold my-4 text-center">
         Create a Foreko Account
       </h1>
       <p className="text-neutral-400 text-center mb-4">
@@ -41,7 +40,7 @@ export const Register = () => {
           className="h-10 pl-4 w-full mb-4 rounded-md text-sm bg-charcoal border border-neutral-800 text-white placeholder-neutral-500 outline-none focus:outline-none active:outline-none focus:ring-2 focus:ring-neutral-800"
         />
         <Button variant="muted" type="submit" className="w-full py-3">
-          <span className="text-sm">Create Foreko Account</span>
+          <span className="text-sm">Create Account</span>
         </Button>
       </form>
 
@@ -50,19 +49,19 @@ export const Register = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
         <button className="flex justify-center space-x-2 items-center bg-white px-4 py-3 rounded-md text-black hover:bg-white/80 transition duration-200 shadow-[0px_1px_0px_0px_#00000040_inset]">
           <Image src="/images/apple.png" alt="Apple" width={16} height={16} />
-          <span className="text-sm">Login with Apple</span>
+          <span className="text-sm">Sign up with Apple</span>
         </button>
         <button className="flex justify-center space-x-2 items-center bg-white px-4 py-3 rounded-md text-black hover:bg-white/80 transition duration-200 shadow-[0px_1px_0px_0px_#00000040_inset]">
           <Image src="/images/facebook.png" alt="Facebook" width={16} height={16} />
-          <span className="text-sm">Login with Facebook</span>
+          <span className="text-sm">Sign up with Facebook</span>
         </button>
         <button className="flex justify-center space-x-2 items-center bg-white px-4 py-3 rounded-md text-black hover:bg-white/80 transition duration-200 shadow-[0px_1px_0px_0px_#00000040_inset]">
           <Image src="/images/microsoft.png" alt="Microsoft" width={16} height={16} />
-          <span className="text-sm">Login with Microsoft</span>
+          <span className="text-sm">Sign up with Microsoft</span>
         </button>
         <button className="flex justify-center space-x-2 items-center bg-white px-4 py-3 rounded-md text-black hover:bg-white/80 transition duration-200 shadow-[0px_1px_0px_0px_#00000040_inset]">
           <IconBrandGoogleFilled className="h-4 w-4 text-black" />
-          <span className="text-sm">Login with Google</span>
+          <span className="text-sm">Sign up with Google</span>
         </button>
       </div>
     </Container>
