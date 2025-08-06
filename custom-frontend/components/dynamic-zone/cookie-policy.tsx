@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import { Container } from "../container";
 import { Heading } from "../elements/heading";
 import { Subheading } from "../elements/subheading";
@@ -16,7 +16,7 @@ export const CookiePolicy = ({
   const [activeSection, setActiveSection] = useState("");
   const contentRef = useRef<HTMLDivElement>(null);
 
-  const sections = [
+  const sections = useMemo(() => [
     { id: "introduction", title: "What Are Cookies?" },
     { id: "types-of-cookies", title: "Types of Cookies We Use" },
     { id: "strictly-necessary", title: "Strictly Necessary Cookies" },
@@ -27,7 +27,7 @@ export const CookiePolicy = ({
     { id: "cookie-duration", title: "Cookie Duration" },
     { id: "manage-cookies", title: "How to Manage Cookies" },
     { id: "policy-updates", title: "Updates to This Policy" }
-  ];
+  ], []);
 
   const scrollToSection = (sectionId: string) => {
     if (contentRef.current) {
@@ -165,7 +165,7 @@ export const CookiePolicy = ({
                     <h2 className="text-2xl font-bold text-white mb-6">2. Functional Cookies</h2>
                     <div className="space-y-4 text-neutral-300">
                       <p className="leading-relaxed">
-                        These cookies store user preferences such as region, theme, language, or "remember me" login settings.
+                        These cookies store user preferences such as region, theme, language, or &quot;remember me&quot; login settings.
                       </p>
                       <p className="font-medium">Examples include:</p>
                       <ul className="space-y-2 pl-6 list-disc">
@@ -253,7 +253,7 @@ export const CookiePolicy = ({
                       <ul className="space-y-2 pl-6 list-disc">
                         <li>Adjust your browser settings to block or delete cookies</li>
                         <li>Use browser extensions like uBlock Origin or Ghostery</li>
-                        <li>Use "Incognito" or "Private" browsing modes</li>
+                        <li>Use &quot;Incognito&quot; or &quot;Private&quot; browsing modes</li>
                       </ul>
                       <p className="leading-relaxed">
                         To opt out of Google Analytics: <a href="https://tools.google.com/dlpage/gaoptout" className="text-blue-400 hover:text-blue-300 underline">https://tools.google.com/dlpage/gaoptout</a>

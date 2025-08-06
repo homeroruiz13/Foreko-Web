@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import { Container } from "../container";
 import { Heading } from "../elements/heading";
 import { Subheading } from "../elements/subheading";
@@ -16,7 +16,7 @@ export const TermsOfService = ({
   const [activeSection, setActiveSection] = useState("");
   const contentRef = useRef<HTMLDivElement>(null);
 
-  const sections = [
+  const sections = useMemo(() => [
     { id: "introduction", title: "Introduction" },
     { id: "account-terms", title: "Account Terms" },
     { id: "account-activation", title: "Account Activation and Users" },
@@ -30,7 +30,7 @@ export const TermsOfService = ({
     { id: "modifications", title: "Modifications to the Services or Terms" },
     { id: "feedback", title: "Feedback" },
     { id: "governing-law", title: "Governing Law" }
-  ];
+  ], []);
 
   const scrollToSection = (sectionId: string) => {
     if (contentRef.current) {
@@ -131,7 +131,7 @@ export const TermsOfService = ({
                     <h2 className="text-2xl font-bold text-white mb-6">Introduction</h2>
                     <div className="space-y-4 text-neutral-300">
                       <p className="leading-relaxed">
-                        Welcome to Foreko. These Terms of Service ("Terms") govern your access to and use of the Foreko platform, services, software, and website (collectively, the "Services"), provided by Foreko Inc. ("Foreko," "we," or "us").
+                        Welcome to Foreko. These Terms of Service (&quot;Terms&quot;) govern your access to and use of the Foreko platform, services, software, and website (collectively, the &quot;Services&quot;), provided by Foreko Inc. (&quot;Foreko,&quot; &quot;we,&quot; or &quot;us&quot;).
                       </p>
                       <p className="leading-relaxed">
                         By signing up for an account, accessing, or using Foreko, you agree to be bound by these Terms. If you are using Foreko on behalf of an organization, you agree to these Terms on behalf of that organization.
@@ -173,7 +173,7 @@ export const TermsOfService = ({
                       <ul className="space-y-3 pl-6 list-disc">
                         <li className="leading-relaxed">You agree not to reproduce, duplicate, copy, sell, resell, or exploit any portion of the Services without Foreko&apos;s express written permission.</li>
                         <li className="leading-relaxed">You must not interfere with the Services or attempt to reverse engineer, bypass security features, or access the Services using automated means (e.g., bots, scrapers).</li>
-                        <li className="leading-relaxed">You understand that any data, content, or materials you upload to Foreko ("Materials") may be transmitted and stored securely but not always encrypted in transit.</li>
+                        <li className="leading-relaxed">You understand that any data, content, or materials you upload to Foreko (&quot;Materials&quot;) may be transmitted and stored securely but not always encrypted in transit.</li>
                       </ul>
                     </div>
                   </section>

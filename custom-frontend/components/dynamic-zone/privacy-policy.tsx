@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import { Container } from "../container";
 import { Heading } from "../elements/heading";
 import { Subheading } from "../elements/subheading";
@@ -16,7 +16,7 @@ export const PrivacyPolicy = ({
   const [activeSection, setActiveSection] = useState("");
   const contentRef = useRef<HTMLDivElement>(null);
 
-  const sections = [
+  const sections = useMemo(() => [
     { id: "introduction", title: "Introduction" },
     { id: "core-principles", title: "Our Core Privacy Principles" },
     { id: "why-we-process", title: "Why We Process Your Information" },
@@ -29,7 +29,7 @@ export const PrivacyPolicy = ({
     { id: "security", title: "Security" },
     { id: "ai-automated", title: "AI and Automated Decision Making" },
     { id: "policy-changes", title: "Changes to This Policy" }
-  ];
+  ], []);
 
   const scrollToSection = (sectionId: string) => {
     if (contentRef.current) {
