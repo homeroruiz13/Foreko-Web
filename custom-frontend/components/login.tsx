@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { Container } from "./container";
 import {
   IconBrandGoogleFilled,
@@ -33,9 +34,9 @@ export const Login = () => {
             <input type="checkbox" className="rounded border-neutral-800 bg-charcoal" />
             <span>Remember me</span>
           </label>
-          <button type="button" className="text-sm text-blue-400 hover:text-blue-300">
+          <Link href="/forgot-password" className="text-sm text-blue-400 hover:text-blue-300">
             Forgot password?
-          </button>
+          </Link>
         </div>
         <Button variant="muted" type="submit" className="w-full py-3">
           <span className="text-sm">Log in</span>
