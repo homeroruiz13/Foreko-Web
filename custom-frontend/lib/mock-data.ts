@@ -1321,8 +1321,8 @@ export const mockPages = {
       {
         __component: "dynamic-zone.team-static",
         id: 2,
-        heading: "Meet Our CEO",
-        sub_heading: "The visionary leading our mission to transform small business success",
+        heading: "Meet our Founders",
+        sub_heading: "The visionaries leading our mission to transform small business success",
         testimonials: [
           {
             id: 1,
@@ -1330,29 +1330,21 @@ export const mockPages = {
             user: {
               firstname: "Homero",
               lastname: "Ruiz",
-              job: "Chief Executive Officer & Founder",
+              job: "President/CTO",
               image: {
                 url: "/images/Homero.png",
                 alternativeText: "Homero Ruiz"
               },
               linkedin: "https://www.linkedin.com/in/homero-ruiz-77708621a/"
             }
-          }
-        ]
-      },
-      {
-        __component: "dynamic-zone.team-static",
-        id: 3,
-        heading: "Meet Our President",
-        sub_heading: "Leading our strategic vision and business operations",
-        testimonials: [
+          },
           {
             id: 2,
             text: "Pursuing Information Systems with Business Analytics concentration and Supply Chain Management minor at University of Arkansas. As President, Jason leads our database infrastructure and algorithm development, ensuring our software can scale efficiently. He combines deep technical expertise in data architecture with strategic business vision, helping shape Foreko's roadmap and core inventory intelligence algorithms.",
             user: {
               firstname: "Jason",
               lastname: "Luu",
-              job: "President",
+              job: "Chief Executive Officer",
               image: {
                 url: "/images/jason.png",
                 alternativeText: "Jason Luu"
@@ -1364,17 +1356,31 @@ export const mockPages = {
       },
       {
         __component: "dynamic-zone.team-static",
-        id: 4,
-        heading: "Our Team",
+        id: 3,
+        heading: "Team",
         sub_heading: "A passionate team dedicated to revolutionizing inventory management through AI",
         testimonials: [
           {
             id: 3,
+            text: "University of Arkansas graduate with extensive financial analysis and Fintech background, including hands-on experience with SAP, Power Automate, and SQL at Tyson Foods. At Foreko, Hao specializes in financial analytics for our AI models, ensuring our inventory intelligence platform delivers accurate cost optimization and ROI predictions. His expertise helps small businesses make data-driven financial decisions about their inventory investments.",
+            user: {
+              firstname: "Hao",
+              lastname: "Pham", 
+              job: "Head of Finance",
+              image: {
+                url: "/images/hao.png",
+                alternativeText: "Hao Pham"
+              },
+              linkedin: "https://www.linkedin.com/in/hao-pham912849/"
+            }
+          },
+          {
+            id: 4,
             text: "Supply Chain Management student at University of Arkansas specializing in logistics optimization. At Foreko, Alexis leads our marketing initiatives and develops the sophisticated logistical algorithms that power our inventory management models. His expertise ensures our AI understands real-world supply chain complexities and delivery optimization challenges that small businesses face daily.",
             user: {
               firstname: "Alexis",
               lastname: "Rodas",
-              job: "Co-Founder",
+              job: "Head of Supply Chain",
               image: {
                 url: "/images/alexis.png",
                 alternativeText: "Alexis Rodas"
@@ -1383,17 +1389,17 @@ export const mockPages = {
             }
           },
           {
-            id: 4,
-            text: "University of Arkansas graduate with extensive financial analysis and Fintech background, including hands-on experience with SAP, Power Automate, and SQL at Tyson Foods. At Foreko, Hao specializes in financial analytics for our AI models, ensuring our inventory intelligence platform delivers accurate cost optimization and ROI predictions. His expertise helps small businesses make data-driven financial decisions about their inventory investments.",
+            id: 5,
+            text: "As a sophomore Industrial Engineering student at the University of Arkansas, Harish brings fresh analytical perspectives and innovative problem-solving approaches to Foreko's operations team. His academic focus on process optimization and systems analysis directly supports our mission to streamline inventory management for small businesses. Harish combines theoretical knowledge with practical application, helping design more efficient operational workflows that enhance our platform's effectiveness.",
             user: {
-              firstname: "Hao",
-              lastname: "Pham", 
-              job: "Co-Founder",
+              firstname: "Harish",
+              lastname: "Suresh",
+              job: "Head of Operations",
               image: {
-                url: "/images/hao.png",
-                alternativeText: "Hao Pham"
+                url: "/images/harish.png",
+                alternativeText: "Harish Suresh"
               },
-              linkedin: "https://www.linkedin.com/in/hao-pham912849/"
+              linkedin: "https://www.linkedin.com/in/harishsuresh0/"
             }
           }
         ]
