@@ -1,6 +1,8 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Container } from "./container";
 import { Logo } from "./logo";
 import {
@@ -9,6 +11,56 @@ import {
 import { Button } from "./elements/button";
 
 export const Register = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password: '',
+    confirmPassword: ''
+  });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+  const router = useRouter();
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+    setSuccess('');
+
+    try {
+      const response = await fetch('/api/auth/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setSuccess('Account created successfully! Redirecting...');
+        setTimeout(() => {
+          router.push('/company-setup');
+        }, 2000);
+      } else {
+        setError(data.error || 'Something went wrong');
+      }
+    } catch (error) {
+      setError('Network error. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <Container className="h-screen max-w-lg mx-auto flex flex-col items-center justify-center">
       <h1 className="text-2xl md:text-5xl font-bold my-4 text-center">
@@ -18,31 +70,72 @@ export const Register = () => {
         One last step before starting your free trial
       </p>
 
-      <form className="w-full my-4">
+      {error && (
+        <div className="w-full mb-4 p-3 bg-red-900/20 border border-red-500 rounded-md">
+          <p className="text-red-400 text-sm text-center">{error}</p>
+        </div>
+      )}
+
+      {success && (
+        <div className="w-full mb-4 p-3 bg-green-900/20 border border-green-500 rounded-md">
+          <p className="text-green-400 text-sm text-center">{success}</p>
+        </div>
+      )}
+
+      <form className="w-full my-4" onSubmit={handleSubmit}>
         <input
           type="text"
+          name="name"
           placeholder="Full Name"
-          className="h-10 pl-4 w-full mb-4 rounded-md text-sm bg-charcoal border border-neutral-800 text-white placeholder-neutral-500 outline-none focus:outline-none active:outline-none focus:ring-2 focus:ring-neutral-800"
+          value={formData.name}
+          onChange={handleInputChange}
+          required
+          disabled={loading}
+          className="h-10 pl-4 w-full mb-4 rounded-md text-sm bg-charcoal border border-neutral-800 text-white placeholder-neutral-500 outline-none focus:outline-none active:outline-none focus:ring-2 focus:ring-neutral-800 disabled:opacity-50"
         />
         <input
           type="email"
+          name="email"
           placeholder="Email Address"
-          className="h-10 pl-4 w-full mb-4 rounded-md text-sm bg-charcoal border border-neutral-800 text-white placeholder-neutral-500 outline-none focus:outline-none active:outline-none focus:ring-2 focus:ring-neutral-800"
+          value={formData.email}
+          onChange={handleInputChange}
+          required
+          disabled={loading}
+          className="h-10 pl-4 w-full mb-4 rounded-md text-sm bg-charcoal border border-neutral-800 text-white placeholder-neutral-500 outline-none focus:outline-none active:outline-none focus:ring-2 focus:ring-neutral-800 disabled:opacity-50"
         />
         <input
           type="password"
+          name="password"
           placeholder="Password"
-          className="h-10 pl-4 w-full mb-4 rounded-md text-sm bg-charcoal border border-neutral-800 text-white placeholder-neutral-500 outline-none focus:outline-none active:outline-none focus:ring-2 focus:ring-neutral-800"
+          value={formData.password}
+          onChange={handleInputChange}
+          required
+          disabled={loading}
+          className="h-10 pl-4 w-full mb-4 rounded-md text-sm bg-charcoal border border-neutral-800 text-white placeholder-neutral-500 outline-none focus:outline-none active:outline-none focus:ring-2 focus:ring-neutral-800 disabled:opacity-50"
         />
         <input
           type="password"
+          name="confirmPassword"
           placeholder="Confirm Password"
-          className="h-10 pl-4 w-full mb-4 rounded-md text-sm bg-charcoal border border-neutral-800 text-white placeholder-neutral-500 outline-none focus:outline-none active:outline-none focus:ring-2 focus:ring-neutral-800"
+          value={formData.confirmPassword}
+          onChange={handleInputChange}
+          required
+          disabled={loading}
+          className="h-10 pl-4 w-full mb-4 rounded-md text-sm bg-charcoal border border-neutral-800 text-white placeholder-neutral-500 outline-none focus:outline-none active:outline-none focus:ring-2 focus:ring-neutral-800 disabled:opacity-50"
         />
-        <Button variant="muted" type="submit" className="w-full py-3">
-          <span className="text-sm">Create Account</span>
+        <Button variant="muted" type="submit" className="w-full py-3" disabled={loading}>
+          <span className="text-sm">{loading ? 'Creating Account...' : 'Create Account'}</span>
         </Button>
       </form>
+
+      <div className="text-center mb-4">
+        <p className="text-neutral-400 text-sm">
+          Already have an account?{" "}
+          <Link href="/sign-in" className="text-blue-400 hover:text-blue-300">
+            Sign in here
+          </Link>
+        </p>
+      </div>
 
       <Divider />
 

@@ -1526,7 +1526,7 @@ export const mockPages = {
           {
             id: 1,
             name: "Starter Inventory",
-            price: 25,
+            price: 50,
             sub_text: "Perfect for small businesses just getting started",
             featured: false,
             CTA: {
@@ -1546,7 +1546,7 @@ export const mockPages = {
           {
             id: 2,
             name: "Pro Inventory",
-            price: 75,
+            price: 100,
             sub_text: "Great for growing businesses with expanding inventory",
             featured: false,
             CTA: {

@@ -1,7 +1,14 @@
 {
   "permissions": {
     "allow": [
-      "WebFetch(domain:launch-pad-roan.vercel.app)"
+      "WebFetch(domain:launch-pad-roan.vercel.app)",
+      "Bash(npm install:*)",
+      "Bash(npm run dev:*)",
+      "Bash(taskkill:*)",
+      "Bash(npm run build:*)",
+      "Bash(npm run lint:*)",
+      "Bash(rm:*)",
+      "Bash(curl:*)"
     ],
     "deny": []
   }

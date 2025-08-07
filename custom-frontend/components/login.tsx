@@ -1,7 +1,8 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Container } from "./container";
 import {
   IconBrandGoogleFilled,
@@ -9,6 +10,59 @@ import {
 import { Button } from "./elements/button";
 
 export const Login = () => {
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+    rememberMe: false
+  });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+  const router = useRouter();
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value, type, checked } = e.target;
+    setFormData({
+      ...formData,
+      [name]: type === 'checkbox' ? checked : value
+    });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+    setSuccess('');
+
+    try {
+      const response = await fetch('/api/auth/signin', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setSuccess('Login successful! Redirecting...');
+        setTimeout(() => {
+          router.push('/');
+        }, 1500);
+      } else {
+        setError(data.error || 'Something went wrong');
+      }
+    } catch (error) {
+      setError('Network error. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <Container className="h-screen max-w-lg mx-auto flex flex-col items-center justify-center">
       <h1 className="text-2xl md:text-5xl font-bold my-4 text-center">
@@ -18,30 +72,68 @@ export const Login = () => {
         Continue to Foreko
       </p>
 
-      <form className="w-full my-4">
+      {error && (
+        <div className="w-full mb-4 p-3 bg-red-900/20 border border-red-500 rounded-md">
+          <p className="text-red-400 text-sm text-center">{error}</p>
+        </div>
+      )}
+
+      {success && (
+        <div className="w-full mb-4 p-3 bg-green-900/20 border border-green-500 rounded-md">
+          <p className="text-green-400 text-sm text-center">{success}</p>
+        </div>
+      )}
+
+      <form className="w-full my-4" onSubmit={handleSubmit}>
         <input
           type="email"
+          name="email"
           placeholder="Email Address"
-          className="h-10 pl-4 w-full mb-4 rounded-md text-sm bg-charcoal border border-neutral-800 text-white placeholder-neutral-500 outline-none focus:outline-none active:outline-none focus:ring-2 focus:ring-neutral-800"
+          value={formData.email}
+          onChange={handleInputChange}
+          required
+          disabled={loading}
+          className="h-10 pl-4 w-full mb-4 rounded-md text-sm bg-charcoal border border-neutral-800 text-white placeholder-neutral-500 outline-none focus:outline-none active:outline-none focus:ring-2 focus:ring-neutral-800 disabled:opacity-50"
         />
         <input
           type="password"
+          name="password"
           placeholder="Password"
-          className="h-10 pl-4 w-full mb-4 rounded-md text-sm bg-charcoal border border-neutral-800 text-white placeholder-neutral-500 outline-none focus:outline-none active:outline-none focus:ring-2 focus:ring-neutral-800"
+          value={formData.password}
+          onChange={handleInputChange}
+          required
+          disabled={loading}
+          className="h-10 pl-4 w-full mb-4 rounded-md text-sm bg-charcoal border border-neutral-800 text-white placeholder-neutral-500 outline-none focus:outline-none active:outline-none focus:ring-2 focus:ring-neutral-800 disabled:opacity-50"
         />
         <div className="flex items-center justify-between mb-4">
           <label className="flex items-center space-x-2 text-sm text-neutral-400">
-            <input type="checkbox" className="rounded border-neutral-800 bg-charcoal" />
+            <input 
+              type="checkbox" 
+              name="rememberMe"
+              checked={formData.rememberMe}
+              onChange={handleInputChange}
+              disabled={loading}
+              className="rounded border-neutral-800 bg-charcoal disabled:opacity-50" 
+            />
             <span>Remember me</span>
           </label>
           <Link href="/forgot-password" className="text-sm text-blue-400 hover:text-blue-300">
             Forgot password?
           </Link>
         </div>
-        <Button variant="muted" type="submit" className="w-full py-3">
-          <span className="text-sm">Log in</span>
+        <Button variant="muted" type="submit" className="w-full py-3" disabled={loading}>
+          <span className="text-sm">{loading ? 'Logging in...' : 'Log in'}</span>
         </Button>
       </form>
+
+      <div className="text-center mb-4">
+        <p className="text-neutral-400 text-sm">
+          Don&apos;t have an account?{" "}
+          <Link href="/sign-up" className="text-blue-400 hover:text-blue-300">
+            Create one here
+          </Link>
+        </p>
+      </div>
 
       <Divider />
 
