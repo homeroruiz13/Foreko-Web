@@ -174,7 +174,7 @@ export default function PaymentPage() {
             Complete Your Purchase
           </h1>
           <p className="text-lg text-neutral-300 mb-2">
-            You're just one step away from unlocking
+            You&apos;re just one step away from unlocking
           </p>
           <p className="text-lg text-neutral-300 mb-6">
             powerful inventory management tools
@@ -211,7 +211,7 @@ export default function PaymentPage() {
             </div>
 
             <div className="space-y-3">
-              <h4 className="font-semibold text-white mb-3">What's included:</h4>
+              <h4 className="font-semibold text-white mb-3">What&apos;s included:</h4>
               {plan.features.map((feature, index) => (
                 <div key={index} className="flex items-start gap-3">
                   <div className="h-5 w-5 rounded-full bg-green-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">

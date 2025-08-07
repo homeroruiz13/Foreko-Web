@@ -83,7 +83,7 @@ export default function PaymentSuccessPage() {
           Welcome to Foreko! Your subscription has been activated.
         </p>
         <p className="text-lg text-neutral-300 mb-8">
-          You're ready to start managing your inventory with AI.
+          You&apos;re ready to start managing your inventory with AI.
         </p>
 
         {/* Plan Details */}
@@ -109,7 +109,7 @@ export default function PaymentSuccessPage() {
 
         {/* Next Steps */}
         <div className="bg-neutral-900/50 backdrop-blur-sm border border-neutral-700 rounded-2xl p-8 mb-8 max-w-md w-full">
-          <h3 className="text-xl font-semibold text-white mb-4">What's Next?</h3>
+          <h3 className="text-xl font-semibold text-white mb-4">What&apos;s Next?</h3>
           <div className="space-y-3 text-left">
             <div className="flex items-start gap-3">
               <div className="w-6 h-6 bg-green-500/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">

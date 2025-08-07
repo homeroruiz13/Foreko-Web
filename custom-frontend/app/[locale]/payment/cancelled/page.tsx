@@ -88,7 +88,7 @@ export default function PaymentCancelledPage() {
         {/* Support */}
         <div className="mt-12">
           <p className="text-neutral-500 text-sm mb-2">
-            Having trouble with payment? We're here to help.
+            Having trouble with payment? We&apos;re here to help.
           </p>
           <button 
             onClick={() => window.open('mailto:support@foreko.com', '_blank')}
