@@ -8,17 +8,21 @@ import { Button } from "@/components/elements/button";
 import { AmbientColor } from "@/components/decorations/ambient-color";
 import StarBackground from "@/components/decorations/star-background";
 import ShootingStars from "@/components/decorations/shooting-star";
-import { IconX, IconArrowLeft, IconRefresh } from "@tabler/icons-react";
+import { IconX, IconArrowLeft, IconCreditCard } from "@tabler/icons-react";
 
 export default function PaymentCancelledPage() {
   const router = useRouter();
+
+  const handleRetryPayment = () => {
+    router.back(); // Go back to payment page
+  };
 
   const handleBackToPlans = () => {
     router.push('/subscription');
   };
 
-  const handleTryAgain = () => {
-    router.back();
+  const handleGoToDashboard = () => {
+    router.push('/dashboard');
   };
 
   return (
@@ -27,75 +31,93 @@ export default function PaymentCancelledPage() {
       <StarBackground />
       <ShootingStars />
       
-      <Container className="relative h-screen max-w-3xl mx-auto flex flex-col items-center justify-center px-8 z-10 text-center">
+      <Container className="relative h-screen max-w-4xl mx-auto flex flex-col items-center justify-center px-8 z-10">
         <div className="mb-8">
           <Logo />
         </div>
         
-        {/* Cancelled Icon */}
-        <div className="w-20 h-20 bg-red-500/20 border-2 border-red-500 rounded-full flex items-center justify-center mb-8">
-          <IconX className="w-10 h-10 text-red-400 stroke-[2px]" />
-        </div>
-        
-        {/* Cancelled Message */}
-        <h1 className="text-3xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-white to-neutral-300 bg-clip-text text-transparent">
-          Payment Cancelled
-        </h1>
-        
-        <p className="text-lg text-neutral-300 mb-2">
-          No worries! Your payment was not processed.
-        </p>
-        <p className="text-lg text-neutral-300 mb-8">
-          You can try again anytime or choose a different plan.
-        </p>
-
-        {/* Information Card */}
-        <div className="bg-neutral-900/50 backdrop-blur-sm border border-neutral-700 rounded-2xl p-8 mb-8 max-w-md w-full">
-          <h3 className="text-xl font-semibold text-white mb-4">What happened?</h3>
-          <p className="text-neutral-300 text-sm leading-relaxed mb-4">
-            You cancelled the payment process before completion. No charges were made to your payment method.
-          </p>
-          <div className="bg-neutral-800/50 rounded-lg p-4">
-            <p className="text-xs text-neutral-400">
-              💡 <strong>Tip:</strong> All our plans come with a 30-day money-back guarantee, so you can subscribe with confidence.
-            </p>
+        <div className="text-center max-w-lg">
+          {/* Cancelled Icon */}
+          <div className="w-20 h-20 bg-orange-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+            <IconX className="h-10 w-10 text-orange-400 stroke-[3px]" />
           </div>
-        </div>
-
-        {/* Action Buttons */}
-        <div className="flex flex-col sm:flex-row gap-4 w-full max-w-md">
-          <Button
-            onClick={handleTryAgain}
-            className="flex-1 px-6 py-4 text-lg font-semibold rounded-lg bg-white hover:bg-neutral-100 text-black shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
-          >
-            <span className="flex items-center justify-center gap-2">
-              <IconRefresh className="w-5 h-5" />
-              Try Again
-            </span>
-          </Button>
           
-          <Button
-            onClick={handleBackToPlans}
-            className="flex-1 px-6 py-4 text-lg font-semibold rounded-lg bg-neutral-800 hover:bg-neutral-700 text-white border border-neutral-600 transition-all duration-300"
-          >
-            <span className="flex items-center justify-center gap-2">
-              <IconArrowLeft className="w-5 h-5" />
-              Back to Plans
-            </span>
-          </Button>
-        </div>
-
-        {/* Support */}
-        <div className="mt-12">
-          <p className="text-neutral-500 text-sm mb-2">
-            Having trouble with payment? We&apos;re here to help.
+          {/* Cancelled Message */}
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-white to-neutral-300 bg-clip-text text-transparent">
+            Payment Cancelled
+          </h1>
+          
+          <p className="text-lg text-neutral-300 mb-4">
+            Your payment was cancelled and no charges were made.
           </p>
-          <button 
-            onClick={() => window.open('mailto:support@foreko.com', '_blank')}
-            className="text-white hover:text-neutral-300 transition-colors duration-200 text-sm underline"
-          >
-            Contact Support
-          </button>
+          
+          <p className="text-neutral-400 mb-8">
+            You can try again or choose a different plan at any time.
+          </p>
+          
+          {/* Information Box */}
+          <div className="bg-neutral-900/50 backdrop-blur-sm border border-neutral-700 rounded-2xl p-6 mb-8 text-left">
+            <div className="flex items-start gap-3 mb-4">
+              <IconCreditCard className="h-5 w-5 text-neutral-400 flex-shrink-0 mt-0.5" />
+              <div>
+                <h3 className="text-white font-medium mb-1">What happened?</h3>
+                <p className="text-sm text-neutral-400">
+                  The payment process was interrupted or cancelled before completion. No payment was processed.
+                </p>
+              </div>
+            </div>
+            
+            <div className="bg-neutral-800/50 rounded-lg p-4">
+              <h4 className="text-white font-medium text-sm mb-2">Next steps:</h4>
+              <ul className="text-xs text-neutral-300 space-y-1">
+                <li>• Try the payment process again</li>
+                <li>• Choose a different payment method</li>
+                <li>• Select a different subscription plan</li>
+                <li>• Contact support if you&apos;re experiencing issues</li>
+              </ul>
+            </div>
+          </div>
+          
+          {/* Action Buttons */}
+          <div className="space-y-4">
+            <Button
+              onClick={handleRetryPayment}
+              className="w-full bg-white hover:bg-neutral-100 text-black shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+            >
+              <span className="flex items-center justify-center gap-2">
+                <IconCreditCard className="h-4 w-4" />
+                Try Payment Again
+              </span>
+            </Button>
+            
+            <div className="grid grid-cols-2 gap-4">
+              <Button
+                onClick={handleBackToPlans}
+                variant="outline"
+                className="border-neutral-600 text-white hover:bg-neutral-800"
+              >
+                <span className="flex items-center justify-center gap-2">
+                  <IconArrowLeft className="h-4 w-4" />
+                  Back to Plans
+                </span>
+              </Button>
+              
+              <Button
+                onClick={handleGoToDashboard}
+                variant="outline"
+                className="border-neutral-600 text-white hover:bg-neutral-800"
+              >
+                Go to Dashboard
+              </Button>
+            </div>
+          </div>
+          
+          <p className="text-xs text-neutral-500 mt-6">
+            Need help? Contact our support team at{" "}
+            <a href="mailto:support@foreko.app" className="text-neutral-300 hover:text-white transition-colors">
+              support@foreko.app
+            </a>
+          </p>
         </div>
       </Container>
     </div>

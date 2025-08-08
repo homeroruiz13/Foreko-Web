@@ -454,6 +454,46 @@ export default function PaymentPage() {
     }, 2000);
   };
 
+  const handleCheckoutSession = async () => {
+    try {
+      const subscriptionId = searchParams.get('subscription');
+      
+      if (!subscriptionId) {
+        console.error('No subscription ID found');
+        return;
+      }
+
+      const response = await fetch('/api/stripe/create-checkout-session', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          planId: plan.id,
+          billingCycle: plan.billing,
+          subscriptionId: subscriptionId
+        }),
+      });
+
+      const data = await response.json();
+      
+      if (response.ok && data.sessionId) {
+        // Redirect to Stripe Checkout
+        const stripe = await stripePromise;
+        if (stripe) {
+          await stripe.redirectToCheckout({
+            sessionId: data.sessionId
+          });
+        }
+      } else {
+        console.error('Failed to create checkout session:', data.error);
+      }
+    } catch (error) {
+      console.error('Checkout session error:', error);
+    }
+  };
+
   if (!plan) {
     return (
       <div className="fixed inset-0 bg-charcoal z-50 flex items-center justify-center">
@@ -510,6 +550,28 @@ export default function PaymentPage() {
               <div className="bg-neutral-900/50 backdrop-blur-sm border border-neutral-700 rounded-2xl p-8">
                 <h2 className="text-2xl font-bold text-white mb-6">Payment Information</h2>
                 <PaymentForm plan={plan} onSuccess={handlePaymentSuccess} />
+                
+                {/* Alternative Payment Option */}
+                <div className="mt-8 pt-8 border-t border-neutral-700">
+                  <div className="text-center">
+                    <p className="text-neutral-400 text-sm mb-4">Or</p>
+                    <Button
+                      onClick={handleCheckoutSession}
+                      className={cn(
+                        "w-full px-6 py-3 text-base font-semibold rounded-lg transition-all duration-300",
+                        "bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg hover:shadow-xl transform hover:scale-105"
+                      )}
+                    >
+                      <span className="flex items-center justify-center gap-2">
+                        <IconCreditCard className="h-4 w-4" />
+                        Pay with Stripe Checkout
+                      </span>
+                    </Button>
+                    <p className="text-xs text-neutral-500 mt-2">
+                      Secure payment powered by Stripe (recommended)
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
 
