@@ -71,31 +71,8 @@ export async function POST(request: NextRequest) {
     try {
       // Handle free plans (amount = 0)
       if (amount === 0) {
-        // For free plans, just save the payment method if requested
-        if (save_payment_method) {
-          const setupIntent = await stripe.setupIntents.create({
-            customer: undefined, // You'd want to create/retrieve a Stripe customer here
-            payment_method: payment_method_id,
-            confirm: true,
-            usage: 'off_session',
-          });
-
-          if (setupIntent.status === 'requires_action') {
-            return NextResponse.json({
-              requires_action: true,
-              client_secret: setupIntent.client_secret,
-            });
-          }
-
-          if (setupIntent.status !== 'succeeded') {
-            return NextResponse.json(
-              { error: 'Failed to save payment method' },
-              { status: 400 }
-            );
-          }
-        }
-
-        // Update subscription status for free plan
+        // For free plans, we can skip payment method saving for test plans
+        // and just activate the subscription directly
         await SubscriptionModel.updateStatus(subscription.id, 'active');
 
         return NextResponse.json({
