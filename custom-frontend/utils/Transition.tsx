@@ -2,7 +2,11 @@ import React, { useRef, useEffect, useContext } from 'react';
 import { CSSTransition as ReactCSSTransition } from 'react-transition-group';
 
 const TransitionContext = React.createContext({
-  parent: {},
+  parent: {
+    show: false,
+    isInitialRender: true,
+    appear: false,
+  },
 })
 
 function useIsInitialRender() {
@@ -65,7 +69,7 @@ function CSSTransition({
       nodeRef={nodeRef}
       unmountOnExit={removeFromDom}
       in={show}
-      addEndListener={(done) => {
+      addEndListener={(done: () => void) => {
         nodeRef.current.addEventListener('transitionend', done, false)
       }}
       onEnter={() => {
@@ -96,7 +100,7 @@ function CSSTransition({
   )
 }
 
-function Transition({ show, appear, ...rest }: { show?: boolean; appear?: boolean; [key: string]: any }) {
+function Transition({ show, appear, children, ...rest }: { show?: boolean; appear?: boolean; children: React.ReactNode; [key: string]: any }) {
   const { parent } = useContext(TransitionContext);
   const isInitialRender = useIsInitialRender();
   const isChild = show === undefined;
@@ -107,7 +111,9 @@ function Transition({ show, appear, ...rest }: { show?: boolean; appear?: boolea
         appear={parent.appear || !parent.isInitialRender}
         show={parent.show}
         {...rest}
-      />
+      >
+        {children}
+      </CSSTransition>
     )
   }
 
@@ -115,13 +121,15 @@ function Transition({ show, appear, ...rest }: { show?: boolean; appear?: boolea
     <TransitionContext.Provider
       value={{
         parent: {
-          show,
+          show: show ?? false,
           isInitialRender,
-          appear,
+          appear: appear ?? false,
         },
       }}
     >
-      <CSSTransition appear={appear} show={show} {...rest} />
+      <CSSTransition appear={appear} show={show} {...rest}>
+        {children}
+      </CSSTransition>
     </TransitionContext.Provider>
   )
 }

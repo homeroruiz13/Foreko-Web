@@ -1,0 +1,31 @@
+/* Foreko App Styles */
+
+/* Base styles for the Foreko application */
+.foreko-app {
+  font-family: 'Inter', sans-serif;
+}
+
+/* Dashboard specific styles */
+.dashboard-container {
+  min-height: 100vh;
+  background-color: var(--background);
+}
+
+/* Layout styles */
+.layout-content {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  padding: 0;
+}
+
+/* Responsive utilities */
+@media (max-width: 768px) {
+  .main-content {
+    padding: 1rem;
+  }
+}
