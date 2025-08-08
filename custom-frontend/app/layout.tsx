@@ -2,6 +2,7 @@ import type { Viewport } from "next";
 import { Locale, i18n } from '@/i18n.config'
 
 import "./globals.css";
+import "../styles/foreko-app.css";
 
 import { SlugProvider } from "./context/SlugContext";
 

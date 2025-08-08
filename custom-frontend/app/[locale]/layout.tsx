@@ -9,6 +9,7 @@ import { CartProvider } from '@/context/cart-context';
 import { cn } from '@/lib/utils';
 import { ViewTransitions } from 'next-view-transitions';
 import { mockGlobalData } from '@/lib/mock-data';
+import DashboardAwareLayout from '@/components/DashboardAwareLayout';
 
 const inter = Inter({
     subsets: ["latin"],
@@ -46,12 +47,13 @@ export default async function LocaleLayout({
                             "bg-charcoal antialiased h-full w-full"
                         )}
                     >
-                        <Navbar data={mockGlobalData.navbar} locale={locale} />
-                        {children}
-                        <Footer data={mockGlobalData.footer} locale={locale} />
+                        <DashboardAwareLayout locale={locale} mockGlobalData={mockGlobalData}>
+                            {children}
+                        </DashboardAwareLayout>
                     </body>
                 </CartProvider>
             </ViewTransitions>
         </html>
     );
 }
+

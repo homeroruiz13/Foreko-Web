@@ -46,8 +46,8 @@ export default function PaymentSuccessPage() {
   }, [searchParams, router]);
 
   const handleContinue = () => {
-    // Redirect to dashboard or company setup
-    router.push('/company-setup');
+    // Redirect to dashboard after successful payment
+    router.push('/dashboard');
   };
 
   if (loading) {

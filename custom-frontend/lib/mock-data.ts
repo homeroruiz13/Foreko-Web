@@ -1390,7 +1390,7 @@ export const mockPages = {
           },
           {
             id: 5,
-            text: "As a sophomore Industrial Engineering student at the University of Arkansas, Harish brings fresh analytical perspectives and innovative problem-solving approaches to Foreko's operations team. His academic focus on process optimization and systems analysis directly supports our mission to streamline inventory management for small businesses. Harish combines theoretical knowledge with practical application, helping design more efficient operational workflows that enhance our platform's effectiveness.",
+            text: "Industrial Engineering student at the University of Arkansas, Harish brings fresh analytical perspectives and innovative problem-solving approaches to Foreko's operations team. His academic focus on process optimization and systems analysis directly supports our mission to streamline inventory management for small businesses. Harish combines theoretical knowledge with practical application, helping design more efficient operational workflows that enhance our platform's effectiveness.",
             user: {
               firstname: "Harish",
               lastname: "Suresh",

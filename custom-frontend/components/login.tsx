@@ -49,9 +49,9 @@ export const Login = () => {
       const data = await response.json();
 
       if (response.ok) {
-        setSuccess('Login successful! Redirecting...');
+        setSuccess('Login successful! Redirecting to dashboard...');
         setTimeout(() => {
-          router.push('/');
+          router.push('/dashboard');
         }, 1500);
       } else {
         setError(data.error || 'Something went wrong');

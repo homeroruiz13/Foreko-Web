@@ -35,6 +35,23 @@ export function middleware(request: NextRequest) {
   }
 
   const pathname = request.nextUrl.pathname
+  
+  // Check if this is a dashboard route (after locale)
+  const isDashboardRoute = pathname.match(/^\/[a-z]{2}\/dashboard/) || pathname === '/dashboard' || pathname.startsWith('/dashboard/')
+  
+  if (isDashboardRoute) {
+    const token = request.cookies.get('auth-token')?.value
+    
+    if (!token) {
+      // No token, redirect to login
+      const locale = getLocale(request)
+      return NextResponse.redirect(new URL(`/${locale}/sign-in`, request.url))
+    }
+    
+    // Note: We can't verify the token in middleware due to Edge Runtime limitations
+    // Token verification will happen in the dashboard components themselves
+  }
+  
   const pathnameIsMissingLocale = i18n.locales.every(
     locale => !pathname.startsWith(`/${locale}/`) && pathname !== `/${locale}`
   )
