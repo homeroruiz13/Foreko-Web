@@ -6,12 +6,14 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 });
 
 const pricingMap: Record<string, { monthly: number; yearly: number }> = {
+  test: { monthly: 0.01, yearly: 0.01 }, // 1 cent for testing - shows up in Stripe
   starter: { monthly: 50, yearly: 40 },
   pro: { monthly: 100, yearly: 80 },
   business: { monthly: 150, yearly: 120 }
 };
 
 const planNames: Record<string, string> = {
+  test: "Test Plan",
   starter: "Starter Inventory",
   pro: "Pro Inventory", 
   business: "Business Intelligence"
