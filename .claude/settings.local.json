@@ -10,7 +10,8 @@
       "Bash(rm:*)",
       "Bash(curl:*)",
       "Bash(npx tsc:*)",
-      "Bash(mkdir:*)"
+      "Bash(mkdir:*)",
+      "Bash(git add:*)"
     ],
     "deny": []
   }
