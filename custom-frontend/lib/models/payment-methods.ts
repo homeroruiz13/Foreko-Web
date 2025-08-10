@@ -130,7 +130,7 @@ export class PaymentMethodModel {
       'DELETE FROM billing.payment_methods WHERE id = $1',
       [id]
     );
-    return result.rowCount > 0;
+    return (result.rowCount || 0) > 0;
   }
 
   static async updateBillingAddress(id: string, billingAddress: {

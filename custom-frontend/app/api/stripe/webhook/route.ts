@@ -106,7 +106,7 @@ async function handlePaymentIntentSucceeded(event: Stripe.Event) {
     });
   } else if (invoice.status !== 'paid') {
     // Update existing invoice
-    await InvoiceModel.updateStatus(invoice.id, 'paid', paymentIntent.amount / 100);
+    await InvoiceModel.updateStatus(invoice.id!, 'paid', paymentIntent.amount / 100);
   }
 
   // Create billing event if it doesn't exist
@@ -118,7 +118,7 @@ async function handlePaymentIntentSucceeded(event: Stripe.Event) {
       payload: {
         company_id: companyId,
         subscription_id: subscriptionId,
-        invoice_id: invoice.id,
+        invoice_id: invoice.id!,
         payment_intent_id: paymentIntent.id,
         amount: paymentIntent.amount / 100,
         currency: paymentIntent.currency,
@@ -179,17 +179,17 @@ async function handleInvoicePaymentSucceeded(event: Stripe.Event) {
   }
 
   // Create or update invoice
-  let localInvoice = await InvoiceModel.findByStripeInvoiceId(invoice.id);
+  let localInvoice = await InvoiceModel.findByStripeInvoiceId(invoice.id!);
 
   if (!localInvoice) {
     localInvoice = await InvoiceModel.create({
       company_id: companyId,
-      stripe_invoice_id: invoice.id,
+      stripe_invoice_id: invoice.id!,
       amount_due: (invoice.amount_due || 0) / 100,
       amount_paid: (invoice.amount_paid || 0) / 100,
       status: 'paid',
-      hosted_invoice_url: invoice.hosted_invoice_url,
-      invoice_pdf_url: invoice.invoice_pdf,
+      hosted_invoice_url: invoice.hosted_invoice_url || undefined,
+      invoice_pdf_url: invoice.invoice_pdf || undefined,
       billing_period_start: invoice.period_start ? new Date(invoice.period_start * 1000) : new Date(),
       billing_period_end: invoice.period_end ? new Date(invoice.period_end * 1000) : new Date()
     });
@@ -203,7 +203,7 @@ async function handleInvoicePaymentSucceeded(event: Stripe.Event) {
       company_id: companyId,
       subscription_id: subscriptionId,
       invoice_id: localInvoice.id,
-      stripe_invoice_id: invoice.id,
+      stripe_invoice_id: invoice.id!,
       amount: (invoice.amount_paid || 0) / 100,
       currency: invoice.currency || 'usd',
       description: 'Invoice payment succeeded',
@@ -232,7 +232,7 @@ async function handleInvoicePaymentFailed(event: Stripe.Event) {
     payload: {
       company_id: companyId,
       subscription_id: subscriptionId,
-      stripe_invoice_id: invoice.id,
+      stripe_invoice_id: invoice.id!,
       amount: (invoice.amount_due || 0) / 100,
       currency: invoice.currency || 'usd',
       description: 'Invoice payment failed',
