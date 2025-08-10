@@ -21,11 +21,12 @@ interface Plan {
 
 const plans: Plan[] = [
   {
-    id: "00000000-0000-0000-0000-000000000000",
+    id: "test",
     name: "Test Plan",
-    monthlyPrice: 0,
-    yearlyPrice: 0,
+    monthlyPrice: 0.01,
+    yearlyPrice: 0.01,
     perks: [
+      "Only 1¢ - Real Stripe testing",
       "Track up to 10 inventory items",
       "Basic dashboard access",
       "Email support",

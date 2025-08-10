@@ -24,9 +24,10 @@ interface PlanDetails {
 }
 
 const planDetails: Record<string, { name: string; features: string[] }> = {
-  "00000000-0000-0000-0000-000000000000": {
+  test: {
     name: "Test Plan",
     features: [
+      "Only 1¢ - Real Stripe testing",
       "Track up to 10 inventory items",
       "Basic dashboard access",
       "Email support",

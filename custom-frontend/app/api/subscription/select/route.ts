@@ -71,22 +71,23 @@ export async function POST(request: NextRequest) {
       plan = await SubscriptionPlanModel.findByName('Pro Inventory');
     } else if (planId === 'business') {
       plan = await SubscriptionPlanModel.findByName('Business Intelligence');
-    } else if (planId === '00000000-0000-0000-0000-000000000000') {
+    } else if (planId === 'test') {
       // Handle test plan - check if it exists, create if it doesn't
-      plan = await SubscriptionPlanModel.findById('00000000-0000-0000-0000-000000000000');
+      plan = await SubscriptionPlanModel.findByName('Test Plan');
       if (!plan) {
-        // Create the test plan in the database with specific ID
-        plan = await SubscriptionPlanModel.createWithId('00000000-0000-0000-0000-000000000000', {
+        // Create the test plan in the database
+        plan = await SubscriptionPlanModel.create({
           name: 'Test Plan',
-          price_monthly: 0,
-          price_yearly: 0,
-          stripe_price_id: undefined,
+          price_monthly: 0.01, // 1 cent for Stripe testing
+          price_yearly: 0.01,  // 1 cent for Stripe testing
+          stripe_price_id: undefined, // Will be created dynamically by Stripe checkout
           is_active: true,
           user_limit: 10,
           features: {
             inventory_limit: 10,
             analytics: 'basic',
-            support: 'email'
+            support: 'email',
+            stripe_testing: true
           }
         });
       }
