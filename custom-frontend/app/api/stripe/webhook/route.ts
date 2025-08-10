@@ -4,6 +4,7 @@ import Stripe from 'stripe';
 import { InvoiceModel } from '@/lib/models/invoice';
 import { BillingEventModel } from '@/lib/models/billing-events';
 import { SubscriptionModel } from '@/lib/models/subscription';
+import { PaymentMethodModel } from '@/lib/models/payment-methods';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2025-07-30.basil',
@@ -64,6 +65,14 @@ export async function POST(request: NextRequest) {
 
       case 'checkout.session.completed':
         await handleCheckoutSessionCompleted(event);
+        break;
+
+      case 'payment_method.attached':
+        await handlePaymentMethodAttached(event);
+        break;
+
+      case 'setup_intent.succeeded':
+        await handleSetupIntentSucceeded(event);
         break;
 
       default:
@@ -187,11 +196,13 @@ async function handleInvoicePaymentSucceeded(event: Stripe.Event) {
       stripe_invoice_id: invoice.id!,
       amount_due: (invoice.amount_due || 0) / 100,
       amount_paid: (invoice.amount_paid || 0) / 100,
-      status: 'paid',
+      status: invoice.status || 'draft',
       hosted_invoice_url: invoice.hosted_invoice_url || undefined,
       invoice_pdf_url: invoice.invoice_pdf || undefined,
-      billing_period_start: invoice.period_start ? new Date(invoice.period_start * 1000) : new Date(),
-      billing_period_end: invoice.period_end ? new Date(invoice.period_end * 1000) : new Date()
+      billing_period_start: invoice.period_start ? new Date(invoice.period_start * 1000) : 
+        (invoice.lines?.data?.[0]?.period?.start ? new Date(invoice.lines.data[0].period.start * 1000) : new Date()),
+      billing_period_end: invoice.period_end ? new Date(invoice.period_end * 1000) : 
+        (invoice.lines?.data?.[0]?.period?.end ? new Date(invoice.lines.data[0].period.end * 1000) : new Date())
     });
   }
 
@@ -327,6 +338,9 @@ async function handleCheckoutSessionCompleted(event: Stripe.Event) {
     return;
   }
 
+  // Try to extract and save payment method data from the session
+  await extractAndSavePaymentMethodFromSession(session, companyId);
+
   // Create billing event
   await BillingEventModel.create({
     stripe_event_id: event.id,
@@ -348,6 +362,177 @@ async function handleCheckoutSessionCompleted(event: Stripe.Event) {
     const subscription = await SubscriptionModel.findById(subscriptionId);
     if (subscription && subscription.status !== 'active') {
       await SubscriptionModel.updateStatus(subscriptionId, 'active');
+    }
+  }
+}
+
+async function extractAndSavePaymentMethodFromSession(session: Stripe.Checkout.Session, companyId: string) {
+  try {
+    // Check if session has payment intent with payment method
+    if (session.payment_intent) {
+      const paymentIntent = await stripe.paymentIntents.retrieve(session.payment_intent as string, {
+        expand: ['payment_method']
+      });
+      
+      if (paymentIntent.payment_method && typeof paymentIntent.payment_method === 'object') {
+        const paymentMethod = paymentIntent.payment_method as Stripe.PaymentMethod;
+        await savePaymentMethodData(paymentMethod, companyId);
+      }
+    }
+    
+    // Check if session has setup intent with payment method  
+    if (session.setup_intent) {
+      const setupIntent = await stripe.setupIntents.retrieve(session.setup_intent as string, {
+        expand: ['payment_method']
+      });
+      
+      if (setupIntent.payment_method && typeof setupIntent.payment_method === 'object') {
+        const paymentMethod = setupIntent.payment_method as Stripe.PaymentMethod;
+        await savePaymentMethodData(paymentMethod, companyId);
+      }
+    }
+  } catch (error) {
+    console.error('Error extracting payment method from session:', error);
+  }
+}
+
+async function savePaymentMethodData(paymentMethod: Stripe.PaymentMethod, companyId: string) {
+  try {
+    // Check if payment method already exists
+    const existingPaymentMethod = await PaymentMethodModel.findByStripePaymentMethodId(paymentMethod.id);
+    if (existingPaymentMethod) {
+      console.log('Payment method already exists:', paymentMethod.id);
+      return;
+    }
+
+    // Create payment method record with Stripe data
+    await PaymentMethodModel.create({
+      company_id: companyId,
+      stripe_payment_method_id: paymentMethod.id,
+      type: paymentMethod.type,
+      last4: paymentMethod.card?.last4,
+      brand: paymentMethod.card?.brand,
+      exp_month: paymentMethod.card?.exp_month,
+      exp_year: paymentMethod.card?.exp_year,
+      is_default: false, // Will be set via separate call or determined by business logic
+      cardholder_name: paymentMethod.billing_details?.name || undefined,
+      billing_address_line1: paymentMethod.billing_details?.address?.line1 || undefined,
+      billing_address_line2: paymentMethod.billing_details?.address?.line2 || undefined,
+      billing_city: paymentMethod.billing_details?.address?.city || undefined,
+      billing_state: paymentMethod.billing_details?.address?.state || undefined,
+      billing_postal_code: paymentMethod.billing_details?.address?.postal_code || undefined,
+      billing_country: paymentMethod.billing_details?.address?.country || undefined
+    });
+
+    console.log('Successfully saved payment method from session:', paymentMethod.id);
+  } catch (error) {
+    console.error('Error saving payment method data:', error);
+  }
+}
+
+async function handlePaymentMethodAttached(event: Stripe.Event) {
+  const paymentMethod = event.data.object as Stripe.PaymentMethod;
+  console.log('Processing payment method attached:', paymentMethod.id);
+
+  // Get customer and extract company_id from metadata
+  if (!paymentMethod.customer) {
+    console.warn('Payment method has no customer associated');
+    return;
+  }
+
+  try {
+    // Fetch customer to get metadata
+    const customer = await stripe.customers.retrieve(paymentMethod.customer as string);
+    if (customer.deleted) {
+      console.warn('Customer is deleted');
+      return;
+    }
+
+    const companyId = (customer as Stripe.Customer).metadata?.company_id;
+    if (!companyId) {
+      console.warn('Customer has no company_id in metadata');
+      return;
+    }
+
+    // Check if payment method already exists
+    const existingPaymentMethod = await PaymentMethodModel.findByStripePaymentMethodId(paymentMethod.id);
+    if (existingPaymentMethod) {
+      console.log('Payment method already exists:', paymentMethod.id);
+      return;
+    }
+
+    // Create payment method record with Stripe data
+    await PaymentMethodModel.create({
+      company_id: companyId,
+      stripe_payment_method_id: paymentMethod.id,
+      type: paymentMethod.type,
+      last4: paymentMethod.card?.last4,
+      brand: paymentMethod.card?.brand,
+      exp_month: paymentMethod.card?.exp_month,
+      exp_year: paymentMethod.card?.exp_year,
+      is_default: false, // Will be set via separate call
+      cardholder_name: paymentMethod.billing_details?.name || undefined,
+      billing_address_line1: paymentMethod.billing_details?.address?.line1 || undefined,
+      billing_address_line2: paymentMethod.billing_details?.address?.line2 || undefined,
+      billing_city: paymentMethod.billing_details?.address?.city || undefined,
+      billing_state: paymentMethod.billing_details?.address?.state || undefined,
+      billing_postal_code: paymentMethod.billing_details?.address?.postal_code || undefined,
+      billing_country: paymentMethod.billing_details?.address?.country || undefined
+    });
+
+    console.log('Successfully created payment method:', paymentMethod.id);
+
+    // Create billing event
+    await BillingEventModel.create({
+      stripe_event_id: event.id,
+      event_type: 'payment_method.attached',
+      payload: {
+        company_id: companyId,
+        payment_method_id: paymentMethod.id,
+        type: paymentMethod.type,
+        card_info: {
+          last4: paymentMethod.card?.last4,
+          brand: paymentMethod.card?.brand,
+          exp_month: paymentMethod.card?.exp_month,
+          exp_year: paymentMethod.card?.exp_year
+        },
+        description: 'Payment method attached to customer',
+        raw_event_data: paymentMethod
+      }
+    });
+
+  } catch (error) {
+    console.error('Error processing payment method attached:', error);
+  }
+}
+
+async function handleSetupIntentSucceeded(event: Stripe.Event) {
+  const setupIntent = event.data.object as Stripe.SetupIntent;
+  console.log('Processing setup intent succeeded:', setupIntent.id);
+
+  // Setup intents are used to save payment methods
+  // The payment_method.attached event will handle the actual payment method creation
+  
+  if (setupIntent.payment_method && setupIntent.customer) {
+    try {
+      // If this setup intent has metadata with company info, we can create a billing event
+      const companyId = setupIntent.metadata?.company_id;
+      if (companyId) {
+        await BillingEventModel.create({
+          stripe_event_id: event.id,
+          event_type: 'setup_intent.succeeded',
+          payload: {
+            company_id: companyId,
+            setup_intent_id: setupIntent.id,
+            payment_method_id: setupIntent.payment_method,
+            customer_id: setupIntent.customer,
+            description: 'Setup intent succeeded - payment method ready',
+            raw_event_data: setupIntent
+          }
+        });
+      }
+    } catch (error) {
+      console.error('Error processing setup intent succeeded:', error);
     }
   }
 }

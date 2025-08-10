@@ -4,6 +4,7 @@ import { SubscriptionModel } from '@/lib/models/subscription';
 import { CompanyModel } from '@/lib/models/company';
 import { InvoiceModel } from '@/lib/models/invoice';
 import { BillingEventModel } from '@/lib/models/billing-events';
+import { PaymentMethodModel } from '@/lib/models/payment-methods';
 import Stripe from 'stripe';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
@@ -145,6 +146,40 @@ export async function POST(request: NextRequest) {
 
       // Payment succeeded, update subscription
       await SubscriptionModel.updateStatus(subscription.id, 'active');
+
+      // Save payment method data from Stripe if save_payment_method is true
+      if (save_payment_method && paymentIntent.payment_method) {
+        try {
+          const paymentMethod = await stripe.paymentMethods.retrieve(paymentIntent.payment_method as string);
+          
+          // Check if payment method already exists
+          const existingPaymentMethod = await PaymentMethodModel.findByStripePaymentMethodId(paymentMethod.id);
+          if (!existingPaymentMethod) {
+            await PaymentMethodModel.create({
+              company_id: company.id,
+              stripe_payment_method_id: paymentMethod.id,
+              type: paymentMethod.type,
+              last4: paymentMethod.card?.last4,
+              brand: paymentMethod.card?.brand,
+              exp_month: paymentMethod.card?.exp_month,
+              exp_year: paymentMethod.card?.exp_year,
+              is_default: set_as_default || false,
+              cardholder_name: cardholder_name || paymentMethod.billing_details?.name || undefined,
+              billing_address_line1: billing_address?.line1 || paymentMethod.billing_details?.address?.line1 || undefined,
+              billing_address_line2: billing_address?.line2 || paymentMethod.billing_details?.address?.line2 || undefined,
+              billing_city: billing_address?.city || paymentMethod.billing_details?.address?.city || undefined,
+              billing_state: billing_address?.state || paymentMethod.billing_details?.address?.state || undefined,
+              billing_postal_code: billing_address?.postal_code || paymentMethod.billing_details?.address?.postal_code || undefined,
+              billing_country: billing_address?.country || paymentMethod.billing_details?.address?.country || undefined
+            });
+            
+            console.log('Saved payment method:', paymentMethod.id);
+          }
+        } catch (error) {
+          console.error('Error saving payment method:', error);
+          // Don't fail the payment if payment method saving fails
+        }
+      }
 
       // Create invoice record
       const invoice = await InvoiceModel.create({
