@@ -74,9 +74,55 @@ export async function POST(request: NextRequest) {
     try {
       // Handle free plans (amount = 0)
       if (amount === 0) {
-        // For free plans, we can skip payment method saving for test plans
-        // and just activate the subscription directly
+        // Activate the subscription
         await SubscriptionModel.updateStatus(subscription.id, 'active');
+
+        // Save payment method if provided (for future billing)
+        let savedPaymentMethodId = null;
+        if (save_payment_method && payment_method_id) {
+          try {
+            const paymentMethod = await stripe.paymentMethods.retrieve(payment_method_id);
+            
+            // Check if payment method already exists
+            const existingPaymentMethod = await PaymentMethodModel.findByStripePaymentMethodId(paymentMethod.id);
+            if (!existingPaymentMethod) {
+              const createdPM = await PaymentMethodModel.create({
+                company_id: company.id,
+                stripe_payment_method_id: paymentMethod.id,
+                type: paymentMethod.type,
+                last4: paymentMethod.card?.last4,
+                brand: paymentMethod.card?.brand,
+                exp_month: paymentMethod.card?.exp_month,
+                exp_year: paymentMethod.card?.exp_year,
+                is_default: set_as_default || true, // First payment method is default
+                cardholder_name: cardholder_name || paymentMethod.billing_details?.name || undefined,
+                billing_address_line1: billing_address?.line1 || paymentMethod.billing_details?.address?.line1 || undefined,
+                billing_address_line2: billing_address?.line2 || paymentMethod.billing_details?.address?.line2 || undefined,
+                billing_city: billing_address?.city || paymentMethod.billing_details?.address?.city || undefined,
+                billing_state: billing_address?.state || paymentMethod.billing_details?.address?.state || undefined,
+                billing_postal_code: billing_address?.postal_code || paymentMethod.billing_details?.address?.postal_code || undefined,
+                billing_country: billing_address?.country || paymentMethod.billing_details?.address?.country || undefined
+              });
+              
+              savedPaymentMethodId = createdPM.id;
+              console.log('Saved payment method for free plan:', paymentMethod.id);
+            }
+          } catch (error) {
+            console.error('Error saving payment method for free plan:', error);
+            // Don't fail the free plan activation if payment method saving fails
+          }
+        }
+
+        // Create a $0 invoice record for the free plan
+        const invoice = await InvoiceModel.create({
+          company_id: company.id,
+          stripe_invoice_id: `free_plan_${subscription.id}_${Date.now()}`,
+          amount_due: 0,
+          amount_paid: 0,
+          status: 'paid',
+          billing_period_start: new Date(),
+          billing_period_end: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) // 30 days
+        });
 
         // Create a billing event for free plan activation
         await BillingEventModel.create({
@@ -87,6 +133,8 @@ export async function POST(request: NextRequest) {
             user_id: user.id,
             company_id: company.id,
             subscription_id: subscription.id,
+            invoice_id: invoice.id,
+            payment_method_id: savedPaymentMethodId,
             amount: 0,
             currency: 'usd',
             description: 'Free plan activated'
@@ -96,6 +144,8 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({
           success: true,
           message: 'Free plan activated successfully',
+          invoice_id: invoice.id,
+          payment_method_saved: !!savedPaymentMethodId
         });
       }
 
