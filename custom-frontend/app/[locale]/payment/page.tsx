@@ -71,6 +71,7 @@ const planDetails: Record<string, { name: string; features: string[] }> = {
 };
 
 const pricingMap: Record<string, { monthly: number; yearly: number }> = {
+  test: { monthly: 0.01, yearly: 0.01 },
   "00000000-0000-0000-0000-000000000000": { monthly: 0, yearly: 0 },
   starter: { monthly: 50, yearly: 40 },
   pro: { monthly: 100, yearly: 80 },
