@@ -23,10 +23,10 @@ const plans: Plan[] = [
   {
     id: "test",
     name: "Test Plan",
-    monthlyPrice: 0.01,
-    yearlyPrice: 0.01,
+    monthlyPrice: 0.51,
+    yearlyPrice: 0.51,
     perks: [
-      "Only 1¢ - Real Stripe testing",
+      "Only 51¢ - Real Stripe testing",
       "Track up to 10 inventory items",
       "Basic dashboard access",
       "Email support",

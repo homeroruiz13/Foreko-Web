@@ -12,7 +12,8 @@
       "Bash(npx tsc:*)",
       "Bash(mkdir:*)",
       "Bash(git add:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "mcp__ide__getDiagnostics"
     ],
     "deny": []
   }

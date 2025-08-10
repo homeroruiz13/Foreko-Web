@@ -81,8 +81,8 @@ export async function POST(request: NextRequest) {
         // Create the test plan in the database
         plan = await SubscriptionPlanModel.create({
           name: 'Test Plan',
-          price_monthly: 0.01, // 1 cent for Stripe testing
-          price_yearly: 0.01,  // 1 cent for Stripe testing
+          price_monthly: 0.51, // 51 cents for Stripe testing
+          price_yearly: 0.51,  // 51 cents for Stripe testing
           stripe_price_id: undefined, // Will be created dynamically by Stripe checkout
           is_active: true,
           user_limit: 10,

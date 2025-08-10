@@ -27,7 +27,7 @@ const planDetails: Record<string, { name: string; features: string[] }> = {
   test: {
     name: "Test Plan",
     features: [
-      "Only 1¢ - Real Stripe testing",
+      "Only 51¢ - Real Stripe testing",
       "Track up to 10 inventory items",
       "Basic dashboard access",
       "Email support",
@@ -71,7 +71,7 @@ const planDetails: Record<string, { name: string; features: string[] }> = {
 };
 
 const pricingMap: Record<string, { monthly: number; yearly: number }> = {
-  test: { monthly: 0.01, yearly: 0.01 },
+  test: { monthly: 0.51, yearly: 0.51 },
   "00000000-0000-0000-0000-000000000000": { monthly: 0, yearly: 0 },
   starter: { monthly: 50, yearly: 40 },
   pro: { monthly: 100, yearly: 80 },
