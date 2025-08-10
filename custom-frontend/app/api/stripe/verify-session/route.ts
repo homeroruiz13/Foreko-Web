@@ -1,4 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { InvoiceModel } from '@/lib/models/invoice';
+import { BillingEventModel } from '@/lib/models/billing-events';
+import { SubscriptionModel } from '@/lib/models/subscription';
 import Stripe from 'stripe';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
@@ -41,6 +44,54 @@ export async function GET(request: NextRequest) {
     const planId = session.metadata?.plan_id || '';
     const billingCycle = session.metadata?.billing_cycle || 'monthly';
     const planName = planNames[planId] || 'Unknown Plan';
+    const subscriptionId = session.metadata?.subscription_id;
+
+    // Create invoice and billing event if this is a successful payment and we have the required metadata
+    if (session.payment_status === 'paid' && subscriptionId && session.amount_total && session.amount_total > 0) {
+      try {
+        // Find the subscription to get company_id
+        const localSubscription = await SubscriptionModel.findById(subscriptionId);
+        
+        if (localSubscription) {
+          // Check if we already have an invoice for this session
+          let invoice = await InvoiceModel.findByStripeInvoiceId(session.id);
+          
+          if (!invoice) {
+            // Create invoice record
+            invoice = await InvoiceModel.create({
+              company_id: localSubscription.company_id,
+              stripe_invoice_id: session.id,
+              amount_due: session.amount_total / 100,
+              amount_paid: session.amount_total / 100,
+              status: 'paid',
+              billing_period_start: new Date(),
+              billing_period_end: new Date(Date.now() + (billingCycle === 'yearly' ? 365 : 30) * 24 * 60 * 60 * 1000)
+            });
+
+            // Create billing event
+            await BillingEventModel.create({
+              stripe_event_id: session.id,
+              event_type: 'checkout.session.completed',
+              payload: {
+                company_id: localSubscription.company_id,
+                subscription_id: subscriptionId,
+                invoice_id: invoice.id,
+                amount: session.amount_total / 100,
+                currency: session.currency || 'usd',
+                description: 'Checkout session completed successfully',
+                metadata: session.metadata,
+                raw_event_data: session
+              }
+            });
+
+            console.log('Created invoice and billing event for session:', session.id);
+          }
+        }
+      } catch (error) {
+        console.error('Error creating invoice/billing event for session:', session.id, error);
+        // Don't fail the response, just log the error
+      }
+    }
 
     return NextResponse.json({
       sessionId: session.id,

@@ -35,14 +35,14 @@ export interface CreateSubscriptionData {
 export class SubscriptionPlanModel {
   static async findAll(): Promise<SubscriptionPlan[]> {
     const result = await query(
-      'SELECT * FROM subscription_plans WHERE is_active = TRUE ORDER BY price_monthly ASC'
+      'SELECT * FROM subscriptions.subscription_plans WHERE is_active = TRUE ORDER BY price_monthly ASC'
     );
     return result.rows;
   }
 
   static async findById(id: string): Promise<SubscriptionPlan | null> {
     const result = await query(
-      'SELECT * FROM subscription_plans WHERE id = $1 AND is_active = TRUE',
+      'SELECT * FROM subscriptions.subscription_plans WHERE id = $1 AND is_active = TRUE',
       [id]
     );
     return result.rows[0] || null;
@@ -50,7 +50,7 @@ export class SubscriptionPlanModel {
 
   static async findByName(name: string): Promise<SubscriptionPlan | null> {
     const result = await query(
-      'SELECT * FROM subscription_plans WHERE name = $1 AND is_active = TRUE',
+      'SELECT * FROM subscriptions.subscription_plans WHERE name = $1 AND is_active = TRUE',
       [name]
     );
     return result.rows[0] || null;
@@ -58,7 +58,7 @@ export class SubscriptionPlanModel {
 
   static async create(planData: Omit<SubscriptionPlan, 'id' | 'created_at' | 'updated_at'>): Promise<SubscriptionPlan> {
     const result = await query(
-      `INSERT INTO subscription_plans (name, price_monthly, price_yearly, stripe_price_id, is_active, user_limit, features, created_at, updated_at)
+      `INSERT INTO subscriptions.subscription_plans (name, price_monthly, price_yearly, stripe_price_id, is_active, user_limit, features, created_at, updated_at)
        VALUES ($1, $2, $3, $4, $5, $6, $7, NOW(), NOW())
        RETURNING *`,
       [
@@ -76,7 +76,7 @@ export class SubscriptionPlanModel {
 
   static async createWithId(id: string, planData: Omit<SubscriptionPlan, 'id' | 'created_at' | 'updated_at'>): Promise<SubscriptionPlan> {
     const result = await query(
-      `INSERT INTO subscription_plans (id, name, price_monthly, price_yearly, stripe_price_id, is_active, user_limit, features, created_at, updated_at)
+      `INSERT INTO subscriptions.subscription_plans (id, name, price_monthly, price_yearly, stripe_price_id, is_active, user_limit, features, created_at, updated_at)
        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, NOW(), NOW())
        RETURNING *`,
       [
@@ -97,7 +97,7 @@ export class SubscriptionPlanModel {
 export class SubscriptionModel {
   static async create(subscriptionData: CreateSubscriptionData): Promise<Subscription> {
     const result = await query(
-      `INSERT INTO subscriptions (company_id, plan_id, stripe_subscription_id, status, trial_ends_at, renews_at, created_at, updated_at)
+      `INSERT INTO subscriptions.subscriptions (company_id, plan_id, stripe_subscription_id, status, trial_ends_at, renews_at, created_at, updated_at)
        VALUES ($1, $2, $3, $4, $5, $6, NOW(), NOW())
        RETURNING *`,
       [
@@ -114,7 +114,7 @@ export class SubscriptionModel {
 
   static async findByCompanyId(companyId: string): Promise<Subscription | null> {
     const result = await query(
-      'SELECT * FROM subscriptions WHERE company_id = $1 ORDER BY created_at DESC LIMIT 1',
+      'SELECT * FROM subscriptions.subscriptions WHERE company_id = $1 ORDER BY created_at DESC LIMIT 1',
       [companyId]
     );
     return result.rows[0] || null;
@@ -122,15 +122,23 @@ export class SubscriptionModel {
 
   static async findById(id: string): Promise<Subscription | null> {
     const result = await query(
-      'SELECT * FROM subscriptions WHERE id = $1',
+      'SELECT * FROM subscriptions.subscriptions WHERE id = $1',
       [id]
+    );
+    return result.rows[0] || null;
+  }
+
+  static async findByStripeSubscriptionId(stripeSubscriptionId: string): Promise<Subscription | null> {
+    const result = await query(
+      'SELECT * FROM subscriptions.subscriptions WHERE stripe_subscription_id = $1',
+      [stripeSubscriptionId]
     );
     return result.rows[0] || null;
   }
 
   static async updateStatus(id: string, status: string, renewsAt?: Date): Promise<Subscription> {
     const result = await query(
-      'UPDATE subscriptions SET status = $1, renews_at = $2, updated_at = NOW() WHERE id = $3 RETURNING *',
+      'UPDATE subscriptions.subscriptions SET status = $1, renews_at = $2, updated_at = NOW() WHERE id = $3 RETURNING *',
       [status, renewsAt, id]
     );
     return result.rows[0];
@@ -139,8 +147,8 @@ export class SubscriptionModel {
   static async getSubscriptionWithPlan(companyId: string): Promise<(Subscription & SubscriptionPlan) | null> {
     const result = await query(
       `SELECT s.*, sp.name as plan_name, sp.price_monthly, sp.price_yearly, sp.features, sp.user_limit
-       FROM subscriptions s
-       JOIN subscription_plans sp ON s.plan_id = sp.id
+       FROM subscriptions.subscriptions s
+       JOIN subscriptions.subscription_plans sp ON s.plan_id = sp.id
        WHERE s.company_id = $1
        ORDER BY s.created_at DESC
        LIMIT 1`,
