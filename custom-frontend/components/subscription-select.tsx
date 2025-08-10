@@ -90,7 +90,7 @@ export const SubscriptionSelect = () => {
   };
 
   const handleContinueToPayment = async () => {
-    if (!selectedPlan) return;
+    if (!selectedPlan || loading) return; // Prevent double submission
     
     console.log('Starting payment process with plan:', selectedPlan);
     setLoading(true);
@@ -121,15 +121,16 @@ export const SubscriptionSelect = () => {
         router.push(paymentUrl);
       } else {
         console.error('Subscription selection failed:', data.error);
-        // You could show an error message to the user here
+        // Show error message to the user
         alert(data.error || 'Failed to select subscription plan');
+        setLoading(false); // Re-enable the button on error
       }
     } catch (error) {
       console.error('Error:', error);
       alert('Network error. Please try again.');
-    } finally {
-      setLoading(false);
+      setLoading(false); // Re-enable the button on error
     }
+    // Note: Don't setLoading(false) in finally for successful case to prevent double-clicks during redirect
   };
 
   return (

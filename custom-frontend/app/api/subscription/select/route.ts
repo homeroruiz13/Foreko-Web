@@ -57,10 +57,13 @@ export async function POST(request: NextRequest) {
     // Check if company already has a subscription
     const existingSubscription = await SubscriptionModel.findByCompanyId(company.id);
     if (existingSubscription) {
-      return NextResponse.json(
-        { error: 'Company already has an active subscription' },
-        { status: 400 }
-      );
+      // If subscription already exists, return it instead of error
+      // This handles double-click or refresh scenarios gracefully
+      console.log('Company already has subscription, returning existing:', existingSubscription.id);
+      return NextResponse.json({
+        message: 'Using existing subscription',
+        subscription: existingSubscription
+      }, { status: 200 });
     }
 
     // Verify the plan exists
