@@ -170,7 +170,7 @@ async function handleInvoicePaymentSucceeded(event: Stripe.Event) {
   const invoice = event.data.object as Stripe.Invoice;
   console.log('Processing invoice payment succeeded:', invoice.id);
 
-  const subscriptionId = typeof invoice.subscription === 'string' ? invoice.subscription : invoice.subscription?.id;
+  const subscriptionId = (invoice as any).subscription as string;
   const companyId = invoice.metadata?.company_id;
 
   if (!subscriptionId || !companyId) {
@@ -217,7 +217,7 @@ async function handleInvoicePaymentFailed(event: Stripe.Event) {
   const invoice = event.data.object as Stripe.Invoice;
   console.log('Processing invoice payment failed:', invoice.id);
 
-  const subscriptionId = typeof invoice.subscription === 'string' ? invoice.subscription : invoice.subscription?.id;
+  const subscriptionId = (invoice as any).subscription as string;
   const companyId = invoice.metadata?.company_id;
 
   if (!subscriptionId || !companyId) {
