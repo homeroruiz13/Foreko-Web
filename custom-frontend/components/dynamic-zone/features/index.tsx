@@ -74,10 +74,6 @@ export const Features = ({ heading, sub_heading, globe_card, ray_card, graph_car
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 py-10">
           {globe_card && (
             <Card className="md:col-span-1" >
-              <CardTitle>{globe_card.title}</CardTitle>
-              <CardDescription>
-                {globe_card.description}
-              </CardDescription>
               <CardSkeletonContainer>
                 <React.Suspense fallback={<div className="w-full h-full bg-gray-800 animate-pulse rounded-lg" />}>
                   <ErrorBoundary>
@@ -85,6 +81,10 @@ export const Features = ({ heading, sub_heading, globe_card, ray_card, graph_car
                   </ErrorBoundary>
                 </React.Suspense>
               </CardSkeletonContainer>
+              <CardTitle>{globe_card.title}</CardTitle>
+              <CardDescription>
+                {globe_card.description}
+              </CardDescription>
             </Card>
           )}
 
