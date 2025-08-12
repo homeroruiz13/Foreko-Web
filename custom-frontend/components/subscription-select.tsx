@@ -134,33 +134,33 @@ export const SubscriptionSelect = () => {
   };
 
   return (
-    <div className="fixed inset-0 bg-charcoal z-50 overflow-hidden">
+    <div className="min-h-screen bg-charcoal overflow-x-hidden">
       <AmbientColor />
       <StarBackground />
       <ShootingStars />
       
-      <Container className="relative h-screen max-w-6xl mx-auto flex flex-col items-center justify-center px-8 z-10">
+      <Container className="relative min-h-screen max-w-7xl mx-auto flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 py-12 z-10">
         <div className="mb-8">
           <Logo />
         </div>
         
         {/* Welcome section */}
-        <div className="text-center mb-12 max-w-3xl">
-          <h1 className="text-3xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-white to-neutral-300 bg-clip-text text-transparent">
+        <div className="text-center mb-8 sm:mb-12 max-w-4xl">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 bg-gradient-to-r from-white to-neutral-300 bg-clip-text text-transparent">
             Choose Your Plan
           </h1>
-          <p className="text-lg text-neutral-300 mb-2">
+          <p className="text-base sm:text-lg text-neutral-300 mb-2">
             Select the perfect inventory management solution
           </p>
-          <p className="text-lg text-neutral-300 mb-6">
+          <p className="text-base sm:text-lg text-neutral-300 mb-6">
             for your business needs and budget
           </p>
           <div className="w-24 h-1 bg-gradient-to-r from-neutral-400 to-neutral-600 mx-auto rounded-full"></div>
         </div>
 
         {/* Billing Toggle */}
-        <div className="flex items-center justify-center mb-10">
-          <div className="bg-neutral-900/50 backdrop-blur-sm border border-neutral-700 rounded-xl p-2 flex items-center gap-2">
+        <div className="flex items-center justify-center mb-6 sm:mb-10">
+          <div className="bg-neutral-900/50 backdrop-blur-sm border border-neutral-700 rounded-xl p-1.5 sm:p-2 flex items-center gap-1 sm:gap-2">
             <button
               onClick={() => setIsYearly(false)}
               className={cn(
@@ -190,14 +190,14 @@ export const SubscriptionSelect = () => {
         </div>
 
         {/* Pricing Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 w-full max-w-6xl mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 w-full max-w-7xl mb-8 sm:mb-12">
           {plans.map((plan) => (
             <div
               key={plan.id}
               onClick={() => handlePlanSelect(plan.id)}
               className={cn(
                 "cursor-pointer transition-all duration-300 transform hover:scale-105",
-                "p-6 rounded-2xl border-2 bg-neutral-900/50 backdrop-blur-sm",
+                "p-4 sm:p-6 rounded-2xl border-2 bg-neutral-900/50 backdrop-blur-sm",
                 selectedPlan === plan.id 
                   ? "border-white bg-neutral-800/50 shadow-2xl" 
                   : "border-neutral-700 hover:border-neutral-600",
@@ -205,8 +205,8 @@ export const SubscriptionSelect = () => {
               )}
             >
               {/* Plan Header */}
-              <div className="flex justify-between items-center mb-6">
-                <h3 className="text-xl font-bold text-white">{plan.name}</h3>
+              <div className="flex justify-between items-center mb-4 sm:mb-6">
+                <h3 className="text-lg sm:text-xl font-bold text-white">{plan.name}</h3>
                 {plan.featured && (
                   <div className="bg-white text-black text-xs px-3 py-1 rounded-full font-medium">
                     Featured
@@ -220,13 +220,13 @@ export const SubscriptionSelect = () => {
               </div>
 
               {/* Price */}
-              <div className="mb-8">
+              <div className="mb-6 sm:mb-8">
                 <div className="flex items-baseline gap-1">
-                  <span className="text-lg font-bold text-neutral-400">$</span>
-                  <span className="text-4xl font-bold text-white">
+                  <span className="text-base sm:text-lg font-bold text-neutral-400">$</span>
+                  <span className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white">
                     {isYearly ? plan.yearlyPrice : plan.monthlyPrice}
                   </span>
-                  <span className="text-lg text-neutral-400">
+                  <span className="text-sm sm:text-lg text-neutral-400">
                     / {isYearly ? 'month' : 'month'}
                   </span>
                 </div>
