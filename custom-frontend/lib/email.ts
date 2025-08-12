@@ -85,7 +85,7 @@ class EmailService {
   }
 
   async sendVerificationEmail(email: string, name: string, token: string): Promise<boolean> {
-    const verificationUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/en/verify-email?token=${token}&email=${encodeURIComponent(email)}`;
+    const verificationUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.foreko.app'}/en/verify-email?token=${token}&email=${encodeURIComponent(email)}`;
     
     const html = `
       <!DOCTYPE html>
@@ -162,7 +162,7 @@ class EmailService {
   }
 
   async sendPasswordResetEmail(email: string, name: string, token: string): Promise<boolean> {
-    const resetUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/en/reset-password?token=${token}&email=${encodeURIComponent(email)}`;
+    const resetUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.foreko.app'}/en/reset-password?token=${token}&email=${encodeURIComponent(email)}`;
     
     const html = `
       <!DOCTYPE html>
