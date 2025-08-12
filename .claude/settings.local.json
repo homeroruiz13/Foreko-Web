@@ -13,7 +13,15 @@
       "Bash(mkdir:*)",
       "Bash(git add:*)",
       "Bash(git commit:*)",
-      "mcp__ide__getDiagnostics"
+      "mcp__ide__getDiagnostics",
+      "Bash(cd:*)",
+      "Bash(psql:*)",
+      "Bash(cat:*)",
+      "Bash(lsof:*)",
+      "Bash(kill:*)",
+      "Bash(PORT=3001 npm run dev)",
+      "Bash(pkill:*)",
+      "Bash(node:*)"
     ],
     "deny": []
   }

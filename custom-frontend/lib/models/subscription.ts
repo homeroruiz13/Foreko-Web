@@ -3,12 +3,18 @@ import { query } from '../db';
 export interface SubscriptionPlan {
   id: string;
   name: string;
+  description?: string;
   price_monthly?: number;
   price_yearly?: number;
-  stripe_price_id?: string;
+  stripe_price_monthly_id?: string;
+  stripe_price_yearly_id?: string;
+  stripe_product_id?: string;
   is_active: boolean;
   user_limit?: number;
+  storage_limit_gb?: number;
   features?: any;
+  trial_days?: number;
+  display_order?: number;
   created_at: Date;
   updated_at: Date;
 }
@@ -35,7 +41,7 @@ export interface CreateSubscriptionData {
 export class SubscriptionPlanModel {
   static async findAll(): Promise<SubscriptionPlan[]> {
     const result = await query(
-      'SELECT * FROM subscriptions.subscription_plans WHERE is_active = TRUE ORDER BY price_monthly ASC'
+      'SELECT * FROM subscriptions.subscription_plans WHERE is_active = TRUE ORDER BY display_order ASC, price_monthly ASC'
     );
     return result.rows;
   }
@@ -58,17 +64,23 @@ export class SubscriptionPlanModel {
 
   static async create(planData: Omit<SubscriptionPlan, 'id' | 'created_at' | 'updated_at'>): Promise<SubscriptionPlan> {
     const result = await query(
-      `INSERT INTO subscriptions.subscription_plans (name, price_monthly, price_yearly, stripe_price_id, is_active, user_limit, features, created_at, updated_at)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, NOW(), NOW())
+      `INSERT INTO subscriptions.subscription_plans (name, description, price_monthly, price_yearly, stripe_price_monthly_id, stripe_price_yearly_id, stripe_product_id, is_active, user_limit, storage_limit_gb, features, trial_days, display_order, created_at, updated_at)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, NOW(), NOW())
        RETURNING *`,
       [
         planData.name,
+        planData.description,
         planData.price_monthly,
         planData.price_yearly,
-        planData.stripe_price_id,
+        planData.stripe_price_monthly_id,
+        planData.stripe_price_yearly_id,
+        planData.stripe_product_id,
         planData.is_active,
         planData.user_limit,
-        planData.features ? JSON.stringify(planData.features) : null
+        planData.storage_limit_gb,
+        planData.features ? JSON.stringify(planData.features) : null,
+        planData.trial_days,
+        planData.display_order
       ]
     );
     return result.rows[0];
@@ -76,18 +88,24 @@ export class SubscriptionPlanModel {
 
   static async createWithId(id: string, planData: Omit<SubscriptionPlan, 'id' | 'created_at' | 'updated_at'>): Promise<SubscriptionPlan> {
     const result = await query(
-      `INSERT INTO subscriptions.subscription_plans (id, name, price_monthly, price_yearly, stripe_price_id, is_active, user_limit, features, created_at, updated_at)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, NOW(), NOW())
+      `INSERT INTO subscriptions.subscription_plans (id, name, description, price_monthly, price_yearly, stripe_price_monthly_id, stripe_price_yearly_id, stripe_product_id, is_active, user_limit, storage_limit_gb, features, trial_days, display_order, created_at, updated_at)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, NOW(), NOW())
        RETURNING *`,
       [
         id,
         planData.name,
+        planData.description,
         planData.price_monthly,
         planData.price_yearly,
-        planData.stripe_price_id,
+        planData.stripe_price_monthly_id,
+        planData.stripe_price_yearly_id,
+        planData.stripe_product_id,
         planData.is_active,
         planData.user_limit,
-        planData.features ? JSON.stringify(planData.features) : null
+        planData.storage_limit_gb,
+        planData.features ? JSON.stringify(planData.features) : null,
+        planData.trial_days,
+        planData.display_order
       ]
     );
     return result.rows[0];
@@ -146,7 +164,7 @@ export class SubscriptionModel {
 
   static async getSubscriptionWithPlan(companyId: string): Promise<(Subscription & SubscriptionPlan) | null> {
     const result = await query(
-      `SELECT s.*, sp.name as plan_name, sp.price_monthly, sp.price_yearly, sp.features, sp.user_limit
+      `SELECT s.*, sp.name as plan_name, sp.description, sp.price_monthly, sp.price_yearly, sp.features, sp.user_limit, sp.storage_limit_gb, sp.trial_days
        FROM subscriptions.subscriptions s
        JOIN subscriptions.subscription_plans sp ON s.plan_id = sp.id
        WHERE s.company_id = $1

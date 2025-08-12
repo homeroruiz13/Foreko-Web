@@ -47,9 +47,11 @@ export const Register = () => {
       const data = await response.json();
 
       if (response.ok) {
-        setSuccess('Account created successfully! Redirecting...');
+        setSuccess('Account created successfully! Check your email to verify your account.');
+        // Store email in localStorage as backup for verification page
+        localStorage.setItem('pendingVerificationEmail', formData.email);
         setTimeout(() => {
-          router.push('/company-setup');
+          router.push(`/verify-email?email=${encodeURIComponent(formData.email)}`);
         }, 2000);
       } else {
         setError(data.error || 'Something went wrong');
@@ -67,7 +69,7 @@ export const Register = () => {
         Create a Foreko Account
       </h1>
       <p className="text-neutral-400 text-center mb-4">
-        One last step before starting your free trial
+        Create your account to start your free trial
       </p>
 
       {error && (

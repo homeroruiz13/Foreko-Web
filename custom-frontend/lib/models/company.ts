@@ -34,7 +34,7 @@ export class CompanyModel {
       
       // Create the company
       const companyResult = await query(
-        `INSERT INTO organization.companies (name, industry, created_at, updated_at) 
+        `INSERT INTO org.companies (name, industry, created_at, updated_at) 
          VALUES ($1, $2, NOW(), NOW()) 
          RETURNING id, name, industry, stripe_customer_id, created_at, updated_at`,
         [name, industry || null]
@@ -47,7 +47,7 @@ export class CompanyModel {
       
       // Create user-company relationship
       const userCompanyResult = await query(
-        `INSERT INTO organization.user_companies (user_id, company_id, role, created_at, updated_at) 
+        `INSERT INTO org.user_companies (user_id, company_id, role, created_at, updated_at) 
          VALUES ($1, $2, $3, NOW(), NOW()) 
          RETURNING id, user_id, company_id, role, created_at, updated_at`,
         [userId, company.id, role]
@@ -69,8 +69,8 @@ export class CompanyModel {
   static async findByUserId(userId: string): Promise<(Company & { role: string })[]> {
     const result = await query(
       `SELECT c.id, c.name, c.industry, c.stripe_customer_id, c.created_at, c.updated_at, uc.role 
-       FROM organization.companies c 
-       JOIN organization.user_companies uc ON c.id = uc.company_id 
+       FROM org.companies c 
+       JOIN org.user_companies uc ON c.id = uc.company_id 
        WHERE uc.user_id = $1`,
       [userId]
     );
@@ -80,7 +80,7 @@ export class CompanyModel {
 
   static async findById(companyId: string): Promise<Company | null> {
     const result = await query(
-      'SELECT id, name, industry, stripe_customer_id, created_at, updated_at FROM organization.companies WHERE id = $1',
+      'SELECT id, name, industry, stripe_customer_id, created_at, updated_at FROM org.companies WHERE id = $1',
       [companyId]
     );
 
@@ -89,7 +89,7 @@ export class CompanyModel {
 
   static async getUserCompanyRole(userId: string, companyId: string): Promise<string | null> {
     const result = await query(
-      'SELECT role FROM organization.user_companies WHERE user_id = $1 AND company_id = $2',
+      'SELECT role FROM org.user_companies WHERE user_id = $1 AND company_id = $2',
       [userId, companyId]
     );
 

@@ -1,5 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { UserModel } from '@/lib/models/user';
+import { EmailVerificationModel } from '@/lib/models/email-verification';
+import { emailService } from '@/lib/email';
+import { SecurityUtils } from '@/lib/utils/security';
+import { getClientIP } from '@/lib/auth-session';
 
 export async function POST(request: NextRequest) {
   try {
@@ -39,30 +43,47 @@ export async function POST(request: NextRequest) {
 
     // Create user
     const user = await UserModel.createUser({ name, email, password });
-    const token = UserModel.generateToken(user);
-
-    // Set httpOnly cookie
-    const response = NextResponse.json(
+    
+    // Log user signup
+    const ipAddress = getClientIP(request);
+    await SecurityUtils.logSecurityEvent(
+      user.id, null,
+      'user_signup',
       { 
-        message: 'User created successfully',
+        email,
+        name,
+        userAgent: request.headers.get('user-agent')
+      },
+      ipAddress
+    );
+    
+    // Create email verification
+    const verification = await EmailVerificationModel.create(user.id);
+    
+    // Send verification email
+    const emailSent = await emailService.sendVerificationEmail(
+      user.email,
+      user.name,
+      verification.token
+    );
+
+    if (!emailSent) {
+      console.error('Failed to send verification email to:', email);
+    }
+
+    return NextResponse.json(
+      { 
+        message: 'User created successfully. Please check your email to verify your account.',
         user: {
           id: user.id,
           name: user.name,
           email: user.email,
           status: user.status
-        }
+        },
+        emailSent
       },
       { status: 201 }
     );
-
-    response.cookies.set('auth-token', token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      maxAge: 60 * 60 * 24 * 7 // 7 days
-    });
-
-    return response;
   } catch (error) {
     console.error('Signup error:', error);
     

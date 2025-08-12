@@ -37,7 +37,7 @@ export class UserModel {
     const passwordHash = await bcrypt.hash(password, 12);
     
     const result = await query(
-      `INSERT INTO authentication.users (name, email, password_hash, status, created_at, updated_at) 
+      `INSERT INTO auth.users (name, email, password_hash, status, created_at, updated_at) 
        VALUES ($1, $2, $3, $4, NOW(), NOW()) 
        RETURNING id, name, email, status, email_verified_at, last_login_at, created_at, updated_at`,
       [name, email, passwordHash, 'pending']
@@ -48,7 +48,7 @@ export class UserModel {
 
   static async findByEmail(email: string): Promise<User | null> {
     const result = await query(
-      'SELECT id, name, email, password_hash, status, email_verified_at, last_login_at, created_at, updated_at FROM authentication.users WHERE email = $1',
+      'SELECT id, name, email, password_hash, status, email_verified_at, last_login_at, created_at, updated_at FROM auth.users WHERE email = $1',
       [email]
     );
 
@@ -57,7 +57,7 @@ export class UserModel {
 
   static async findById(id: string): Promise<User | null> {
     const result = await query(
-      'SELECT id, name, email, status, email_verified_at, last_login_at, created_at, updated_at FROM authentication.users WHERE id = $1',
+      'SELECT id, name, email, status, email_verified_at, last_login_at, created_at, updated_at FROM auth.users WHERE id = $1',
       [id]
     );
 
@@ -68,7 +68,7 @@ export class UserModel {
     const { email, password } = loginData;
     
     const result = await query(
-      'SELECT id, name, email, password_hash, status, email_verified_at, last_login_at, created_at, updated_at FROM authentication.users WHERE email = $1',
+      'SELECT id, name, email, password_hash, status, email_verified_at, last_login_at, created_at, updated_at FROM auth.users WHERE email = $1',
       [email]
     );
 
@@ -84,7 +84,7 @@ export class UserModel {
 
     // Update last login
     await query(
-      'UPDATE authentication.users SET last_login_at = NOW(), updated_at = NOW() WHERE id = $1',
+      'UPDATE auth.users SET last_login_at = NOW(), updated_at = NOW() WHERE id = $1',
       [user.id]
     );
 

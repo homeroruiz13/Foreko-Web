@@ -38,6 +38,20 @@ export const CompanySetup = () => {
     }
 
     try {
+      // First check if user is authenticated
+      const authCheck = await fetch('/api/debug/auth', {
+        method: 'GET',
+        credentials: 'include',
+      });
+      const authData = await authCheck.json();
+      
+      if (!authData.hasToken || !authData.tokenValid) {
+        setError('Authentication expired. Please log in again.');
+        // Redirect to login after a delay
+        setTimeout(() => router.push('/sign-in'), 2000);
+        return;
+      }
+      
       const response = await fetch('/api/company/setup', {
         method: 'POST',
         headers: {
@@ -57,7 +71,12 @@ export const CompanySetup = () => {
         // Company setup successful, redirect to subscription selection
         router.push('/subscription');
       } else {
-        setError(data.error || 'Something went wrong. Please try again.');
+        if (response.status === 401) {
+          setError('Authentication expired. Please log in again.');
+          setTimeout(() => router.push('/sign-in'), 2000);
+        } else {
+          setError(data.error || 'Something went wrong. Please try again.');
+        }
       }
     } catch (error) {
       console.error('Company setup error:', error);

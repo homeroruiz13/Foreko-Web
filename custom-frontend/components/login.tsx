@@ -34,16 +34,22 @@ export const Login = () => {
     setError('');
     setSuccess('');
 
+    console.log('Remember me value:', formData.rememberMe);
+
     try {
+      const payload = {
+        email: formData.email,
+        password: formData.password,
+        rememberMe: formData.rememberMe
+      };
+      console.log('Sending payload:', payload);
+
       const response = await fetch('/api/auth/signin', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          email: formData.email,
-          password: formData.password
-        }),
+        body: JSON.stringify(payload),
       });
 
       const data = await response.json();
@@ -106,14 +112,14 @@ export const Login = () => {
           className="h-10 pl-4 w-full mb-4 rounded-md text-sm bg-charcoal border border-neutral-800 text-white placeholder-neutral-500 outline-none focus:outline-none active:outline-none focus:ring-2 focus:ring-neutral-800 disabled:opacity-50"
         />
         <div className="flex items-center justify-between mb-4">
-          <label className="flex items-center space-x-2 text-sm text-neutral-400">
+          <label className="flex items-center space-x-2 text-sm text-neutral-400 cursor-pointer">
             <input 
               type="checkbox" 
               name="rememberMe"
               checked={formData.rememberMe}
               onChange={handleInputChange}
               disabled={loading}
-              className="rounded border-neutral-800 bg-charcoal disabled:opacity-50" 
+              className="w-4 h-4 rounded border-2 border-neutral-600 bg-charcoal text-blue-400 focus:ring-2 focus:ring-blue-400 focus:ring-offset-0 disabled:opacity-50" 
             />
             <span>Remember me</span>
           </label>
