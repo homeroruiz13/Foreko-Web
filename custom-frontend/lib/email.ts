@@ -11,21 +11,49 @@ class EmailService {
   private transporter: nodemailer.Transporter;
 
   constructor() {
+    // Validate required environment variables
+    const smtpHost = process.env.SMTP_HOST;
+    const smtpUser = process.env.SMTP_USER;
+    const smtpPassword = process.env.SMTP_PASSWORD;
+
+    if (!smtpHost || !smtpUser || !smtpPassword) {
+      console.error('Missing required SMTP environment variables:', {
+        SMTP_HOST: !!smtpHost,
+        SMTP_USER: !!smtpUser,
+        SMTP_PASSWORD: !!smtpPassword,
+      });
+      throw new Error('SMTP configuration is incomplete. Please check environment variables.');
+    }
+
     this.transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
+      host: smtpHost,
       port: parseInt(process.env.SMTP_PORT || '587'),
       secure: process.env.SMTP_SECURE === 'true',
       auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASSWORD,
+        user: smtpUser,
+        pass: smtpPassword,
       },
     });
   }
 
   async sendEmail(options: EmailOptions): Promise<boolean> {
     try {
+      // Validate from address
+      const fromAddress = process.env.EMAIL_FROM_ADDRESS;
+      if (!fromAddress) {
+        throw new Error('EMAIL_FROM_ADDRESS environment variable is required');
+      }
+
+      console.log('Attempting to send email:', {
+        to: options.to,
+        subject: options.subject,
+        from: fromAddress,
+        smtpHost: process.env.SMTP_HOST,
+        smtpPort: process.env.SMTP_PORT,
+      });
+
       const info = await this.transporter.sendMail({
-        from: `"${process.env.EMAIL_FROM_NAME || 'Foreko'}" <${process.env.EMAIL_FROM_ADDRESS}>`,
+        from: `"${process.env.EMAIL_FROM_NAME || 'Foreko'}" <${fromAddress}>`,
         to: options.to,
         subject: options.subject,
         text: options.text,
@@ -36,6 +64,13 @@ class EmailService {
       return true;
     } catch (error) {
       console.error('Error sending email:', error);
+      console.error('SMTP Configuration:', {
+        host: process.env.SMTP_HOST,
+        port: process.env.SMTP_PORT,
+        user: process.env.SMTP_USER ? '***SET***' : 'NOT SET',
+        password: process.env.SMTP_PASSWORD ? '***SET***' : 'NOT SET',
+        fromAddress: process.env.EMAIL_FROM_ADDRESS ? '***SET***' : 'NOT SET',
+      });
       return false;
     }
   }
