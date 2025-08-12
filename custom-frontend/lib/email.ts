@@ -8,9 +8,13 @@ interface EmailOptions {
 }
 
 class EmailService {
-  private transporter: nodemailer.Transporter;
+  private transporter: nodemailer.Transporter | null = null;
 
-  constructor() {
+  private initializeTransporter(): nodemailer.Transporter {
+    if (this.transporter) {
+      return this.transporter;
+    }
+
     // Validate required environment variables
     const smtpHost = process.env.SMTP_HOST;
     const smtpUser = process.env.SMTP_USER;
@@ -34,10 +38,15 @@ class EmailService {
         pass: smtpPassword,
       },
     });
+
+    return this.transporter;
   }
 
   async sendEmail(options: EmailOptions): Promise<boolean> {
     try {
+      // Initialize transporter only when needed
+      const transporter = this.initializeTransporter();
+      
       // Validate from address
       const fromAddress = process.env.EMAIL_FROM_ADDRESS;
       if (!fromAddress) {
@@ -52,7 +61,7 @@ class EmailService {
         smtpPort: process.env.SMTP_PORT,
       });
 
-      const info = await this.transporter.sendMail({
+      const info = await transporter.sendMail({
         from: `"${process.env.EMAIL_FROM_NAME || 'Foreko'}" <${fromAddress}>`,
         to: options.to,
         subject: options.subject,
