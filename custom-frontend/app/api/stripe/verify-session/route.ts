@@ -58,14 +58,23 @@ export async function GET(request: NextRequest) {
           
           if (!invoice) {
             // Create invoice record
+            const amountInDollars = session.amount_total / 100;
             invoice = await InvoiceModel.create({
               company_id: localSubscription.company_id,
+              subscription_id: localSubscription.id,
               stripe_invoice_id: session.id,
-              amount_due: session.amount_total / 100,
-              amount_paid: session.amount_total / 100,
+              amount: amountInDollars,
+              subtotal: amountInDollars,
+              tax_amount: 0,
+              discount_amount: 0,
+              total_amount: amountInDollars,
+              currency: 'USD',
               status: 'paid',
               billing_period_start: new Date(),
-              billing_period_end: new Date(Date.now() + (billingCycle === 'yearly' ? 365 : 30) * 24 * 60 * 60 * 1000)
+              billing_period_end: new Date(Date.now() + (billingCycle === 'yearly' ? 365 : 30) * 24 * 60 * 60 * 1000),
+              paid_at: new Date(),
+              line_items_count: 1,
+              description: 'Stripe checkout session payment'
             });
 
             // Create billing event

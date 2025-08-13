@@ -104,14 +104,23 @@ async function handlePaymentIntentSucceeded(event: Stripe.Event) {
 
   if (!invoice) {
     // Create new invoice
+    const amountInDollars = paymentIntent.amount / 100;
     invoice = await InvoiceModel.create({
       company_id: companyId,
+      stripe_payment_intent_id: paymentIntent.id,
       stripe_invoice_id: paymentIntent.id,
-      amount_due: paymentIntent.amount / 100,
-      amount_paid: paymentIntent.amount / 100,
+      amount: amountInDollars,
+      subtotal: amountInDollars,
+      tax_amount: 0,
+      discount_amount: 0,
+      total_amount: amountInDollars,
+      currency: 'USD',
       status: 'paid',
       billing_period_start: new Date(),
-      billing_period_end: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
+      billing_period_end: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+      paid_at: new Date(),
+      line_items_count: 1,
+      description: 'Payment intent succeeded'
     });
   } else if (invoice.status !== 'paid') {
     // Update existing invoice
@@ -191,18 +200,27 @@ async function handleInvoicePaymentSucceeded(event: Stripe.Event) {
   let localInvoice = await InvoiceModel.findByStripeInvoiceId(invoice.id!);
 
   if (!localInvoice) {
+    const amountDue = (invoice.amount_due || 0) / 100;
+    const amountPaid = (invoice.amount_paid || 0) / 100;
     localInvoice = await InvoiceModel.create({
       company_id: companyId,
       stripe_invoice_id: invoice.id!,
-      amount_due: (invoice.amount_due || 0) / 100,
-      amount_paid: (invoice.amount_paid || 0) / 100,
+      amount: amountDue,
+      subtotal: amountDue,
+      tax_amount: ((invoice as any).tax || 0) / 100,
+      discount_amount: ((invoice as any).discount || 0) / 100,
+      total_amount: amountDue,
+      currency: 'USD',
       status: invoice.status || 'draft',
       hosted_invoice_url: invoice.hosted_invoice_url || undefined,
       invoice_pdf_url: invoice.invoice_pdf || undefined,
       billing_period_start: invoice.period_start ? new Date(invoice.period_start * 1000) : 
         (invoice.lines?.data?.[0]?.period?.start ? new Date(invoice.lines.data[0].period.start * 1000) : new Date()),
       billing_period_end: invoice.period_end ? new Date(invoice.period_end * 1000) : 
-        (invoice.lines?.data?.[0]?.period?.end ? new Date(invoice.lines.data[0].period.end * 1000) : new Date())
+        (invoice.lines?.data?.[0]?.period?.end ? new Date(invoice.lines.data[0].period.end * 1000) : new Date()),
+      paid_at: invoice.status === 'paid' ? new Date() : undefined,
+      line_items_count: invoice.lines?.data?.length || 0,
+      description: `Stripe invoice ${invoice.number || invoice.id}`
     });
   }
 

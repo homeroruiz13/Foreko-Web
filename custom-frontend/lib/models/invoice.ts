@@ -149,41 +149,64 @@ export class InvoiceModel {
   }
 
   static async updateStatus(id: string, status: string, amountPaid?: number): Promise<Invoice> {
+    const updateFields = ['status = $1', 'updated_at = NOW()'];
+    const values: any[] = [status];
+    
+    if (amountPaid !== undefined) {
+      updateFields.push('total_amount = $2', 'paid_at = $3');
+      values.push(amountPaid, status === 'paid' ? new Date() : null);
+    }
+    
     const result = await query(
-      'UPDATE billing.invoices SET status = $1, amount_paid = COALESCE($2, amount_paid), updated_at = NOW() WHERE id = $3 RETURNING *',
-      [status, amountPaid, id]
+      `UPDATE billing.invoices SET ${updateFields.join(', ')} WHERE id = $${values.length + 1} RETURNING *`,
+      [...values, id]
     );
     return result.rows[0];
   }
 
   static async updateInvoiceData(id: string, updates: {
-    amount_due?: number;
-    amount_paid?: number;
+    amount?: number;
+    subtotal?: number;
+    tax_amount?: number;
+    discount_amount?: number;
+    total_amount?: number;
     status?: string;
     hosted_invoice_url?: string;
     invoice_pdf_url?: string;
     billing_period_start?: Date;
     billing_period_end?: Date;
+    paid_at?: Date;
+    description?: string;
   }): Promise<Invoice> {
     const result = await query(
       `UPDATE billing.invoices SET 
-        amount_due = COALESCE($1, amount_due),
-        amount_paid = COALESCE($2, amount_paid),
-        status = COALESCE($3, status),
-        hosted_invoice_url = COALESCE($4, hosted_invoice_url),
-        invoice_pdf_url = COALESCE($5, invoice_pdf_url),
-        billing_period_start = COALESCE($6, billing_period_start),
-        billing_period_end = COALESCE($7, billing_period_end),
+        amount = COALESCE($1, amount),
+        subtotal = COALESCE($2, subtotal),
+        tax_amount = COALESCE($3, tax_amount),
+        discount_amount = COALESCE($4, discount_amount),
+        total_amount = COALESCE($5, total_amount),
+        status = COALESCE($6, status),
+        hosted_invoice_url = COALESCE($7, hosted_invoice_url),
+        invoice_pdf_url = COALESCE($8, invoice_pdf_url),
+        billing_period_start = COALESCE($9, billing_period_start),
+        billing_period_end = COALESCE($10, billing_period_end),
+        paid_at = COALESCE($11, paid_at),
+        description = COALESCE($12, description),
         updated_at = NOW()
-      WHERE id = $8 RETURNING *`,
+      WHERE id = $13 RETURNING *`,
       [
-        updates.amount_due,
-        updates.amount_paid,
+        updates.amount,
+        updates.subtotal,
+        updates.tax_amount,
+        updates.discount_amount,
+        updates.total_amount,
         updates.status,
         updates.hosted_invoice_url,
         updates.invoice_pdf_url,
         updates.billing_period_start,
         updates.billing_period_end,
+        updates.paid_at,
+        updates.description,
         id
       ]
     );
@@ -203,7 +226,7 @@ export class InvoiceModel {
 
   static async getTotalRevenue(companyId: string): Promise<{ total: number }> {
     const result = await query(
-      `SELECT SUM(amount_paid) as total 
+      `SELECT SUM(total_amount) as total 
        FROM billing.invoices 
        WHERE company_id = $1 AND status = 'paid'`,
       [companyId]
