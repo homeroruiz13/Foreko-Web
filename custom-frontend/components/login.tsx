@@ -57,7 +57,7 @@ export const Login = () => {
       if (response.ok) {
         setSuccess('Login successful! Redirecting to dashboard...');
         setTimeout(() => {
-          router.push('/dashboard');
+          window.location.href = 'https://www.foreko.app/dashboard';
         }, 1500);
       } else {
         setError(data.error || 'Something went wrong');

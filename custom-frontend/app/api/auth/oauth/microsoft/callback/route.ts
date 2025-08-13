@@ -21,11 +21,11 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 
     if (error) {
       console.error('Microsoft OAuth error:', error);
-      return NextResponse.redirect(`${baseUrl}/auth/signin?error=oauth_cancelled`);
+      return NextResponse.redirect(`${baseUrl}/en/sign-in?error=oauth_cancelled`);
     }
 
     if (!code) {
-      return NextResponse.redirect(`${baseUrl}/auth/signin?error=oauth_failed`);
+      return NextResponse.redirect(`${baseUrl}/en/sign-in?error=oauth_failed`);
     }
 
     // Get the client IP and User-Agent
@@ -38,7 +38,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     const user = await OAuthHelper.handleOAuthCallback('microsoft', code);
 
     if (!user) {
-      return NextResponse.redirect(`${baseUrl}/auth/signin?error=oauth_failed`);
+      return NextResponse.redirect(`${baseUrl}/en/sign-in?error=oauth_failed`);
     }
 
     // Create user session
@@ -49,7 +49,8 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     });
 
     // Set session cookie
-    const response = NextResponse.redirect(`${baseUrl}/dashboard`);
+    const dashboardUrl = process.env.NEXT_PUBLIC_API_URL || baseUrl;
+    const response = NextResponse.redirect(`${dashboardUrl}/dashboard`);
     
     // Set secure session cookie
     response.cookies.set('session_token', session.session_token, {
@@ -73,6 +74,6 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     return response;
   } catch (error) {
     console.error('Microsoft OAuth callback error:', error);
-    return NextResponse.redirect(`${getBaseUrl()}/auth/signin?error=oauth_failed`);
+    return NextResponse.redirect(`${getBaseUrl()}/en/sign-in?error=oauth_failed`);
   }
 }

@@ -21,17 +21,17 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 
     if (error) {
       console.error('Apple OAuth error:', error);
-      return NextResponse.redirect(`${baseUrl}/auth/signin?error=oauth_cancelled`);
+      return NextResponse.redirect(`${baseUrl}/en/sign-in?error=oauth_cancelled`);
     }
 
     if (!code) {
-      return NextResponse.redirect(`${baseUrl}/auth/signin?error=oauth_failed`);
+      return NextResponse.redirect(`${baseUrl}/en/sign-in?error=oauth_failed`);
     }
 
     return await handleAppleCallback(request, code);
   } catch (error) {
     console.error('Apple OAuth GET callback error:', error);
-    return NextResponse.redirect(`${getBaseUrl()}/auth/signin?error=oauth_failed`);
+    return NextResponse.redirect(`${getBaseUrl()}/en/sign-in?error=oauth_failed`);
   }
 }
 
@@ -45,17 +45,17 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
     if (error) {
       console.error('Apple OAuth error:', error);
-      return NextResponse.redirect(`${baseUrl}/auth/signin?error=oauth_cancelled`);
+      return NextResponse.redirect(`${baseUrl}/en/sign-in?error=oauth_cancelled`);
     }
 
     if (!code) {
-      return NextResponse.redirect(`${baseUrl}/auth/signin?error=oauth_failed`);
+      return NextResponse.redirect(`${baseUrl}/en/sign-in?error=oauth_failed`);
     }
 
     return await handleAppleCallback(request, code, idToken);
   } catch (error) {
     console.error('Apple OAuth POST callback error:', error);
-    return NextResponse.redirect(`${getBaseUrl()}/auth/signin?error=oauth_failed`);
+    return NextResponse.redirect(`${getBaseUrl()}/en/sign-in?error=oauth_failed`);
   }
 }
 
@@ -71,7 +71,7 @@ async function handleAppleCallback(request: NextRequest, code: string, idToken?:
   const user = await OAuthHelper.handleOAuthCallback('apple', code, idToken);
 
   if (!user) {
-    return NextResponse.redirect(`${baseUrl}/auth/signin?error=oauth_failed`);
+    return NextResponse.redirect(`${baseUrl}/en/sign-in?error=oauth_failed`);
   }
 
   // Create user session
@@ -82,7 +82,8 @@ async function handleAppleCallback(request: NextRequest, code: string, idToken?:
   });
 
   // Set session cookie
-  const response = NextResponse.redirect(`${baseUrl}/dashboard`);
+  const dashboardUrl = process.env.NEXT_PUBLIC_API_URL || baseUrl;
+  const response = NextResponse.redirect(`${dashboardUrl}/dashboard`);
   
   // Set secure session cookie
   response.cookies.set('session_token', session.session_token, {
