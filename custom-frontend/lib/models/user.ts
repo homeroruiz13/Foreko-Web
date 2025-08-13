@@ -25,6 +25,13 @@ export interface LoginUserData {
   password: string;
 }
 
+export interface CreateUserDataOAuth {
+  name: string;
+  email: string;
+  status?: 'pending' | 'active' | 'suspended';
+  email_verified_at?: Date;
+}
+
 export class UserModel {
   static async createUser(userData: CreateUserData): Promise<User> {
     const { name, email, password } = userData;
@@ -93,23 +100,55 @@ export class UserModel {
     return userWithoutPassword;
   }
 
-  static generateToken(user: User): string {
-    const payload = {
-      userId: user.id,
-      email: user.email,
-      name: user.name
-    };
-
-    return jwt.sign(payload, process.env.JWT_SECRET!, {
-      expiresIn: '7d'
-    });
-  }
-
   static verifyToken(token: string): any {
     try {
       return jwt.verify(token, process.env.JWT_SECRET!);
     } catch (error) {
       return null;
     }
+  }
+
+  // OAuth-specific methods
+  static async create(userData: CreateUserDataOAuth): Promise<User> {
+    const { name, email, status = 'pending', email_verified_at } = userData;
+    
+    const result = await query(
+      `INSERT INTO auth.users (name, email, status, email_verified_at, created_at, updated_at) 
+       VALUES ($1, $2, $3, $4, NOW(), NOW()) 
+       RETURNING id, name, email, status, email_verified_at, last_login_at, created_at, updated_at`,
+      [name, email, status, email_verified_at]
+    );
+
+    return result.rows[0];
+  }
+
+  static async updateEmailVerified(userId: string): Promise<User> {
+    const result = await query(
+      `UPDATE auth.users 
+       SET status = 'active', email_verified_at = NOW(), updated_at = NOW() 
+       WHERE id = $1 
+       RETURNING id, name, email, status, email_verified_at, last_login_at, created_at, updated_at`,
+      [userId]
+    );
+
+    return result.rows[0];
+  }
+
+  static generateToken(userIdOrUser: string | User): string {
+    let payload;
+    
+    if (typeof userIdOrUser === 'string') {
+      payload = { userId: userIdOrUser };
+    } else {
+      payload = {
+        userId: userIdOrUser.id,
+        email: userIdOrUser.email,
+        name: userIdOrUser.name
+      };
+    }
+
+    return jwt.sign(payload, process.env.JWT_SECRET!, {
+      expiresIn: '7d'
+    });
   }
 }

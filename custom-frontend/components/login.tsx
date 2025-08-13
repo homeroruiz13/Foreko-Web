@@ -144,19 +144,35 @@ export const Login = () => {
       <Divider />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
-        <button className="flex justify-center space-x-2 items-center bg-white px-4 py-3 rounded-md text-black hover:bg-white/80 transition duration-200 shadow-[0px_1px_0px_0px_#00000040_inset]">
+        <button 
+          onClick={() => window.location.href = '/api/auth/oauth/apple'}
+          disabled={loading}
+          className="flex justify-center space-x-2 items-center bg-white px-4 py-3 rounded-md text-black hover:bg-white/80 transition duration-200 shadow-[0px_1px_0px_0px_#00000040_inset] disabled:opacity-50 disabled:cursor-not-allowed"
+        >
           <Image src="/images/apple.png" alt="Apple" width={16} height={16} />
           <span className="text-sm">Login with Apple</span>
         </button>
-        <button className="flex justify-center space-x-2 items-center bg-white px-4 py-3 rounded-md text-black hover:bg-white/80 transition duration-200 shadow-[0px_1px_0px_0px_#00000040_inset]">
+        <button 
+          onClick={() => window.location.href = '/api/auth/oauth/facebook'}
+          disabled={loading}
+          className="flex justify-center space-x-2 items-center bg-white px-4 py-3 rounded-md text-black hover:bg-white/80 transition duration-200 shadow-[0px_1px_0px_0px_#00000040_inset] disabled:opacity-50 disabled:cursor-not-allowed"
+        >
           <Image src="/images/facebook.png" alt="Facebook" width={16} height={16} />
           <span className="text-sm">Login with Facebook</span>
         </button>
-        <button className="flex justify-center space-x-2 items-center bg-white px-4 py-3 rounded-md text-black hover:bg-white/80 transition duration-200 shadow-[0px_1px_0px_0px_#00000040_inset]">
+        <button 
+          onClick={() => window.location.href = '/api/auth/oauth/microsoft'}
+          disabled={loading}
+          className="flex justify-center space-x-2 items-center bg-white px-4 py-3 rounded-md text-black hover:bg-white/80 transition duration-200 shadow-[0px_1px_0px_0px_#00000040_inset] disabled:opacity-50 disabled:cursor-not-allowed"
+        >
           <Image src="/images/microsoft.png" alt="Microsoft" width={16} height={16} />
           <span className="text-sm">Login with Microsoft</span>
         </button>
-        <button className="flex justify-center space-x-2 items-center bg-white px-4 py-3 rounded-md text-black hover:bg-white/80 transition duration-200 shadow-[0px_1px_0px_0px_#00000040_inset]">
+        <button 
+          onClick={() => window.location.href = '/api/auth/oauth/google'}
+          disabled={loading}
+          className="flex justify-center space-x-2 items-center bg-white px-4 py-3 rounded-md text-black hover:bg-white/80 transition duration-200 shadow-[0px_1px_0px_0px_#00000040_inset] disabled:opacity-50 disabled:cursor-not-allowed"
+        >
           <IconBrandGoogleFilled className="h-4 w-4 text-black" />
           <span className="text-sm">Login with Google</span>
         </button>
