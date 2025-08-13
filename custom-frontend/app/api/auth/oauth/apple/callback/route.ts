@@ -8,8 +8,12 @@ export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 function getBaseUrl(): string {
-  return process.env.NEXT_PUBLIC_APP_URL || 
-         (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://www.foreko.app');
+  // Always use production domain for OAuth redirects
+  if (process.env.NODE_ENV === 'production') {
+    return 'https://www.foreko.app';
+  }
+  // For development, use local URL
+  return process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3001';
 }
 
 export async function GET(request: NextRequest): Promise<NextResponse> {

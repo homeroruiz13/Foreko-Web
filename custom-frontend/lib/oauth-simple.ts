@@ -22,8 +22,12 @@ export interface OAuthUserInfo {
 
 export class OAuthHelper {
   private static getBaseUrl(): string {
-    return process.env.NEXT_PUBLIC_APP_URL || 
-           (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://www.foreko.app');
+    // Always use production domain for OAuth redirects
+    if (process.env.NODE_ENV === 'production') {
+      return 'https://www.foreko.app';
+    }
+    // For development, use local URL
+    return process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3001';
   }
 
   private static configs: Record<string, OAuthProviderConfig> = {
