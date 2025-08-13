@@ -21,11 +21,16 @@ export interface OAuthUserInfo {
 }
 
 export class OAuthHelper {
+  private static getBaseUrl(): string {
+    return process.env.NEXT_PUBLIC_APP_URL || 
+           (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://www.foreko.app');
+  }
+
   private static configs: Record<string, OAuthProviderConfig> = {
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID || '',
       clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
-      redirectUri: `${process.env.NEXT_PUBLIC_APP_URL}/api/auth/oauth/google/callback`,
+      redirectUri: `${OAuthHelper.getBaseUrl()}/api/auth/oauth/google/callback`,
       scope: 'profile email',
       authUrl: 'https://accounts.google.com/oauth/authorize',
       tokenUrl: 'https://oauth2.googleapis.com/token',
@@ -34,7 +39,7 @@ export class OAuthHelper {
     microsoft: {
       clientId: process.env.MICROSOFT_CLIENT_ID || '',
       clientSecret: process.env.MICROSOFT_CLIENT_SECRET || '',
-      redirectUri: `${process.env.NEXT_PUBLIC_APP_URL}/api/auth/oauth/microsoft/callback`,
+      redirectUri: `${OAuthHelper.getBaseUrl()}/api/auth/oauth/microsoft/callback`,
       scope: 'user.read',
       authUrl: `https://login.microsoftonline.com/${process.env.MICROSOFT_TENANT || 'common'}/oauth2/v2.0/authorize`,
       tokenUrl: `https://login.microsoftonline.com/${process.env.MICROSOFT_TENANT || 'common'}/oauth2/v2.0/token`,
@@ -43,7 +48,7 @@ export class OAuthHelper {
     facebook: {
       clientId: process.env.FACEBOOK_CLIENT_ID || '',
       clientSecret: process.env.FACEBOOK_CLIENT_SECRET || '',
-      redirectUri: `${process.env.NEXT_PUBLIC_APP_URL}/api/auth/oauth/facebook/callback`,
+      redirectUri: `${OAuthHelper.getBaseUrl()}/api/auth/oauth/facebook/callback`,
       scope: 'email',
       authUrl: 'https://www.facebook.com/v18.0/dialog/oauth',
       tokenUrl: 'https://graph.facebook.com/v18.0/oauth/access_token',
@@ -52,7 +57,7 @@ export class OAuthHelper {
     apple: {
       clientId: process.env.APPLE_CLIENT_ID || '',
       clientSecret: process.env.APPLE_CLIENT_SECRET || '',
-      redirectUri: `${process.env.NEXT_PUBLIC_APP_URL}/api/auth/oauth/apple/callback`,
+      redirectUri: `${OAuthHelper.getBaseUrl()}/api/auth/oauth/apple/callback`,
       scope: 'name email',
       authUrl: 'https://appleid.apple.com/auth/authorize',
       tokenUrl: 'https://appleid.apple.com/auth/token',

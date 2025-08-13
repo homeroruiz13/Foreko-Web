@@ -18,30 +18,36 @@ interface OAuthProfile {
   provider: string;
 }
 
+// Helper function to get base URL
+function getBaseUrl(): string {
+  return process.env.NEXT_PUBLIC_APP_URL || 
+         (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://www.foreko.app');
+}
+
 // Environment variables for OAuth providers
 const config = {
   google: {
     clientID: process.env.GOOGLE_CLIENT_ID!,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-    callbackURL: `${process.env.NEXT_PUBLIC_APP_URL}/api/auth/oauth/google/callback`,
+    callbackURL: `${getBaseUrl()}/api/auth/oauth/google/callback`,
   },
   microsoft: {
     clientID: process.env.MICROSOFT_CLIENT_ID!,
     clientSecret: process.env.MICROSOFT_CLIENT_SECRET!,
-    callbackURL: `${process.env.NEXT_PUBLIC_APP_URL}/api/auth/oauth/microsoft/callback`,
+    callbackURL: `${getBaseUrl()}/api/auth/oauth/microsoft/callback`,
     tenant: process.env.MICROSOFT_TENANT || 'common',
   },
   facebook: {
     clientID: process.env.FACEBOOK_CLIENT_ID!,
     clientSecret: process.env.FACEBOOK_CLIENT_SECRET!,
-    callbackURL: `${process.env.NEXT_PUBLIC_APP_URL}/api/auth/oauth/facebook/callback`,
+    callbackURL: `${getBaseUrl()}/api/auth/oauth/facebook/callback`,
   },
   apple: {
     clientID: process.env.APPLE_CLIENT_ID!,
     teamID: process.env.APPLE_TEAM_ID!,
     keyID: process.env.APPLE_KEY_ID!,
     privateKeyString: process.env.APPLE_PRIVATE_KEY!,
-    callbackURL: `${process.env.NEXT_PUBLIC_APP_URL}/api/auth/oauth/apple/callback`,
+    callbackURL: `${getBaseUrl()}/api/auth/oauth/apple/callback`,
   },
 };
 
