@@ -1,10 +1,24 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { OAuthHelper } from '../../../../../lib/oauth-simple';
 
 export async function GET(request: NextRequest): Promise<NextResponse> {
-  // Apple OAuth requires complex private key setup
-  // For now, return a message indicating it's not yet implemented
-  return NextResponse.json(
-    { error: 'Apple OAuth is not yet implemented. Please use Google, Microsoft, or Facebook.' },
-    { status: 501 }
-  );
+  try {
+    if (!OAuthHelper.isProviderConfigured('apple')) {
+      return NextResponse.json(
+        { error: 'Apple OAuth not configured' },
+        { status: 500 }
+      );
+    }
+
+    const state = OAuthHelper.generateState();
+    const authUrl = OAuthHelper.generateAuthUrl('apple', state);
+
+    return NextResponse.redirect(authUrl);
+  } catch (error) {
+    console.error('Apple OAuth initiation error:', error);
+    return NextResponse.json(
+      { error: 'OAuth initiation failed' },
+      { status: 500 }
+    );
+  }
 }
