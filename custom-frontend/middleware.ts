@@ -39,17 +39,29 @@ export function middleware(request: NextRequest) {
   // Check if this is a dashboard route (after locale)
   const isDashboardRoute = pathname.match(/^\/[a-z]{2}\/dashboard/) || pathname === '/dashboard' || pathname.startsWith('/dashboard/')
   
+  // Check if this is a sign-in route (after locale) 
+  const isSignInRoute = pathname.match(/^\/[a-z]{2}\/sign-in/) || pathname === '/sign-in' || pathname.startsWith('/sign-in/')
+  
+  const jwtToken = request.cookies.get('auth-token')?.value
+  const sessionToken = request.cookies.get('session-token')?.value
+  const hasAuthTokens = jwtToken || sessionToken
+  
   if (isDashboardRoute) {
-    const token = request.cookies.get('auth-token')?.value
-    
-    if (!token) {
-      // No token, redirect to login
+    if (!hasAuthTokens) {
+      // No authentication tokens, redirect to login
       const locale = getLocale(request)
       return NextResponse.redirect(new URL(`/${locale}/sign-in`, request.url))
     }
     
     // Note: We can't verify the token in middleware due to Edge Runtime limitations
     // Token verification will happen in the dashboard components themselves
+  }
+  
+  if (isSignInRoute && hasAuthTokens) {
+    // User is already authenticated but trying to access sign-in page
+    // Redirect to dashboard (this provides additional protection at the middleware level)
+    const locale = getLocale(request)
+    return NextResponse.redirect(new URL(`/${locale}/dashboard`, request.url))
   }
   
   const pathnameIsMissingLocale = i18n.locales.every(
