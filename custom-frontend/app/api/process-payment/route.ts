@@ -5,6 +5,7 @@ import { CompanyModel } from '@/lib/models/company';
 import { InvoiceModel } from '@/lib/models/invoice';
 import { BillingEventModel } from '@/lib/models/billing-events';
 import { PaymentMethodModel } from '@/lib/models/payment-methods';
+import { PaymentTransactionModel } from '@/lib/models/payment-transactions';
 import Stripe from 'stripe';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
@@ -128,6 +129,9 @@ export async function POST(request: NextRequest) {
           description: 'Free plan activation'
         });
 
+        // Note: No payment transaction for free plans since amount = 0 violates constraint
+        // Free plan activations are tracked in billing_events and invoices only
+
         // Create a billing event for free plan activation
         await BillingEventModel.create({
           stripe_event_id: `free_plan_${subscription.id}_${Date.now()}`,
@@ -175,6 +179,19 @@ export async function POST(request: NextRequest) {
       }
 
       if (paymentIntent.status !== 'succeeded') {
+        // Create failed payment transaction record (only for non-zero amounts)
+        if (amount > 0) {
+          await PaymentTransactionModel.create({
+            company_id: company.id,
+            stripe_payment_intent_id: paymentIntent.id,
+            amount: amount,
+            currency: 'USD',
+            status: 'failed',
+            failure_code: paymentIntent.last_payment_error?.code || 'unknown',
+            failure_message: paymentIntent.last_payment_error?.message || `Payment intent status: ${paymentIntent.status}`
+          });
+        }
+
         // Create a billing event for failed payment
         await BillingEventModel.create({
           stripe_event_id: paymentIntent.id,
@@ -250,6 +267,23 @@ export async function POST(request: NextRequest) {
         description: 'Subscription payment'
       });
 
+      // Create payment transaction record (only for non-zero amounts)
+      let transaction = null;
+      if (amount > 0) {
+        transaction = await PaymentTransactionModel.create({
+          company_id: company.id,
+          invoice_id: invoice.id,
+          stripe_payment_intent_id: paymentIntent.id,
+          stripe_charge_id: paymentIntent.latest_charge as string,
+          amount: amount,
+          currency: 'USD',
+          status: 'succeeded',
+          payment_method_id: undefined, // We can get this from the payment method if saved
+          processing_fee: 0, // Stripe fee calculation would go here
+          net_amount: amount
+        });
+      }
+
       // Create billing event for successful payment
       await BillingEventModel.create({
         stripe_event_id: paymentIntent.id,
@@ -258,6 +292,7 @@ export async function POST(request: NextRequest) {
           company_id: company.id,
           subscription_id: subscription.id,
           invoice_id: invoice.id,
+          transaction_id: transaction?.id,
           payment_intent_id: paymentIntent.id,
           amount: amount,
           currency: 'usd',
