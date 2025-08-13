@@ -116,12 +116,20 @@ export async function POST(request: NextRequest) {
         // Create a $0 invoice record for the free plan
         const invoice = await InvoiceModel.create({
           company_id: company.id,
+          subscription_id: subscription.id,
           stripe_invoice_id: `free_plan_${subscription.id}_${Date.now()}`,
-          amount_due: 0,
-          amount_paid: 0,
+          amount: 0,
+          subtotal: 0,
+          tax_amount: 0,
+          discount_amount: 0,
+          total_amount: 0,
+          currency: 'USD',
           status: 'paid',
           billing_period_start: new Date(),
-          billing_period_end: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) // 30 days
+          billing_period_end: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days
+          paid_at: new Date(),
+          line_items_count: 0,
+          description: 'Free plan activation'
         });
 
         // Create a billing event for free plan activation
@@ -234,12 +242,21 @@ export async function POST(request: NextRequest) {
       // Create invoice record
       const invoice = await InvoiceModel.create({
         company_id: company.id,
+        subscription_id: subscription.id,
+        stripe_payment_intent_id: paymentIntent.id,
         stripe_invoice_id: paymentIntent.id,
-        amount_due: amount,
-        amount_paid: amount,
+        amount: amount,
+        subtotal: amount,
+        tax_amount: 0,
+        discount_amount: 0,
+        total_amount: amount,
+        currency: 'USD',
         status: 'paid',
         billing_period_start: new Date(),
-        billing_period_end: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
+        billing_period_end: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+        paid_at: new Date(),
+        line_items_count: 1,
+        description: 'Subscription payment'
       });
 
       // Create billing event for successful payment

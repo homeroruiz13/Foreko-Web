@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams, useParams } from "next/navigation";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements, useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
 import { Container } from "@/components/container";
@@ -419,6 +419,7 @@ function PaymentForm({ plan, onSuccess }: PaymentFormProps) {
 export default function PaymentPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const params = useParams();
   const [plan, setPlan] = useState<PlanDetails | null>(null);
   const [showSuccess, setShowSuccess] = useState(false);
 
@@ -452,7 +453,8 @@ export default function PaymentPage() {
     setShowSuccess(true);
     // Redirect to dashboard after 2 seconds
     setTimeout(() => {
-      router.push('/dashboard');
+      const locale = params.locale || 'en'; // Get locale from params, fallback to 'en'
+      router.push(`/${locale}/dashboard`);
     }, 2000);
   };
 
