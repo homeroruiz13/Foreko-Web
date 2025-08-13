@@ -72,7 +72,7 @@ export async function GET(request: NextRequest) {
             // Create billing event
             await BillingEventModel.create({
               stripe_event_id: session.id,
-              event_type: 'checkout.session.completed',
+              event_type: 'invoice_paid',
               payload: {
                 company_id: localSubscription.company_id,
                 subscription_id: subscriptionId,

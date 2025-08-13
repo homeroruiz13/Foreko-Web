@@ -131,7 +131,7 @@ export async function POST(request: NextRequest) {
         // Create a billing event for free plan activation
         await BillingEventModel.create({
           stripe_event_id: `free_plan_${subscription.id}_${Date.now()}`,
-          event_type: 'checkout.session.completed',
+          event_type: 'invoice_paid',
           payload: {
             plan_type: 'free',
             user_id: user.id,
@@ -178,7 +178,7 @@ export async function POST(request: NextRequest) {
         // Create a billing event for failed payment
         await BillingEventModel.create({
           stripe_event_id: paymentIntent.id,
-          event_type: 'payment_intent.payment_failed',
+          event_type: 'invoice_failed',
           payload: {
             company_id: company.id,
             subscription_id: subscription.id,
@@ -253,7 +253,7 @@ export async function POST(request: NextRequest) {
       // Create billing event for successful payment
       await BillingEventModel.create({
         stripe_event_id: paymentIntent.id,
-        event_type: 'payment_intent.succeeded',
+        event_type: 'invoice_paid',
         payload: {
           company_id: company.id,
           subscription_id: subscription.id,

@@ -124,7 +124,7 @@ async function handlePaymentIntentSucceeded(event: Stripe.Event) {
   if (!existingEvent) {
     await BillingEventModel.create({
       stripe_event_id: event.id,
-      event_type: 'payment_intent.succeeded',
+      event_type: 'invoice_paid',
       payload: {
         company_id: companyId,
         subscription_id: subscriptionId,
@@ -161,7 +161,7 @@ async function handlePaymentIntentFailed(event: Stripe.Event) {
   // Create billing event
   await BillingEventModel.create({
     stripe_event_id: event.id,
-    event_type: 'payment_intent.payment_failed',
+    event_type: 'invoice_failed',
     payload: {
       company_id: companyId,
       subscription_id: subscriptionId,
@@ -212,7 +212,7 @@ async function handleInvoicePaymentSucceeded(event: Stripe.Event) {
   // Create billing event
   await BillingEventModel.create({
     stripe_event_id: event.id,
-    event_type: 'invoice.payment_succeeded',
+    event_type: 'invoice_paid',
     payload: {
       company_id: companyId,
       subscription_id: subscriptionId,
@@ -242,7 +242,7 @@ async function handleInvoicePaymentFailed(event: Stripe.Event) {
   // Create billing event
   await BillingEventModel.create({
     stripe_event_id: event.id,
-    event_type: 'invoice.payment_failed',
+    event_type: 'invoice_failed',
     payload: {
       company_id: companyId,
       subscription_id: subscriptionId,
