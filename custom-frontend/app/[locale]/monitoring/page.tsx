@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Container } from "@/components/container";
 
 interface ApiMetric {
@@ -42,7 +42,7 @@ export default function MonitoringDashboard() {
   const [timeRange, setTimeRange] = useState('24h');
   const [error, setError] = useState('');
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     setLoading(true);
     setError('');
     try {
@@ -57,11 +57,11 @@ export default function MonitoringDashboard() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [timeRange]);
 
   useEffect(() => {
     fetchData();
-  }, [timeRange]);
+  }, [fetchData]);
 
   const handleRefresh = () => {
     fetchData();

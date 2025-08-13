@@ -6,8 +6,9 @@ import { withMonitoring } from '@/lib/middleware/monitoring';
 import { MonitoringService } from '@/lib/monitoring';
 
 async function handleSignin(request: NextRequest) {
+  let body: any = null;
   try {
-    const body = await request.json();
+    body = await request.json();
     const { email, password, rememberMe = false } = body;
 
     // Validation
