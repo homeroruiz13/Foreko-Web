@@ -466,7 +466,7 @@ export default function PaymentPage() {
 
   return (
     <Elements stripe={stripePromise}>
-      <div className="fixed inset-0 bg-charcoal z-50 overflow-hidden">
+      <div className="min-h-screen bg-charcoal overflow-auto">
         <AmbientColor />
         <StarBackground />
         <ShootingStars />
@@ -487,8 +487,8 @@ export default function PaymentPage() {
           </div>
         )}
         
-        <Container className="relative h-screen max-w-4xl mx-auto flex flex-col items-center justify-center px-8 z-10">
-          <div className="mb-8">
+        <Container className="relative max-w-4xl mx-auto py-8 px-8 z-10">
+          <div className="mb-8 text-center">
             <Logo />
           </div>
           
@@ -580,15 +580,17 @@ export default function PaymentPage() {
               </div>
             </div>
           </div>
-        </div>
+          </div>
 
-        {/* Back button */}
-        <button
-          onClick={() => router.back()}
-          className="mt-8 text-neutral-400 hover:text-white transition-colors duration-200 text-sm"
-        >
-          ← Back to plans
-        </button>
+          {/* Back button */}
+          <div className="mt-8 text-center">
+            <button
+              onClick={() => router.back()}
+              className="text-neutral-400 hover:text-white transition-colors duration-200 text-sm"
+            >
+              ← Back to plans
+            </button>
+          </div>
         </Container>
       </div>
     </Elements>
