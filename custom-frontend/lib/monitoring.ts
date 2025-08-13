@@ -40,6 +40,18 @@ export interface PerformanceMetric {
   recorded_at?: Date;
 }
 
+export interface AlertRule {
+  id?: string;
+  name: string;
+  description?: string;
+  metric_name: string;
+  condition_type: 'greater_than' | 'less_than' | 'equals' | 'not_equals';
+  threshold_value: number;
+  severity?: 'info' | 'warning' | 'critical';
+  is_active?: boolean;
+  notification_channels?: string[];
+}
+
 export class MonitoringService {
   // System Metrics
   static async recordSystemMetric(metric: SystemMetric): Promise<void> {
@@ -215,6 +227,172 @@ export class MonitoringService {
     } catch (error) {
       console.error('Failed to get performance metrics:', error);
       return [];
+    }
+  }
+
+  // Alert Rules Management
+  static async createAlertRule(rule: AlertRule): Promise<string> {
+    try {
+      const result = await query(
+        `INSERT INTO monitoring.alert_rules 
+         (name, description, metric_name, condition_type, threshold_value, severity, is_active, notification_channels)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+         RETURNING id`,
+        [
+          rule.name,
+          rule.description || null,
+          rule.metric_name,
+          rule.condition_type,
+          rule.threshold_value,
+          rule.severity || 'warning',
+          rule.is_active !== false,
+          rule.notification_channels || []
+        ]
+      );
+      return result.rows[0].id;
+    } catch (error) {
+      console.error('Failed to create alert rule:', error);
+      throw error;
+    }
+  }
+
+  static async updateAlertRule(id: string, updates: Partial<AlertRule>): Promise<void> {
+    try {
+      const setParts = [];
+      const values = [];
+      let valueIndex = 1;
+
+      Object.entries(updates).forEach(([key, value]) => {
+        if (key !== 'id' && value !== undefined) {
+          setParts.push(`${key} = $${valueIndex}`);
+          values.push(value);
+          valueIndex++;
+        }
+      });
+
+      if (setParts.length === 0) return;
+
+      setParts.push('updated_at = NOW()');
+      values.push(id);
+
+      await query(
+        `UPDATE monitoring.alert_rules SET ${setParts.join(', ')} WHERE id = $${valueIndex}`,
+        values
+      );
+    } catch (error) {
+      console.error('Failed to update alert rule:', error);
+      throw error;
+    }
+  }
+
+  static async deleteAlertRule(id: string): Promise<void> {
+    try {
+      await query('DELETE FROM monitoring.alert_rules WHERE id = $1', [id]);
+    } catch (error) {
+      console.error('Failed to delete alert rule:', error);
+      throw error;
+    }
+  }
+
+  static async getAlertRules(activeOnly: boolean = false): Promise<any[]> {
+    try {
+      const whereClause = activeOnly ? 'WHERE is_active = TRUE' : '';
+      const result = await query(
+        `SELECT id, name, description, metric_name, condition_type, threshold_value, 
+                severity, is_active, notification_channels, created_at, updated_at
+         FROM monitoring.alert_rules ${whereClause}
+         ORDER BY severity DESC, created_at DESC`,
+        []
+      );
+      return result.rows;
+    } catch (error) {
+      console.error('Failed to get alert rules:', error);
+      return [];
+    }
+  }
+
+  static async evaluateAlertRules(): Promise<any[]> {
+    try {
+      const activeRules = await this.getAlertRules(true);
+      const triggeredAlerts = [];
+
+      for (const rule of activeRules) {
+        const isTriggered = await this.checkAlertCondition(rule);
+        if (isTriggered) {
+          triggeredAlerts.push({
+            rule_id: rule.id,
+            rule_name: rule.name,
+            metric_name: rule.metric_name,
+            current_value: isTriggered.current_value,
+            threshold_value: rule.threshold_value,
+            condition_type: rule.condition_type,
+            severity: rule.severity,
+            triggered_at: new Date()
+          });
+        }
+      }
+
+      return triggeredAlerts;
+    } catch (error) {
+      console.error('Failed to evaluate alert rules:', error);
+      return [];
+    }
+  }
+
+  private static async checkAlertCondition(rule: any): Promise<any | false> {
+    try {
+      // Get the latest value for the metric
+      let currentValue = null;
+      
+      // Check system metrics first
+      const systemMetricResult = await query(
+        `SELECT metric_value FROM monitoring.system_metrics 
+         WHERE metric_name = $1 
+         ORDER BY recorded_at DESC LIMIT 1`,
+        [rule.metric_name]
+      );
+      
+      if (systemMetricResult.rows.length > 0) {
+        currentValue = parseFloat(systemMetricResult.rows[0].metric_value);
+      } else {
+        // Check database health metrics
+        const healthResult = await query(
+          `SELECT metric_value FROM monitoring.database_health 
+           WHERE metric_name = $1 
+           ORDER BY recorded_at DESC LIMIT 1`,
+          [rule.metric_name]
+        );
+        
+        if (healthResult.rows.length > 0) {
+          currentValue = parseFloat(healthResult.rows[0].metric_value);
+        }
+      }
+
+      if (currentValue === null) return false;
+
+      // Evaluate the condition
+      const threshold = parseFloat(rule.threshold_value);
+      let isTriggered = false;
+
+      switch (rule.condition_type) {
+        case 'greater_than':
+          isTriggered = currentValue > threshold;
+          break;
+        case 'less_than':
+          isTriggered = currentValue < threshold;
+          break;
+        case 'equals':
+          isTriggered = currentValue === threshold;
+          break;
+        case 'not_equals':
+          isTriggered = currentValue !== threshold;
+          break;
+      }
+
+      return isTriggered ? { current_value: currentValue } : false;
+    } catch (error) {
+      console.error('Failed to check alert condition:', error);
+      return false;
     }
   }
 }

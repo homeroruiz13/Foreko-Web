@@ -134,6 +134,68 @@ async function handleMonitoringTest(request: NextRequest) {
       results.database_health = 'recorded';
     }
 
+    if (testType === 'all' || testType === 'alerts') {
+      // Test Alert Rules Creation
+      const alertRules = [
+        {
+          name: 'High CPU Usage Alert',
+          description: 'Alert when CPU usage exceeds 80%',
+          metric_name: 'cpu_usage',
+          condition_type: 'greater_than' as const,
+          threshold_value: 80,
+          severity: 'warning' as const,
+          is_active: true,
+          notification_channels: ['email', 'slack']
+        },
+        {
+          name: 'Critical Memory Usage',
+          description: 'Critical alert when memory usage exceeds 90%',
+          metric_name: 'memory_usage',
+          condition_type: 'greater_than' as const,
+          threshold_value: 90,
+          severity: 'critical' as const,
+          is_active: true,
+          notification_channels: ['email', 'pagerduty']
+        },
+        {
+          name: 'Low Active Users',
+          description: 'Warning when active users drop below 10',
+          metric_name: 'active_users',
+          condition_type: 'less_than' as const,
+          threshold_value: 10,
+          severity: 'info' as const,
+          is_active: true,
+          notification_channels: ['slack']
+        },
+        {
+          name: 'Database Connection Health',
+          description: 'Alert when database connections exceed threshold',
+          metric_name: 'connection_count',
+          condition_type: 'greater_than' as const,
+          threshold_value: 50,
+          severity: 'warning' as const,
+          is_active: true,
+          notification_channels: ['email']
+        },
+        {
+          name: 'Query Response Time',
+          description: 'Alert on slow database queries',
+          metric_name: 'query_response_time',
+          condition_type: 'greater_than' as const,
+          threshold_value: 100,
+          severity: 'warning' as const,
+          is_active: false, // Disabled for testing
+          notification_channels: ['email', 'slack']
+        }
+      ];
+
+      for (const rule of alertRules) {
+        await MonitoringService.createAlertRule(rule);
+      }
+
+      results.alert_rules = 'created';
+    }
+
     const responseTime = Date.now() - startTime;
 
     // Record this test operation as a performance metric
