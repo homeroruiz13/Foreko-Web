@@ -69,7 +69,7 @@ export class OAuthHelper {
     }
   };
 
-  static generateAuthUrl(provider: string, state?: string): string {
+  static generateAuthUrl(provider: string, state?: string, customRedirectUri?: string): string {
     const config = this.configs[provider];
     if (!config || !config.clientId) {
       throw new Error(`OAuth provider ${provider} not configured`);
@@ -77,7 +77,7 @@ export class OAuthHelper {
 
     const authUrl = new URL(config.authUrl);
     authUrl.searchParams.set('client_id', config.clientId);
-    authUrl.searchParams.set('redirect_uri', config.redirectUri);
+    authUrl.searchParams.set('redirect_uri', customRedirectUri || config.redirectUri);
     authUrl.searchParams.set('response_type', 'code');
     authUrl.searchParams.set('scope', config.scope);
     

@@ -10,8 +10,17 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       );
     }
 
+    // If accessed from Vercel preview URL, redirect to main domain for OAuth
+    const host = request.headers.get('host');
+    if (host && host.includes('vercel.app')) {
+      return NextResponse.redirect('https://www.foreko.app/api/auth/oauth/google');
+    }
+
+    // Always use main domain for OAuth callback to avoid dynamic URI issues
+    const customRedirectUri = 'https://www.foreko.app/api/auth/oauth/google/callback';
+
     const state = OAuthHelper.generateState();
-    const authUrl = OAuthHelper.generateAuthUrl('google', state);
+    const authUrl = OAuthHelper.generateAuthUrl('google', state, customRedirectUri);
 
     return NextResponse.redirect(authUrl);
   } catch (error) {
