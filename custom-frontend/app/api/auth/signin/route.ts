@@ -2,8 +2,10 @@ import { NextRequest, NextResponse } from 'next/server';
 import { UserModel } from '@/lib/models/user';
 import { createUserSession, getClientIP } from '@/lib/auth-session';
 import { SecurityUtils } from '@/lib/utils/security';
+import { withMonitoring } from '@/lib/middleware/monitoring';
+import { MonitoringService } from '@/lib/monitoring';
 
-export async function POST(request: NextRequest) {
+async function handleSignin(request: NextRequest) {
   try {
     const body = await request.json();
     const { email, password, rememberMe = false } = body;
@@ -125,9 +127,27 @@ export async function POST(request: NextRequest) {
     return response;
   } catch (error) {
     console.error('Signin error:', error);
+    
+    // Log error to monitoring
+    await MonitoringService.logError({
+      error_type: 'signin_error',
+      error_message: error instanceof Error ? error.message : 'Unknown signin error',
+      stack_trace: error instanceof Error ? error.stack : undefined,
+      context: {
+        endpoint: '/api/auth/signin',
+        method: 'POST',
+        email: body?.email ? 'provided' : 'missing',
+        ip_address: getClientIP(request)
+      },
+      severity: 'error'
+    });
+    
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
     );
   }
 }
+
+// Export the wrapped handler
+export const POST = withMonitoring(handleSignin);

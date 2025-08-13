@@ -25,7 +25,9 @@
       "Bash(git push:*)",
       "Bash(cd:*)",
       "Bash(cd:*)",
-      "Bash(PORT=3000 npm run dev)"
+      "Bash(PORT=3000 npm run dev)",
+      "Bash(grep:*)",
+      "Bash(touch:*)"
     ],
     "deny": []
   }

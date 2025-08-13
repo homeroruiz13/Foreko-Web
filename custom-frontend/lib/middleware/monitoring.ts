@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { MonitoringModel } from '../models/monitoring';
-import { getUserFromToken, getTokenFromRequest } from '../auth';
+import { MonitoringService } from '../monitoring';
+import { getUserFromSessionToken, getSessionTokenFromRequest } from '../auth-session';
 
 export async function monitoringMiddleware(
   request: NextRequest,
@@ -13,12 +13,12 @@ export async function monitoringMiddleware(
     const responseTime = endTime - startTime;
     
     // Get user context
-    const token = getTokenFromRequest(request);
+    const sessionToken = getSessionTokenFromRequest(request);
     let userId: string | undefined;
     let companyId: string | undefined;
 
-    if (token) {
-      const user = await getUserFromToken(token);
+    if (sessionToken) {
+      const user = await getUserFromSessionToken(sessionToken);
       if (user) {
         userId = user.id;
         // You might need to get the company ID from user context or request
@@ -34,7 +34,7 @@ export async function monitoringMiddleware(
     const userAgent = request.headers.get('user-agent') || undefined;
 
     // Log the API request
-    await MonitoringModel.logAPIRequest({
+    await MonitoringService.recordApiRequest({
       company_id: companyId,
       user_id: userId,
       endpoint,
@@ -42,19 +42,18 @@ export async function monitoringMiddleware(
       status_code: statusCode,
       response_time_ms: responseTime,
       ip_address: ipAddress,
-      user_agent: userAgent,
-      error_message: error?.message
+      user_agent: userAgent
     });
 
     // Log error if present
     if (error) {
-      await MonitoringModel.logError({
+      await MonitoringService.logError({
         company_id: companyId,
         user_id: userId,
         error_type: error.constructor.name,
         error_message: error.message,
         stack_trace: error.stack,
-        severity: statusCode >= 500 ? 'high' : 'medium',
+        severity: statusCode >= 500 ? 'critical' : statusCode >= 400 ? 'error' : 'warning',
         context: {
           endpoint,
           method,
