@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from "@/components/ui/sidebar";
 import { getInitials } from "@/lib/utils";
-import { clearAuth } from "@/lib/auth";
+import { clearAllAuthAndRedirect } from "@/lib/auth";
 
 export function NavUser({
   user,
@@ -29,19 +29,16 @@ export function NavUser({
 
   const handleLogout = async () => {
     try {
-      // Clear local auth first
-      clearAuth();
-      
-      // Call the main app's logout API to clear server-side session
+      // Call the main app's logout API to clear server-side session first
       await fetch('https://foreko.app/api/auth/logout', { 
         method: 'POST',
         credentials: 'include' // Include cookies for cross-origin request
       });
     } catch (error) {
-      console.error('Error during logout:', error);
+      console.error('Error calling logout API:', error);
     } finally {
-      // Always redirect to home page regardless of API call success
-      window.location.href = 'https://foreko.app';
+      // Always clear all auth and redirect with force parameter
+      clearAllAuthAndRedirect();
     }
   };
 

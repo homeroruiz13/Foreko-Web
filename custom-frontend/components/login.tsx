@@ -9,7 +9,7 @@ import {
 } from "@tabler/icons-react";
 import { Button } from "./elements/button";
 
-export const Login = () => {
+export const Login = ({ forceLogout = false }: { forceLogout?: boolean }) => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -104,6 +104,12 @@ export const Login = () => {
       {error && (
         <div className="w-full mb-4 p-3 bg-red-900/20 border border-red-500 rounded-md">
           <p className="text-red-400 text-sm text-center">{error}</p>
+        </div>
+      )}
+
+      {forceLogout && (
+        <div className="w-full mb-4 p-3 bg-blue-900/20 border border-blue-500 rounded-md">
+          <p className="text-blue-400 text-sm text-center">You have been logged out successfully. Please sign in again.</p>
         </div>
       )}
 

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { revokeUserSession, getSessionTokenFromRequest, getClientIP } from '@/lib/auth-session';
+import { revokeUserSession, revokeAllUserSessions, getSessionTokenFromRequest, getClientIP } from '@/lib/auth-session';
 import { getUserFromToken, getTokenFromRequest } from '@/lib/auth';
 import { SecurityUtils } from '@/lib/utils/security';
 
@@ -14,9 +14,13 @@ export async function POST(request: NextRequest) {
       userId = user?.id;
     }
     
-    // Get session token and revoke it
+    // Get session token and revoke all user sessions to prevent any lingering auth
     const sessionToken = getSessionTokenFromRequest(request);
-    if (sessionToken) {
+    if (sessionToken && userId) {
+      // Revoke all sessions for this user to prevent auth loops
+      await revokeAllUserSessions(userId);
+    } else if (sessionToken) {
+      // Fallback to single session revoke
       await revokeUserSession(sessionToken);
     }
     
