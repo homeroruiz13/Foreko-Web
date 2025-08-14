@@ -29,6 +29,7 @@
       "Bash(grep:*)",
       "Bash(touch:*)"
     ],
-    "deny": []
+    "deny": [],
+    "defaultMode": "acceptEdits"
   }
 }

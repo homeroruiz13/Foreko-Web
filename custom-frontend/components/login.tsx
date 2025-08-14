@@ -55,9 +55,22 @@ export const Login = () => {
       const data = await response.json();
 
       if (response.ok) {
+        // Get the auth token/session info to pass to dashboard
+        const authData = {
+          userId: data.user.id,
+          email: data.user.email,
+          name: data.user.name,
+          sessionId: data.sessionInfo.id,
+          expiresAt: data.sessionInfo.expiresAt
+        };
+        
+        // Encode auth data for URL
+        const authString = btoa(JSON.stringify(authData));
+        const redirectUrl = `/dashboard?auth=${authString}`;
+        
         setSuccess('Login successful! Redirecting to dashboard...');
         setTimeout(() => {
-          window.location.href = 'https://www.foreko.app/dashboard';
+          router.push(redirectUrl);
         }, 1500);
       } else {
         setError(data.error || 'Something went wrong');

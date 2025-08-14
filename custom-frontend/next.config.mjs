@@ -13,8 +13,32 @@ const nextConfig = {
   },
   pageExtensions: ["ts", "tsx"],
   async redirects() {
-    // Return empty array since we're no longer using API-based redirects
-    return [];
+    return [
+      {
+        source: '/:locale/dashboard/:path*',
+        destination: `${process.env.DASHBOARD_URL || 'http://localhost:3001'}/dashboard/:path*`,
+        permanent: false,
+        basePath: false,
+      },
+      {
+        source: '/:locale/dashboard',
+        destination: `${process.env.DASHBOARD_URL || 'http://localhost:3001'}/dashboard`,
+        permanent: false,
+        basePath: false,
+      },
+      {
+        source: '/dashboard/:path*',
+        destination: `${process.env.DASHBOARD_URL || 'http://localhost:3001'}/dashboard/:path*`,
+        permanent: false,
+        basePath: false,
+      },
+      {
+        source: '/dashboard',
+        destination: `${process.env.DASHBOARD_URL || 'http://localhost:3001'}/dashboard`,
+        permanent: false,
+        basePath: false,
+      },
+    ];
   },
 };
 

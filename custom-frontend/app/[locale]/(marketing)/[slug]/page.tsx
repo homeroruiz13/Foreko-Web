@@ -31,6 +31,20 @@ export async function generateMetadata({
 export default async function Page({ params }: { params: { locale: string, slug: string } }) {
   console.log('Rendering page for slug:', params.slug);
   
+  // Special handling for dashboard - it should be handled by proxy
+  if (params.slug === 'dashboard') {
+    console.log('Dashboard route detected, this should not happen - proxy should handle it');
+    return (
+      <div className="container mx-auto px-4 py-20 text-center">
+        <h1 className="text-4xl font-bold mb-4">Dashboard Loading...</h1>
+        <p className="text-gray-600 mb-8">Redirecting to dashboard...</p>
+        <script dangerouslySetInnerHTML={{
+          __html: `setTimeout(() => window.location.href = '/dashboard', 100);`
+        }} />
+      </div>
+    );
+  }
+  
   const pageData = mockPages[params.slug as keyof typeof mockPages];
 
   // If no page data found, redirect to home or show 404
