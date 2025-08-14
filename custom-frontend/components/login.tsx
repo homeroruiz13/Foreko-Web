@@ -66,7 +66,7 @@ export const Login = () => {
         
         // Encode auth data for URL
         const authString = btoa(JSON.stringify(authData));
-        const redirectUrl = `/dashboard?auth=${authString}`;
+        const redirectUrl = `/dashboard/default?auth=${authString}`;
         
         setSuccess('Login successful! Redirecting to dashboard...');
         setTimeout(() => {

@@ -27,7 +27,8 @@
       "Bash(cd:*)",
       "Bash(PORT=3000 npm run dev)",
       "Bash(grep:*)",
-      "Bash(touch:*)"
+      "Bash(touch:*)",
+      "Bash(git rm:*)"
     ],
     "deny": [],
     "defaultMode": "acceptEdits"

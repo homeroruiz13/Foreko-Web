@@ -22,7 +22,7 @@ const nextConfig = {
       },
       {
         source: '/:locale/dashboard',
-        destination: `${process.env.DASHBOARD_URL || 'http://localhost:3001'}/dashboard`,
+        destination: `${process.env.DASHBOARD_URL || 'http://localhost:3001'}/dashboard/default`,
         permanent: false,
         basePath: false,
       },
@@ -34,7 +34,7 @@ const nextConfig = {
       },
       {
         source: '/dashboard',
-        destination: `${process.env.DASHBOARD_URL || 'http://localhost:3001'}/dashboard`,
+        destination: `${process.env.DASHBOARD_URL || 'http://localhost:3001'}/dashboard/default`,
         permanent: false,
         basePath: false,
       },
