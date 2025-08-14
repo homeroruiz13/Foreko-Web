@@ -12,34 +12,8 @@ const nextConfig = {
     ],
   },
   pageExtensions: ["ts", "tsx"],
-  async redirects() {
-    return [
-      {
-        source: '/:locale/dashboard/:path*',
-        destination: `${process.env.DASHBOARD_URL || 'http://localhost:3001'}/dashboard/:path*`,
-        permanent: false,
-        basePath: false,
-      },
-      {
-        source: '/:locale/dashboard',
-        destination: `${process.env.DASHBOARD_URL || 'http://localhost:3001'}/dashboard/default`,
-        permanent: false,
-        basePath: false,
-      },
-      {
-        source: '/dashboard/:path*',
-        destination: `${process.env.DASHBOARD_URL || 'http://localhost:3001'}/dashboard/:path*`,
-        permanent: false,
-        basePath: false,
-      },
-      {
-        source: '/dashboard',
-        destination: `${process.env.DASHBOARD_URL || 'http://localhost:3001'}/dashboard/default`,
-        permanent: false,
-        basePath: false,
-      },
-    ];
-  },
+  // Remove external redirects to prevent CORS preflight issues
+  // External redirects will be handled client-side to avoid prefetch problems
 };
 
 export default nextConfig;
