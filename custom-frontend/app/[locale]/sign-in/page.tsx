@@ -3,13 +3,13 @@ import { Login } from "@/components/login";
 import { redirect } from 'next/navigation';
 import { getServerSideUserWithSession } from '@/lib/auth-session';
 
-export default async function LoginPage() {
-  // Check if user is already authenticated
+export default async function LoginPage({ searchParams }: { searchParams: { force?: string } }) {
+  // Check if user is already authenticated (but allow forced login page)
   const user = await getServerSideUserWithSession();
   
-  if (user) {
+  if (user && !searchParams.force) {
     // User is already logged in, redirect to dashboard
-    redirect('/dashboard');
+    redirect('/dashboard/default');
   }
 
   return (

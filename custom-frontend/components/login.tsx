@@ -20,6 +20,16 @@ export const Login = () => {
   const [success, setSuccess] = useState('');
   const router = useRouter();
 
+  const handleLogout = async () => {
+    try {
+      await fetch('/api/auth/logout', { method: 'POST' });
+      // Refresh the page to clear any client-side state
+      window.location.reload();
+    } catch (error) {
+      console.error('Logout failed:', error);
+    }
+  };
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
     setFormData({
@@ -151,6 +161,12 @@ export const Login = () => {
           <Link href="/sign-up" className="text-blue-400 hover:text-blue-300">
             Create one here
           </Link>
+        </p>
+        <p className="text-neutral-400 text-sm mt-2">
+          Already logged in?{" "}
+          <button onClick={handleLogout} className="text-red-400 hover:text-red-300 underline">
+            Logout
+          </button>
         </p>
       </div>
 
