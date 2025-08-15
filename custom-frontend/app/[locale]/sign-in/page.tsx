@@ -19,7 +19,7 @@ export default async function LoginPage({ searchParams }: { searchParams: { forc
   
   if (user) {
     // User is already logged in, redirect to dashboard
-    redirect('/dashboard/default');
+    redirect('/dashboard/data-import');
   }
 
   return (

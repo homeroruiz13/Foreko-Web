@@ -32,7 +32,7 @@ const nextConfig = {
     return [
       {
         source: "/dashboard",
-        destination: "/dashboard/default",
+        destination: "/dashboard/data-import",
         permanent: false,
       },
     ];

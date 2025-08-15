@@ -6,7 +6,7 @@ export default function DashboardPage() {
   useEffect(() => {
     // Client-side redirect to avoid prefetch CORS issues
     const dashboardUrl = process.env.NEXT_PUBLIC_DASHBOARD_URL || 'https://hub.foreko.app';
-    window.location.href = `${dashboardUrl}/dashboard/default`;
+    window.location.href = `${dashboardUrl}/dashboard/data-import`;
   }, []);
 
   return (

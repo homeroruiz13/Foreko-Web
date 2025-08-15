@@ -6,7 +6,6 @@ import { AppSidebar } from "@/app/(main)/dashboard/_components/sidebar/app-sideb
 import { Separator } from "@/components/ui/separator";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { ClientOnly } from "@/components/client-only";
-import { users } from "@/data/users";
 import { cn } from "@/lib/utils";
 import { getPreference } from "@/server/server-actions";
 import {
@@ -68,7 +67,7 @@ export default async function Layout({ children }: Readonly<{ children: ReactNod
                 <ThemeSwitcher />
               </ClientOnly>
               <ClientOnly fallback={<div className="w-9 h-9 bg-muted rounded-md animate-pulse" />}>
-                <AccountSwitcher users={users} />
+                <AccountSwitcher />
               </ClientOnly>
             </div>
           </div>

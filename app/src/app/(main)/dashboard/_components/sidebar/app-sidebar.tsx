@@ -1,6 +1,7 @@
 "use client";
 
 import { Settings, CircleHelp, Search, Database, ClipboardList, File, Command } from "lucide-react";
+import { useAuth } from "@/components/auth-handler";
 
 import {
   Sidebar,
@@ -56,6 +57,15 @@ const data = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const authData = useAuth();
+  
+  // Create user object from auth data, fallback to rootUser if auth not available
+  const currentUser = authData ? {
+    name: authData.name,
+    email: authData.email,
+    avatar: "" // We don't have avatar in auth data, so use empty string
+  } : rootUser;
+
   return (
     <Sidebar {...props}>
       <SidebarHeader>
@@ -76,7 +86,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         {/* <NavSecondary items={data.navSecondary} className="mt-auto" /> */}
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={rootUser} />
+        <NavUser user={currentUser} />
       </SidebarFooter>
     </Sidebar>
   );

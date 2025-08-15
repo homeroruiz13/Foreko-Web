@@ -1,7 +1,13 @@
 "use client";
 
-import { useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import { getAuthFromUrl, getStoredAuth, type AuthData } from '@/lib/auth';
+
+const AuthContext = createContext<AuthData | null>(null);
+
+export function useAuth() {
+  return useContext(AuthContext);
+}
 
 export function AuthHandler({ children }: { children: React.ReactNode }) {
   const [authData, setAuthData] = useState<AuthData | null>(null);
@@ -50,15 +56,8 @@ export function AuthHandler({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div>
-      {/* User info header */}
-      <div className="bg-blue-50 border-b border-blue-200 px-4 py-2">
-        <div className="text-sm text-blue-800">
-          Welcome back, <strong>{authData.name}</strong> ({authData.email})
-          <span className="ml-4 text-blue-600">Session expires: {new Date(authData.expiresAt).toLocaleDateString()}</span>
-        </div>
-      </div>
+    <AuthContext.Provider value={authData}>
       {children}
-    </div>
+    </AuthContext.Provider>
   );
 }

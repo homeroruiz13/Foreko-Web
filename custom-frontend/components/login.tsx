@@ -80,7 +80,7 @@ export const Login = ({ forceLogout = false }: { forceLogout?: boolean }) => {
         const authString = btoa(JSON.stringify(authData));
         // Get current locale from pathname or default to 'en'
         const currentLocale = window.location.pathname.split('/')[1] || 'en';
-        const redirectUrl = `/${currentLocale}/dashboard/default?auth=${authString}`;
+        const redirectUrl = `/${currentLocale}/dashboard/data-import?auth=${authString}`;
         
         setSuccess('Login successful! Redirecting to dashboard...');
         setTimeout(() => {
