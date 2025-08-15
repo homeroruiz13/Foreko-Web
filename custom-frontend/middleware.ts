@@ -46,6 +46,11 @@ export function middleware(request: NextRequest) {
   const sessionToken = request.cookies.get('session-token')?.value
   const hasAuthTokens = jwtToken || sessionToken
   
+  // Debug logging
+  if (isSignInRoute) {
+    console.log(`Middleware: Accessing sign-in route. JWT: ${jwtToken ? 'present' : 'none'}, Session: ${sessionToken ? 'present' : 'none'}`)
+  }
+  
   if (isDashboardRoute) {
     if (!hasAuthTokens) {
       // No authentication tokens, redirect to login

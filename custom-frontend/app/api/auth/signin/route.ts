@@ -81,7 +81,8 @@ async function handleSignin(request: NextRequest) {
     );
 
     // Create user session with different expiration based on remember me
-    const sessionExpiryDays = rememberMe ? 30 : 1;
+    // For remember me: 30 days, for session-only: still 30 days but cookie expires on browser close
+    const sessionExpiryDays = 30; // Database session always 30 days, browser controls actual expiry via cookie
     const session = await createUserSession(user.id, request, sessionExpiryDays);
     const jwtToken = UserModel.generateToken(user);
 
@@ -114,6 +115,9 @@ async function handleSignin(request: NextRequest) {
     // Only set maxAge for remember me (30 days), otherwise it's a session cookie
     if (rememberMe) {
       cookieOptions.maxAge = 60 * 60 * 24 * 30; // 30 days
+      console.log('Setting persistent cookies with 30-day maxAge');
+    } else {
+      console.log('Setting session cookies (no maxAge) - will expire when browser closes');
     }
     // If rememberMe is false, no maxAge = session cookie (expires on browser close)
 
