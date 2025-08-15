@@ -81,8 +81,8 @@ async function handleSignin(request: NextRequest) {
     );
 
     // Create user session with different expiration based on remember me
-    // For remember me: 30 days, for session-only: still 30 days but cookie expires on browser close
-    const sessionExpiryDays = 30; // Database session always 30 days, browser controls actual expiry via cookie
+    // For remember me: 30 days, for session-only: 1 hour
+    const sessionExpiryDays = rememberMe ? 30 : (1 / 24); // 1 hour for session-only
     const session = await createUserSession(user.id, request, sessionExpiryDays);
     const jwtToken = UserModel.generateToken(user);
 
