@@ -63,6 +63,7 @@ export function clearAllAuthAndRedirect() {
     window.history.replaceState({}, document.title, url.pathname);
     
     // Force redirect to main app with force logout
-    window.location.href = 'https://foreko.app/en/sign-in?force=true';
+    const mainAppUrl = process.env.NEXT_PUBLIC_MAIN_APP_URL || 'http://localhost:3000';
+    window.location.href = `${mainAppUrl}/en/sign-in?force=true`;
   }
 }

@@ -30,7 +30,8 @@ export function NavUser({
   const handleLogout = async () => {
     try {
       // Call the main app's logout API to clear server-side session first
-      await fetch('https://foreko.app/api/auth/logout', { 
+      const mainAppUrl = process.env.NEXT_PUBLIC_MAIN_APP_URL || 'http://localhost:3000';
+      await fetch(`${mainAppUrl}/api/auth/logout`, { 
         method: 'POST',
         credentials: 'include' // Include cookies for cross-origin request
       });

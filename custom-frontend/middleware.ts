@@ -58,6 +58,15 @@ export function middleware(request: NextRequest) {
   }
   
   if (isSignInRoute && hasAuthTokens) {
+    // Check if this is a forced logout - allow access to sign-in page
+    const url = new URL(request.url)
+    const forceParam = url.searchParams.get('force')
+    
+    if (forceParam === 'true') {
+      // This is a logout redirect - allow access to sign-in page regardless of tokens
+      return NextResponse.next()
+    }
+    
     // User is already authenticated but trying to access sign-in page
     // Redirect to dashboard (this provides additional protection at the middleware level)
     const locale = getLocale(request)

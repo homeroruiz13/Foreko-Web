@@ -23,10 +23,12 @@ export const Login = ({ forceLogout = false }: { forceLogout?: boolean }) => {
   const handleLogout = async () => {
     try {
       await fetch('/api/auth/logout', { method: 'POST' });
-      // Refresh the page to clear any client-side state
-      window.location.reload();
+      // Force redirect to sign-in with logout flag to bypass middleware auth check
+      window.location.href = '/en/sign-in?force=true';
     } catch (error) {
       console.error('Logout failed:', error);
+      // Even if logout fails, redirect to clear client state
+      window.location.href = '/en/sign-in?force=true';
     }
   };
 
@@ -76,7 +78,9 @@ export const Login = ({ forceLogout = false }: { forceLogout?: boolean }) => {
         
         // Encode auth data for URL
         const authString = btoa(JSON.stringify(authData));
-        const redirectUrl = `/dashboard/default?auth=${authString}`;
+        // Get current locale from pathname or default to 'en'
+        const currentLocale = window.location.pathname.split('/')[1] || 'en';
+        const redirectUrl = `/${currentLocale}/dashboard/default?auth=${authString}`;
         
         setSuccess('Login successful! Redirecting to dashboard...');
         setTimeout(() => {
@@ -167,12 +171,6 @@ export const Login = ({ forceLogout = false }: { forceLogout?: boolean }) => {
           <Link href="/sign-up" className="text-blue-400 hover:text-blue-300">
             Create one here
           </Link>
-        </p>
-        <p className="text-neutral-400 text-sm mt-2">
-          Already logged in?{" "}
-          <button onClick={handleLogout} className="text-red-400 hover:text-red-300 underline">
-            Logout
-          </button>
         </p>
       </div>
 

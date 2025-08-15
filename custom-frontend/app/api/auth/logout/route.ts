@@ -40,19 +40,23 @@ export async function POST(request: NextRequest) {
       { status: 200 }
     );
 
-    // Clear both auth tokens
+    // Clear both auth tokens more thoroughly
     response.cookies.set('auth-token', '', {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
-      maxAge: 0 // Expire immediately
+      path: '/',
+      maxAge: 0, // Expire immediately
+      expires: new Date(0) // Set explicit past expiry date
     });
 
     response.cookies.set('session-token', '', {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
-      maxAge: 0 // Expire immediately
+      path: '/',
+      maxAge: 0, // Expire immediately
+      expires: new Date(0) // Set explicit past expiry date
     });
 
     return response;
@@ -69,14 +73,18 @@ export async function POST(request: NextRequest) {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
-      maxAge: 0
+      path: '/',
+      maxAge: 0,
+      expires: new Date(0)
     });
 
     response.cookies.set('session-token', '', {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
-      maxAge: 0
+      path: '/',
+      maxAge: 0,
+      expires: new Date(0)
     });
 
     return response;

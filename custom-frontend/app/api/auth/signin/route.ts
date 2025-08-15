@@ -103,27 +103,25 @@ async function handleSignin(request: NextRequest) {
       { status: 200 }
     );
 
-    // Set different expiration times based on remember me preference
-    const jwtMaxAge = rememberMe ? 60 * 60 * 24 * 30 : 60 * 60 * 24 * 1; // 30 days or 1 day
-    const sessionMaxAge = rememberMe ? 60 * 60 * 24 * 30 : 60 * 60 * 24 * 1; // 30 days or 1 day
+    // Set cookie options based on remember me preference
+    const cookieOptions: any = {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      path: '/'
+    };
+
+    // Only set maxAge for remember me (30 days), otherwise it's a session cookie
+    if (rememberMe) {
+      cookieOptions.maxAge = 60 * 60 * 24 * 30; // 30 days
+    }
+    // If rememberMe is false, no maxAge = session cookie (expires on browser close)
 
     // Set JWT token (for backward compatibility)
-    response.cookies.set('auth-token', jwtToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      path: '/',
-      maxAge: jwtMaxAge
-    });
+    response.cookies.set('auth-token', jwtToken, cookieOptions);
 
     // Set session token (primary authentication method)
-    response.cookies.set('session-token', session.session_token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      path: '/',
-      maxAge: sessionMaxAge
-    });
+    response.cookies.set('session-token', session.session_token, cookieOptions);
 
     return response;
   } catch (error) {
