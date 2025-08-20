@@ -165,8 +165,8 @@ export async function POST(request: NextRequest) {
           delimiter: ',',
         });
         actualRowCount = csvData.length;
-        if (csvData.length > 0) {
-          detectedColumns = Object.keys(csvData[0]);
+        if (csvData.length > 0 && csvData[0] && typeof csvData[0] === 'object') {
+          detectedColumns = Object.keys(csvData[0] as Record<string, any>);
           actualColumnCount = detectedColumns.length;
           sampleData = csvData.slice(0, 5); // First 5 rows for preview
         }
@@ -176,8 +176,8 @@ export async function POST(request: NextRequest) {
         const worksheet = workbook.Sheets[sheetName];
         const jsonData = XLSX.utils.sheet_to_json(worksheet);
         actualRowCount = jsonData.length;
-        if (jsonData.length > 0) {
-          detectedColumns = Object.keys(jsonData[0] as any);
+        if (jsonData.length > 0 && jsonData[0] && typeof jsonData[0] === 'object') {
+          detectedColumns = Object.keys(jsonData[0] as Record<string, any>);
           actualColumnCount = detectedColumns.length;
           sampleData = jsonData.slice(0, 5);
         }

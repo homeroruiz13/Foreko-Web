@@ -141,8 +141,8 @@ export async function GET(
       errors = processingErrors.map(err => ({
         type: err.error_type,
         message: err.error_message,
-        severity: err.error_type === 'critical' ? 'critical' : 
-                 err.error_type === 'validation_error' ? 'error' : 'warning'
+        severity: err.error_type === 'critical' ? 'critical' as const : 
+                 err.error_type === 'validation_error' ? 'error' as const : 'warning' as const
       }));
     }
 
