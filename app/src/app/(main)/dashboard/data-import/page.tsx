@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
 import { Upload, Clock, Plus, Rocket, FileSpreadsheet, Database, CheckCircle, AlertCircle, Loader2, X } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -34,8 +34,56 @@ export default function DataImportPage() {
   const [selectedEntityType, setSelectedEntityType] = useState<string>('');
   const [mappingDialogOpen, setMappingDialogOpen] = useState(false);
   const [selectedFileForMapping, setSelectedFileForMapping] = useState<string | null>(null);
+  const [isClearing, setIsClearing] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
+
+  // Load existing uploaded files when component mounts
+  useEffect(() => {
+    const loadExistingFiles = async () => {
+      try {
+        const response = await fetch('/api/data-ingestion/upload');
+        if (response.ok) {
+          const result = await response.json();
+          
+          // Convert backend format to frontend format
+          const existingFiles: FileUpload[] = result.uploads.map((upload: any) => ({
+            id: upload.id,
+            name: upload.originalFilename,
+            size: upload.fileSizeBytes,
+            type: upload.fileType,
+            status: upload.status as FileUpload['status'],
+            progress: 100, // Already uploaded
+            entityType: upload.detectedEntityType,
+          }));
+
+          setFiles(existingFiles);
+          
+          // Show notification if files were loaded
+          if (existingFiles.length > 0) {
+            toast({
+              title: "Files loaded",
+              description: `Found ${existingFiles.length} previously uploaded file${existingFiles.length === 1 ? '' : 's'}.`,
+            });
+          }
+          
+          // Start polling for any files that are still processing
+          existingFiles.forEach(file => {
+            if (file.status !== 'completed' && file.status !== 'failed') {
+              pollFileStatus(file.id);
+            }
+          });
+        }
+      } catch (error) {
+        console.error('Error loading existing files:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadExistingFiles();
+  }, []);
 
   const handleDrag = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -136,17 +184,19 @@ export default function DataImportPage() {
 
       const result = await response.json();
 
+      // Update the file with the backend ID and other details
       setFiles(prev => prev.map(f => 
         f.id === fileId ? { 
           ...f, 
+          id: result.fileUpload.id, // Use the backend-generated ID
           status: 'uploaded',
           progress: 100,
           entityType: result.fileUpload.detectedEntityType
         } : f
       ));
 
-      // Start polling for status updates
-      pollFileStatus(fileId);
+      // Start polling for status updates using the backend ID
+      pollFileStatus(result.fileUpload.id);
 
       toast({
         title: "Upload successful",
@@ -242,6 +292,39 @@ export default function DataImportPage() {
     setMappingDialogOpen(true);
   };
 
+  const handleClearAllData = async () => {
+    if (!confirm('Are you sure you want to clear all uploaded files and data? This action cannot be undone.')) {
+      return;
+    }
+
+    setIsClearing(true);
+    try {
+      const response = await fetch('/api/data-ingestion/clear-data', {
+        method: 'DELETE'
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        setFiles([]);
+        toast({
+          title: "Data cleared successfully",
+          description: `Deleted ${result.details.s3FilesDeleted} files from S3 and all database records.`,
+        });
+      } else {
+        throw new Error('Failed to clear data');
+      }
+    } catch (error) {
+      console.error('Clear data error:', error);
+      toast({
+        title: "Error clearing data",
+        description: "Failed to clear all data. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsClearing(false);
+    }
+  };
+
   const handleConfirmMapping = async (mappings: Array<{sourceColumn: string; targetField: string; isRequired: boolean; confidence: number}>) => {
     if (!selectedFileForMapping) return;
 
@@ -298,7 +381,15 @@ export default function DataImportPage() {
         </div>
       </div>
 
-        {files.length === 0 ? (
+        {isLoading ? (
+          /* Loading state */
+          <div className="flex items-center justify-center p-12">
+            <div className="text-center space-y-4">
+              <Loader2 className="w-8 h-8 mx-auto animate-spin text-primary" />
+              <p className="text-muted-foreground">Loading your uploaded files...</p>
+            </div>
+          </div>
+        ) : files.length === 0 ? (
           /* No data state - following proper design system */
           <div className="flex flex-col items-center justify-center min-h-[60vh]">
             <div className="max-w-2xl text-center space-y-8">
@@ -428,10 +519,25 @@ export default function DataImportPage() {
           <div className="flex flex-col gap-4">
             <div className="flex items-center justify-between">
               <h3 className="text-lg font-medium">Uploaded Files</h3>
-              <Button onClick={() => fileInputRef.current?.click()}>
-                <Plus className="w-4 h-4 mr-2" />
-                Add More Files
-              </Button>
+              <div className="flex gap-2">
+                <Button 
+                  variant="destructive" 
+                  size="sm"
+                  onClick={handleClearAllData}
+                  disabled={isClearing}
+                >
+                  {isClearing ? (
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  ) : (
+                    <X className="w-4 h-4 mr-2" />
+                  )}
+                  Clear All Data
+                </Button>
+                <Button onClick={() => fileInputRef.current?.click()}>
+                  <Plus className="w-4 h-4 mr-2" />
+                  Add More Files
+                </Button>
+              </div>
               <input
                 ref={fileInputRef}
                 type="file"
@@ -459,6 +565,13 @@ export default function DataImportPage() {
                     {file.entityType && (
                       <Badge variant="secondary" className="capitalize">
                         {file.entityType.replace('_', ' ')}
+                      </Badge>
+                    )}
+                    
+                    {file.status === 'uploaded' && (
+                      <Badge variant="outline" className="text-green-600 border-green-600">
+                        <CheckCircle className="w-3 h-3 mr-1" />
+                        Saved
                       </Badge>
                     )}
                   </div>
