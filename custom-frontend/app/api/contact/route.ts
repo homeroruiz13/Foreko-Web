@@ -94,7 +94,7 @@ async function sendWithNodemailer(emailData: any): Promise<{ success: boolean; m
     // Dynamic import to handle serverless environments better
     const nodemailer = await import('nodemailer');
     
-    const transporter = nodemailer.default.createTransporter({
+    const transporter = nodemailer.default.createTransport({
       service: 'gmail',
       auth: {
         user: process.env.GMAIL_USER || 'forekoai@gmail.com',
