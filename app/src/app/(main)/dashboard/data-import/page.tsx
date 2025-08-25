@@ -1,24 +1,68 @@
 'use client';
 
+import * as React from "react"
 import { useState, useRef, useCallback, useEffect } from 'react';
-import { Upload, Clock, Plus, Rocket, FileSpreadsheet, Database, CheckCircle, AlertCircle, Loader2, X } from "lucide-react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { 
+  Upload, 
+  Plus, 
+  X, 
+  FileSpreadsheet, 
+  Database,
+  MoreHorizontal,
+  Loader2,
+  CheckCircle,
+  AlertCircle,
+  Clock,
+  Trash2,
+  Eye,
+  RotateCcw
+} from "lucide-react";
+
 import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Progress } from "@/components/ui/progress";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
-import { ColumnMappingDialog } from "./_components/column-mapping-dialog";
 
 interface FileUpload {
   id: string;
   name: string;
   size: number;
   type: string;
-  status: 'uploading' | 'uploaded' | 'analyzing' | 'mapping_required' | 'processing' | 'completed' | 'failed';
+  status: 'uploading' | 'uploaded' | 'analyzing' | 'mapping_required' | 'processing' | 'review_required' | 'completed' | 'failed';
   progress: number;
-  entityType?: string;
   errors?: string[];
   columnDetections?: Array<{
     columnName: string;
@@ -26,16 +70,16 @@ interface FileUpload {
     confidence: number;
     dataType: string;
   }>;
+  uploadedAt?: string;
 }
 
 export default function DataImportPage() {
   const [files, setFiles] = useState<FileUpload[]>([]);
   const [dragActive, setDragActive] = useState(false);
-  const [selectedEntityType, setSelectedEntityType] = useState<string>('');
-  const [mappingDialogOpen, setMappingDialogOpen] = useState(false);
-  const [selectedFileForMapping, setSelectedFileForMapping] = useState<string | null>(null);
   const [isClearing, setIsClearing] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [processingFiles, setProcessingFiles] = useState<Set<string>>(new Set());
+  const [uploadDialogOpen, setUploadDialogOpen] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 
@@ -47,20 +91,36 @@ export default function DataImportPage() {
         if (response.ok) {
           const result = await response.json();
           
-          // Convert backend format to frontend format
-          const existingFiles: FileUpload[] = result.uploads.map((upload: any) => ({
-            id: upload.id,
-            name: upload.originalFilename,
-            size: upload.fileSizeBytes,
-            type: upload.fileType,
-            status: upload.status as FileUpload['status'],
-            progress: 100, // Already uploaded
-            entityType: upload.detectedEntityType,
-          }));
+          const existingFiles: FileUpload[] = [];
+          for (const upload of result.uploads) {
+            let columnDetections = undefined;
+            
+            if (upload.status === 'review_required' || upload.status === 'mapping_required') {
+              try {
+                const statusResponse = await fetch(`/api/data-ingestion/status/${upload.id}`);
+                if (statusResponse.ok) {
+                  const statusData = await statusResponse.json();
+                  columnDetections = statusData.columnDetections;
+                }
+              } catch (error) {
+                console.error('Failed to fetch column detections for', upload.id, error);
+              }
+            }
+            
+            existingFiles.push({
+              id: upload.id,
+              name: upload.originalFilename,
+              size: upload.fileSizeBytes,
+              type: upload.fileType,
+              status: upload.status as FileUpload['status'],
+              progress: 100,
+              columnDetections: columnDetections || undefined,
+              uploadedAt: upload.uploadedAt,
+            });
+          }
 
           setFiles(existingFiles);
           
-          // Show notification if files were loaded
           if (existingFiles.length > 0) {
             toast({
               title: "Files loaded",
@@ -68,9 +128,8 @@ export default function DataImportPage() {
             });
           }
           
-          // Start polling for any files that are still processing
           existingFiles.forEach(file => {
-            if (file.status !== 'completed' && file.status !== 'failed') {
+            if (!['completed', 'failed', 'review_required', 'mapping_required'].includes(file.status)) {
               pollFileStatus(file.id);
             }
           });
@@ -117,6 +176,9 @@ export default function DataImportPage() {
       'text/tab-separated-values'
     ];
 
+    // Close dialog immediately when files are selected
+    setUploadDialogOpen(false);
+
     for (const file of fileList) {
       if (!supportedTypes.includes(file.type)) {
         toast({
@@ -127,7 +189,7 @@ export default function DataImportPage() {
         continue;
       }
 
-      if (file.size > 50 * 1024 * 1024) { // 50MB limit
+      if (file.size > 50 * 1024 * 1024) {
         toast({
           title: "File too large",
           description: `${file.name} exceeds the 50MB limit.`,
@@ -143,7 +205,7 @@ export default function DataImportPage() {
         type: file.type,
         status: 'uploading',
         progress: 0,
-        entityType: (selectedEntityType && selectedEntityType !== 'auto') ? selectedEntityType : undefined,
+        uploadedAt: new Date().toISOString(),
       };
 
       setFiles(prev => [...prev, newFile]);
@@ -155,19 +217,14 @@ export default function DataImportPage() {
     try {
       const formData = new FormData();
       formData.append('file', file);
-      if (selectedEntityType && selectedEntityType !== 'auto') {
-        formData.append('entityType', selectedEntityType);
-      }
       formData.append('priority', 'normal');
 
-      // Simulate upload progress
       const updateProgress = (progress: number) => {
         setFiles(prev => prev.map(f => 
           f.id === fileId ? { ...f, progress, status: progress === 100 ? 'analyzing' : 'uploading' } : f
         ));
       };
 
-      // Simulate progress
       for (let i = 0; i <= 100; i += 20) {
         updateProgress(i);
         await new Promise(resolve => setTimeout(resolve, 200));
@@ -183,20 +240,93 @@ export default function DataImportPage() {
       }
 
       const result = await response.json();
-
-      // Update the file with the backend ID and other details
+      const backendFileId = result.fileUpload.id;
+      
       setFiles(prev => prev.map(f => 
         f.id === fileId ? { 
           ...f, 
-          id: result.fileUpload.id, // Use the backend-generated ID
-          status: 'uploaded',
+          id: backendFileId,
+          status: 'analyzing',
           progress: 100,
-          entityType: result.fileUpload.detectedEntityType
         } : f
       ));
 
-      // Start polling for status updates using the backend ID
-      pollFileStatus(result.fileUpload.id);
+      setFiles(prev => prev.map(f => 
+        f.id === backendFileId ? { 
+          ...f, 
+          status: 'processing'
+        } : f
+      ));
+      
+      try {
+        const pipelineResponse = await fetch(`/api/data-ingestion/complete-pipeline/${backendFileId}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' }
+        });
+
+        if (pipelineResponse.ok) {
+          const pipelineResult = await pipelineResponse.json();
+          
+          const analyzeResponse = await fetch(`/api/data-ingestion/analyze/${backendFileId}`, {
+            method: 'POST'
+          });
+          
+          let columnDetections = [];
+          if (analyzeResponse.ok) {
+            const analyzeResult = await analyzeResponse.json();
+            columnDetections = analyzeResult.mappingSuggestions?.map((s: any) => ({
+              columnName: s.sourceColumn,
+              suggestedField: s.targetField,
+              confidence: s.confidence,
+              dataType: 'text',
+              reasoning: s.reasoning
+            })) || [];
+          }
+          
+          setFiles(prev => prev.map(f => 
+            f.id === backendFileId ? { 
+              ...f, 
+              status: 'review_required',
+              columnDetections
+            } : f
+          ));
+          
+          toast({
+            title: "🤖 AI Processing Complete!",
+            description: `${file.name} has been automatically processed. Created ${pipelineResult.pipeline_summary?.step3_processing?.processed_records || 0} records.`,
+          });
+          
+        } else {
+          const errorResult = await pipelineResponse.json();
+          throw new Error(errorResult.details || 'AI processing failed');
+        }
+      } catch (pipelineError) {
+        console.error('Auto-pipeline error:', pipelineError);
+        
+        const analyzeResponse = await fetch(`/api/data-ingestion/analyze/${backendFileId}`, {
+          method: 'POST'
+        });
+        
+        if (analyzeResponse.ok) {
+          const analyzeResult = await analyzeResponse.json();
+          
+          setFiles(prev => prev.map(f => 
+            f.id === backendFileId ? { 
+              ...f, 
+              status: 'review_required',
+              columnDetections: analyzeResult.mappingSuggestions?.map((s: any) => ({
+                columnName: s.sourceColumn,
+                suggestedField: s.targetField,
+                confidence: s.confidence,
+                dataType: 'text',
+                reasoning: s.reasoning
+              }))
+            } : f
+          ));
+        }
+      }
+
+      pollFileStatus(backendFileId);
 
       toast({
         title: "Upload successful",
@@ -236,8 +366,7 @@ export default function DataImportPage() {
         } : f
       ));
 
-      // Continue polling if not in final state
-      if (!['completed', 'failed', 'cancelled'].includes(status.status)) {
+      if (!['completed', 'failed', 'cancelled', 'review_required', 'mapping_required'].includes(status.status)) {
         setTimeout(() => pollFileStatus(fileId), 2000);
       }
     } catch (error) {
@@ -249,54 +378,7 @@ export default function DataImportPage() {
     setFiles(prev => prev.filter(f => f.id !== fileId));
   };
 
-  const getStatusIcon = (status: string) => {
-    switch (status) {
-      case 'uploading':
-      case 'analyzing':
-      case 'processing':
-        return <Loader2 className="w-4 h-4 animate-spin" />;
-      case 'completed':
-        return <CheckCircle className="w-4 h-4 text-green-500" />;
-      case 'failed':
-        return <AlertCircle className="w-4 h-4 text-red-500" />;
-      case 'mapping_required':
-        return <Clock className="w-4 h-4 text-yellow-500" />;
-      default:
-        return <Clock className="w-4 h-4 text-gray-500" />;
-    }
-  };
-
-  const getStatusText = (status: string) => {
-    switch (status) {
-      case 'uploading': return 'Uploading...';
-      case 'uploaded': return 'Upload complete';
-      case 'analyzing': return 'Analyzing file...';
-      case 'mapping_required': return 'Requires column mapping';
-      case 'processing': return 'Processing data...';
-      case 'completed': return 'Processing complete';
-      case 'failed': return 'Processing failed';
-      default: return status;
-    }
-  };
-
-  const formatFileSize = (bytes: number) => {
-    if (bytes === 0) return '0 Bytes';
-    const k = 1024;
-    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-  };
-
-  const handleOpenMapping = (fileId: string) => {
-    setSelectedFileForMapping(fileId);
-    setMappingDialogOpen(true);
-  };
-
   const handleClearAllData = async () => {
-    if (!confirm('Are you sure you want to clear all uploaded files and data? This action cannot be undone.')) {
-      return;
-    }
-
     setIsClearing(true);
     try {
       const response = await fetch('/api/data-ingestion/clear-data', {
@@ -325,310 +407,291 @@ export default function DataImportPage() {
     }
   };
 
-  const handleConfirmMapping = async (mappings: Array<{sourceColumn: string; targetField: string; isRequired: boolean; confidence: number}>) => {
-    if (!selectedFileForMapping) return;
-
-    try {
-      const response = await fetch(`/api/data-ingestion/status/${selectedFileForMapping}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          action: 'confirm_mapping',
-          columnMappings: mappings
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to confirm mapping');
-      }
-
-      const result = await response.json();
-
-      setFiles(prev => prev.map(f => 
-        f.id === selectedFileForMapping ? { 
-          ...f, 
-          status: 'processing',
-          progress: 0
-        } : f
-      ));
-
-      // Start polling for processing status
-      pollFileStatus(selectedFileForMapping);
-
-      toast({
-        title: "Mapping confirmed",
-        description: "Your file is now being processed with the confirmed mappings.",
-      });
-
-    } catch (error) {
-      console.error('Mapping confirmation error:', error);
-      toast({
-        title: "Mapping failed",
-        description: "Failed to confirm column mappings. Please try again.",
-        variant: "destructive",
-      });
+  const getStatusIcon = (status: string) => {
+    switch (status) {
+      case 'uploading':
+      case 'analyzing':
+      case 'processing':
+        return <Loader2 className="h-4 w-4 animate-spin text-blue-500" />;
+      case 'completed':
+        return <CheckCircle className="h-4 w-4 text-green-500" />;
+      case 'failed':
+        return <AlertCircle className="h-4 w-4 text-red-500" />;
+      case 'review_required':
+        return <Eye className="h-4 w-4 text-blue-500" />;
+      case 'mapping_required':
+        return <Clock className="h-4 w-4 text-yellow-500" />;
+      default:
+        return <Clock className="h-4 w-4 text-gray-500" />;
     }
   };
 
+  const getStatusText = (status: string) => {
+    switch (status) {
+      case 'uploading': return 'Uploading...';
+      case 'uploaded': return 'Upload complete';
+      case 'analyzing': return 'Analyzing file...';
+      case 'review_required': return 'Ready for review';
+      case 'mapping_required': return 'Mapping required';
+      case 'processing': return 'Processing...';
+      case 'completed': return 'Completed';
+      case 'failed': return 'Failed';
+      default: return status;
+    }
+  };
+
+  const getStatusBadge = (status: string) => {
+    switch (status) {
+      case 'uploading':
+      case 'analyzing':
+      case 'processing':
+        return <Badge variant="secondary">Processing</Badge>;
+      case 'completed':
+        return <Badge variant="default" className="bg-green-100 text-green-800 border-green-200">Completed</Badge>;
+      case 'failed':
+        return <Badge variant="destructive">Failed</Badge>;
+      case 'review_required':
+        return <Badge variant="default" className="bg-blue-100 text-blue-800 border-blue-200">Ready for Review</Badge>;
+      case 'mapping_required':
+        return <Badge variant="outline">Mapping Required</Badge>;
+      default:
+        return <Badge variant="outline">{status}</Badge>;
+    }
+  };
+
+  const formatFileSize = (bytes: number) => {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+  };
+
+  const formatDate = (dateString?: string) => {
+    if (!dateString) return '-';
+    return new Date(dateString).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  };
+
+  if (isLoading) {
+    return (
+      <div className="flex h-[450px] items-center justify-center">
+        <div className="flex flex-col items-center gap-2">
+          <Loader2 className="h-8 w-8 animate-spin" />
+          <p className="text-sm text-muted-foreground">Loading files...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="@container/main flex flex-col gap-4 md:gap-6">
-      <div className="flex items-center justify-between">
+    <div className="flex-1 space-y-4 p-4 pt-6 md:p-8">
+      <div className="flex items-center justify-between space-y-2">
         <div>
-          <h1 className="text-2xl font-bold">Import Data</h1>
-          <p className="text-muted-foreground">Upload and process your business data files</p>
+          <h2 className="text-3xl font-bold tracking-tight">Data Import</h2>
+          <p className="text-muted-foreground">
+            Upload and process your business data files with AI-powered column mapping.
+          </p>
         </div>
       </div>
 
-        {isLoading ? (
-          /* Loading state */
-          <div className="flex items-center justify-center p-12">
-            <div className="text-center space-y-4">
-              <Loader2 className="w-8 h-8 mx-auto animate-spin text-primary" />
-              <p className="text-muted-foreground">Loading your uploaded files...</p>
+      <div className="grid gap-4">
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
+            <div className="space-y-1">
+              <CardTitle className="text-base font-medium">
+                Uploaded Files
+              </CardTitle>
+              <CardDescription>
+                {files.length === 0 ? 'No files uploaded yet' : `${files.length} file${files.length === 1 ? '' : 's'} uploaded`}
+              </CardDescription>
             </div>
-          </div>
-        ) : files.length === 0 ? (
-          /* No data state - following proper design system */
-          <div className="flex flex-col items-center justify-center min-h-[60vh]">
-            <div className="max-w-2xl text-center space-y-8">
-              {/* Main illustration */}
-              <div className="flex justify-center">
-                <div className="relative">
-                  <div className="w-32 h-32 bg-background rounded-full flex items-center justify-center">
-                    <img src="/images/ForekoLogo.png" alt="Foreko Logo" className="w-24 h-24" />
-                  </div>
-                </div>
-              </div>
-
-              {/* Main heading */}
-              <div className="space-y-2">
-                <h2 className="text-3xl font-bold tracking-tight">No data</h2>
-                <p className="text-muted-foreground text-lg">
-                  You may need
-                </p>
-              </div>
-
-              {/* Action items matching reference design */}
-              <div className="flex flex-col gap-6 max-w-md mx-auto">
-                {/* Launch product */}
-                <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Rocket className="w-5 h-5 text-primary" />
-                  </div>
-                  <div className="text-left">
-                    <h3 className="font-semibold text-foreground mb-1">Launch product</h3>
-                    <p className="text-sm text-muted-foreground">
-                      If you haven't launched your product yet, come back when you do.
-                    </p>
-                  </div>
-                </div>
-
-                {/* Waiting for data */}
-                <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 bg-orange-500/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Clock className="w-5 h-5 text-orange-500" />
-                  </div>
-                  <div className="text-left">
-                    <h3 className="font-semibold text-foreground mb-1">Waiting for data</h3>
-                    <p className="text-sm text-muted-foreground">
-                      Wait for your product running data.
-                    </p>
-                  </div>
-                </div>
-
-                {/* Adding data - clickable */}
-                <div 
-                  className="flex items-start gap-4 cursor-pointer hover:opacity-80 transition-opacity"
-                  onClick={() => fileInputRef.current?.click()}
-                >
-                  <div className="w-10 h-10 bg-green-500/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Plus className="w-5 h-5 text-green-500" />
-                  </div>
-                  <div className="text-left">
-                    <h3 className="font-semibold text-foreground mb-1">Adding data</h3>
-                    <p className="text-sm text-muted-foreground">
-                      Please add data manually on other pages.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Data type selection */}
-              <div className="space-y-4">
-                <div className="max-w-sm mx-auto">
-                  <label className="text-sm font-medium mb-2 block">Data type (optional)</label>
-                  <Select value={selectedEntityType} onValueChange={setSelectedEntityType}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Auto-detect data type" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="auto">Auto-detect</SelectItem>
-                      <SelectItem value="inventory">Inventory</SelectItem>
-                      <SelectItem value="recipes">Recipes/BOM</SelectItem>
-                      <SelectItem value="ingredients">Ingredients</SelectItem>
-                      <SelectItem value="menu_items">Menu Items</SelectItem>
-                      <SelectItem value="orders">Orders</SelectItem>
-                      <SelectItem value="suppliers">Suppliers</SelectItem>
-                      <SelectItem value="customers">Customers</SelectItem>
-                      <SelectItem value="sales">Sales</SelectItem>
-                      <SelectItem value="purchases">Purchases</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-
-              {/* Drag and drop overlay */}
-              <div
-                className={`fixed inset-0 flex items-center justify-center transition-all duration-200 z-50 ${
-                  dragActive 
-                    ? 'bg-background/80 backdrop-blur-sm opacity-100' 
-                    : 'opacity-0 pointer-events-none'
-                }`}
-                onDragEnter={handleDrag}
-                onDragLeave={handleDrag}
-                onDragOver={handleDrag}
-                onDrop={handleDrop}
-              >
-                <Card className="max-w-md mx-4">
-                  <CardContent className="text-center space-y-4">
-                    <Upload className="w-12 h-12 mx-auto text-primary" />
-                    <div className="space-y-2">
-                      <CardTitle>Drop your files here</CardTitle>
-                      <CardDescription>
-                        Supports CSV, Excel, JSON, XML, TXT files up to 50MB
-                      </CardDescription>
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-
-              <input
-                ref={fileInputRef}
-                type="file"
-                multiple
-                accept=".csv,.xlsx,.xls,.json,.xml,.txt,.tsv"
-                onChange={(e) => e.target.files && handleFiles(Array.from(e.target.files))}
-                className="hidden"
-              />
-            </div>
-          </div>
-        ) : (
-          /* Files uploaded state */
-          <div className="flex flex-col gap-4">
-            <div className="flex items-center justify-between">
-              <h3 className="text-lg font-medium">Uploaded Files</h3>
-              <div className="flex gap-2">
-                <Button 
-                  variant="destructive" 
+            <div className="flex items-center space-x-2">
+              {files.length > 0 && (
+                <Button
+                  variant="outline"
                   size="sm"
                   onClick={handleClearAllData}
                   disabled={isClearing}
+                  className="text-red-600 border-red-200 hover:bg-red-50"
                 >
                   {isClearing ? (
-                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
                   ) : (
-                    <X className="w-4 h-4 mr-2" />
+                    <Trash2 className="h-4 w-4 mr-2" />
                   )}
-                  Clear All Data
+                  Clear All
                 </Button>
-                <Button onClick={() => fileInputRef.current?.click()}>
-                  <Plus className="w-4 h-4 mr-2" />
-                  Add More Files
-                </Button>
-              </div>
-              <input
-                ref={fileInputRef}
-                type="file"
-                multiple
-                accept=".csv,.xlsx,.xls,.json,.xml,.txt,.tsv"
-                onChange={(e) => e.target.files && handleFiles(Array.from(e.target.files))}
-                className="hidden"
-              />
-            </div>
-
-            {files.map((file) => (
-              <Card key={file.id} className="p-6">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-4 flex-1">
-                    <div className="flex items-center space-x-2">
-                      {getStatusIcon(file.status)}
-                      <div>
-                        <p className="font-medium">{file.name}</p>
-                        <p className="text-sm text-muted-foreground">
-                          {formatFileSize(file.size)} • {getStatusText(file.status)}
-                        </p>
+              )}
+              
+              <Dialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen}>
+                <DialogTrigger asChild>
+                  <Button size="sm">
+                    <Plus className="h-4 w-4 mr-2" />
+                    Upload Files
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-[425px]">
+                  <DialogHeader>
+                    <DialogTitle>Upload Data Files</DialogTitle>
+                    <DialogDescription>
+                      Drag and drop files or click to select. Supports CSV, Excel, JSON, XML, and TXT files up to 50MB.
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div className="grid gap-4 py-4">
+                    <div
+                      className={`relative rounded-lg border-2 border-dashed p-8 text-center transition-colors ${
+                        dragActive 
+                          ? 'border-primary bg-primary/5' 
+                          : 'border-muted-foreground/25 hover:border-muted-foreground/50'
+                      }`}
+                      onDragEnter={handleDrag}
+                      onDragLeave={handleDrag}
+                      onDragOver={handleDrag}
+                      onDrop={handleDrop}
+                    >
+                      <Upload className="mx-auto h-12 w-12 text-muted-foreground" />
+                      <div className="mt-4">
+                        <Label htmlFor="file-upload" className="cursor-pointer">
+                          <span className="mt-2 block text-sm font-medium">
+                            Choose files or drag and drop
+                          </span>
+                          <span className="mt-1 block text-xs text-muted-foreground">
+                            CSV, Excel, JSON, XML, TXT up to 50MB
+                          </span>
+                        </Label>
+                        <Input
+                          ref={fileInputRef}
+                          id="file-upload"
+                          type="file"
+                          multiple
+                          accept=".csv,.xlsx,.xls,.json,.xml,.txt,.tsv"
+                          onChange={(e) => e.target.files && handleFiles(Array.from(e.target.files))}
+                          className="sr-only"
+                        />
                       </div>
                     </div>
-                    
-                    {file.entityType && (
-                      <Badge variant="secondary" className="capitalize">
-                        {file.entityType.replace('_', ' ')}
-                      </Badge>
-                    )}
-                    
-                    {file.status === 'uploaded' && (
-                      <Badge variant="outline" className="text-green-600 border-green-600">
-                        <CheckCircle className="w-3 h-3 mr-1" />
-                        Saved
-                      </Badge>
-                    )}
                   </div>
-
-                  <div className="flex items-center space-x-4">
-                    {(file.status === 'uploading' || file.status === 'processing') && (
-                      <div className="w-32">
-                        <Progress value={file.progress} />
-                      </div>
-                    )}
-                    
-                    {file.status === 'mapping_required' && (
-                      <Button 
-                        variant="outline" 
-                        size="sm"
-                        onClick={() => handleOpenMapping(file.id)}
-                      >
-                        Configure Mapping
-                      </Button>
-                    )}
-                    
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => removeFile(file.id)}
-                    >
-                      <X className="w-4 h-4" />
-                    </Button>
-                  </div>
+                </DialogContent>
+              </Dialog>
+            </div>
+          </CardHeader>
+          <CardContent>
+            {files.length === 0 ? (
+              <div className="flex h-[200px] items-center justify-center">
+                <div className="flex flex-col items-center gap-2 text-center">
+                  <FileSpreadsheet className="h-8 w-8 text-muted-foreground" />
+                  <h3 className="font-semibold">No files uploaded</h3>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    Get started by uploading your first data file.
+                  </p>
+                  <Button onClick={() => setUploadDialogOpen(true)} size="sm">
+                    <Plus className="h-4 w-4 mr-2" />
+                    Upload Files
+                  </Button>
+                </div>
+              </div>
+            ) : (
+              <>
+                <div className="rounded-md border">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead className="w-[40px]"></TableHead>
+                        <TableHead>File Name</TableHead>
+                        <TableHead>Size</TableHead>
+                        <TableHead>Status</TableHead>
+                        <TableHead>Uploaded</TableHead>
+                        <TableHead>Progress</TableHead>
+                        <TableHead className="w-[70px]"></TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {files.map((file) => (
+                        <TableRow key={file.id}>
+                          <TableCell>
+                            {getStatusIcon(file.status)}
+                          </TableCell>
+                          <TableCell className="font-medium">
+                            <div className="flex items-center space-x-2">
+                              <FileSpreadsheet className="h-4 w-4 text-muted-foreground" />
+                              <span>{file.name}</span>
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            <span className="text-muted-foreground">
+                              {formatFileSize(file.size)}
+                            </span>
+                          </TableCell>
+                          <TableCell>
+                            {getStatusBadge(file.status)}
+                          </TableCell>
+                          <TableCell>
+                            <span className="text-muted-foreground">
+                              {formatDate(file.uploadedAt)}
+                            </span>
+                          </TableCell>
+                          <TableCell>
+                            {(file.status === 'uploading' || file.status === 'processing') ? (
+                              <div className="w-[100px]">
+                                <Progress value={file.progress} className="h-2" />
+                              </div>
+                            ) : (
+                              <span className="text-muted-foreground text-sm">
+                                {getStatusText(file.status)}
+                              </span>
+                            )}
+                          </TableCell>
+                          <TableCell>
+                            <DropdownMenu>
+                              <DropdownMenuTrigger asChild>
+                                <Button variant="ghost" className="h-8 w-8 p-0">
+                                  <span className="sr-only">Open menu</span>
+                                  <MoreHorizontal className="h-4 w-4" />
+                                </Button>
+                              </DropdownMenuTrigger>
+                              <DropdownMenuContent align="end">
+                                <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem
+                                  onClick={() => removeFile(file.id)}
+                                  className="text-red-600"
+                                >
+                                  <X className="mr-2 h-4 w-4" />
+                                  Remove
+                                </DropdownMenuItem>
+                              </DropdownMenuContent>
+                            </DropdownMenu>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
                 </div>
 
-                {file.errors && file.errors.length > 0 && (
-                  <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-md">
-                    <p className="text-sm text-red-800 font-medium mb-1">Errors:</p>
-                    <ul className="text-sm text-red-700 space-y-1">
-                      {file.errors.map((error, index) => (
-                        <li key={index}>• {error}</li>
-                      ))}
-                    </ul>
+                {/* Review All Mappings Button */}
+                {files.some(f => f.status === 'review_required' || f.status === 'mapping_required') && (
+                  <div className="flex justify-center mt-6 pt-6 border-t">
+                    <Button 
+                      size="lg"
+                      onClick={() => window.location.href = '/dashboard/data-import/consolidated-mapping'}
+                      className="px-8 py-3 text-base font-semibold"
+                    >
+                      <Database className="w-5 h-5 mr-2" />
+                      Review All Mappings & Complete Import
+                    </Button>
                   </div>
                 )}
-              </Card>
-            ))}
-          </div>
-        )}
-
-      {/* Column mapping dialog */}
-        {selectedFileForMapping && (
-          <ColumnMappingDialog
-            open={mappingDialogOpen}
-            onOpenChange={setMappingDialogOpen}
-            fileId={selectedFileForMapping}
-            fileName={files.find(f => f.id === selectedFileForMapping)?.name || ''}
-            columnDetections={files.find(f => f.id === selectedFileForMapping)?.columnDetections || []}
-            onConfirmMapping={handleConfirmMapping}
-          />
-        )}
+              </>
+            )}
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }

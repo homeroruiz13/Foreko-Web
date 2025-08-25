@@ -5,7 +5,7 @@ const sql = process.env.DATABASE_URL ? neon(process.env.DATABASE_URL) : null;
 
 interface FileProcessingStatus {
   id: string;
-  status: 'uploaded' | 'analyzing' | 'mapping_required' | 'mapping_confirmed' | 'processing' | 'completed' | 'failed' | 'cancelled';
+  status: 'uploaded' | 'analyzing' | 'mapping_required' | 'review_required' | 'mapping_confirmed' | 'processing' | 'completed' | 'failed' | 'cancelled';
   progress: number;
   currentStep: string;
   estimatedCompletion?: string;
@@ -48,7 +48,6 @@ export async function GET(
       SELECT 
         id,
         status,
-        detected_entity_type,
         detected_row_count,
         detected_column_count,
         processing_started_at,
@@ -78,6 +77,7 @@ export async function GET(
         case 'uploaded': return 10;
         case 'analyzing': return 30;
         case 'mapping_required': return 50;
+        case 'review_required': return 75;
         case 'mapping_confirmed': return 60;
         case 'processing': return 80;
         case 'completed': return 100;
@@ -94,6 +94,7 @@ export async function GET(
         case 'uploaded': return 'File uploaded successfully';
         case 'analyzing': return 'AI analyzing file structure';
         case 'mapping_required': return 'Column mapping review required';
+        case 'review_required': return 'AI processed - Review results';
         case 'mapping_confirmed': return 'Column mapping confirmed';
         case 'processing': return 'Processing data';
         case 'completed': return 'Processing complete';
@@ -104,46 +105,59 @@ export async function GET(
       }
     };
 
-    // Fetch AI mapping suggestions if status is mapping_required
+    // Fetch real AI mapping suggestions from user_column_mappings table
     let columnDetections = undefined;
-    if (file.status === 'mapping_required' || file.status === 'analyzing') {
-      // For now, since we don't have the ai_mapping_suggestions table,
-      // we'll provide mock column detections based on common patterns
-      columnDetections = [
-        {
-          columnName: 'Sample Column 1',
-          suggestedField: 'field_1',
-          confidence: 85,
-          dataType: 'text'
-        },
-        {
-          columnName: 'Sample Column 2', 
-          suggestedField: 'field_2',
-          confidence: 90,
-          dataType: 'text'
+    if (file.status === 'mapping_required' || file.status === 'review_required' || file.status === 'analyzing') {
+      try {
+        const mappings = await sql`
+          SELECT 
+            source_column as "columnName",
+            target_field as "suggestedField", 
+            confidence_score as "confidence"
+          FROM data_ingestion.user_column_mappings 
+          WHERE file_upload_id = ${fileId}
+          ORDER BY source_column
+        `;
+        
+        if (mappings.length > 0) {
+          columnDetections = mappings.map(mapping => ({
+            columnName: mapping.columnName,
+            suggestedField: mapping.suggestedField,
+            confidence: mapping.confidence || 80,
+            dataType: 'text' // Default since we don't store this yet
+          }));
         }
-      ];
+      } catch (error) {
+        console.log('Could not fetch column mappings:', error);
+        // Fallback to empty array if table doesn't exist or query fails
+        columnDetections = [];
+      }
     }
 
-    // Fetch processing errors if any
+    // Fetch processing errors if any (with error handling for missing table)
     let errors = undefined;
     if (file.status === 'failed' || file.status === 'completed_with_errors') {
-      const processingErrors = await sql`
-        SELECT 
-          error_type,
-          error_message,
-          row_number
-        FROM data_ingestion.processing_errors
-        WHERE file_upload_id = ${fileId}
-        LIMIT 10
-      `;
+      try {
+        const processingErrors = await sql`
+          SELECT 
+            error_type,
+            error_message,
+            row_number
+          FROM data_ingestion.processing_errors
+          WHERE file_upload_id = ${fileId}
+          LIMIT 10
+        `;
 
-      errors = processingErrors.map(err => ({
-        type: err.error_type,
-        message: err.error_message,
-        severity: err.error_type === 'critical' ? 'critical' as const : 
+        errors = processingErrors.map(err => ({
+          type: err.error_type,
+          message: err.error_message,
+          severity: err.error_type === 'critical' ? 'critical' as const : 
                  err.error_type === 'validation_error' ? 'error' as const : 'warning' as const
-      }));
+        }));
+      } catch (error) {
+        // Table might not exist yet
+        console.log('Processing errors table not available');
+      }
     }
 
     const status: FileProcessingStatus = {
@@ -193,6 +207,21 @@ export async function POST(
     }
 
     switch (action) {
+      case 'mark_completed':
+        // Mark file as completed after user review
+        await sql`
+          UPDATE data_ingestion.file_uploads
+          SET status = 'completed',
+              updated_at = NOW()
+          WHERE id = ${fileId}
+        `;
+
+        return NextResponse.json({
+          success: true,
+          message: 'File marked as completed.',
+          status: 'completed'
+        });
+
       case 'confirm_mapping':
         if (!columnMappings) {
           return NextResponse.json(
@@ -206,23 +235,21 @@ export async function POST(
           await sql`
             INSERT INTO data_ingestion.user_column_mappings (
               file_upload_id,
-              source_column_name,
-              target_standard_field,
-              user_confirmed,
-              transformation_rules
+              source_column,
+              target_field,
+              is_required,
+              confidence_score
             ) VALUES (
               ${fileId},
               ${mapping.sourceColumn},
               ${mapping.targetField},
-              true,
-              ${mapping.transformationRules || null}
+              false,
+              95
             )
-            ON CONFLICT (file_upload_id, source_column_name)
+            ON CONFLICT (file_upload_id, source_column)
             DO UPDATE SET
-              target_standard_field = ${mapping.targetField},
-              user_confirmed = true,
-              transformation_rules = ${mapping.transformationRules || null},
-              updated_at = NOW()
+              target_field = ${mapping.targetField},
+              confidence_score = 95
           `;
         }
 
@@ -237,9 +264,11 @@ export async function POST(
         // Queue file for processing
         await sql`
           UPDATE data_ingestion.processing_queue
-          SET status = 'pending',
-              scheduled_for = NOW(),
-              retry_count = 0
+          SET status = 'queued',
+              started_at = NULL,
+              completed_at = NULL,
+              retry_count = 0,
+              last_error = NULL
           WHERE file_upload_id = ${fileId}
         `;
 
@@ -259,10 +288,12 @@ export async function POST(
           WHERE id = ${fileId}
         `;
 
-        // Remove from processing queue
+        // Mark processing as cancelled
         await sql`
           UPDATE data_ingestion.processing_queue
-          SET status = 'cancelled'
+          SET status = 'cancelled',
+              completed_at = NOW(),
+              last_error = 'Processing cancelled by user'
           WHERE file_upload_id = ${fileId}
         `;
 
@@ -285,25 +316,33 @@ export async function POST(
           WHERE id = ${fileId}
         `;
 
-        // Requeue for processing - remove enum casting to prevent errors
+        // Get file info for company_id
+        const fileInfo = await sql`
+          SELECT company_id FROM data_ingestion.file_uploads WHERE id = ${fileId}
+        `;
+        
+        // Requeue for processing
         await sql`
           INSERT INTO data_ingestion.processing_queue (
             file_upload_id,
+            company_id,
             priority,
-            scheduled_for,
+            status,
             max_retries
           ) VALUES (
             ${fileId},
-            'high',
-            NOW(),
+            ${fileInfo[0].company_id},
+            200,
+            'queued',
             3
           )
           ON CONFLICT (file_upload_id)
           DO UPDATE SET
-            status = 'pending',
+            status = 'queued',
             retry_count = 0,
-            scheduled_for = NOW(),
-            priority = 'high'
+            started_at = NULL,
+            completed_at = NULL,
+            last_error = NULL
         `;
 
         return NextResponse.json({

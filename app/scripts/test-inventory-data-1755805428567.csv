@@ -1,0 +1,6 @@
+item_name,quantity,unit_cost,supplier_name,sku_code
+Fresh Apples,100,0.50,Fresh Farms Co,SKU-APPLE-001-1755805428567
+Organic Bananas,200,0.30,Tropical Suppliers Ltd,SKU-BANANA-002-1755805428567
+Valencia Oranges,150,0.60,Citrus Company Inc,SKU-ORANGE-003-1755805428567
+Red Bell Peppers,75,1.25,Garden Fresh Produce,SKU-PEPPER-004-1755805428567
+Tomatoes Roma,120,0.85,Local Farm Direct,SKU-TOMATO-005-1755805428567

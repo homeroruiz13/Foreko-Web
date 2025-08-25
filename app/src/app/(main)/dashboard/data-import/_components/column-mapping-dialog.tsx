@@ -33,62 +33,62 @@ interface ColumnMappingDialogProps {
   onConfirmMapping: (mappings: ColumnMapping[]) => void;
 }
 
-// Standard field definitions based on your schema
+// Standard field definitions with context distinction
 const STANDARD_FIELDS = {
   inventory: [
-    { value: 'item_name', label: 'Item Name', required: true },
-    { value: 'sku_code', label: 'SKU Code', required: false },
-    { value: 'quantity', label: 'Quantity', required: true },
-    { value: 'unit_of_measure', label: 'Unit of Measure', required: true },
-    { value: 'unit_cost', label: 'Unit Cost', required: false },
-    { value: 'location', label: 'Storage Location', required: false },
-    { value: 'supplier_name', label: 'Supplier', required: false },
+    { value: 'item_name', label: 'Item Name (Inventory)', required: true, context: 'Stock items being tracked' },
+    { value: 'sku_code', label: 'SKU Code (Inventory)', required: false, context: 'Inventory item identifier' },
+    { value: 'quantity', label: 'Stock Quantity', required: true, context: 'Current stock level' },
+    { value: 'unit_of_measure', label: 'Stock Unit (each, box, kg)', required: false, context: 'How inventory is counted' },
+    { value: 'unit_cost', label: 'Unit Cost (Inventory)', required: false, context: 'Cost per inventory unit' },
+    { value: 'location', label: 'Storage Location', required: false, context: 'Where inventory is stored' },
+    { value: 'supplier_name', label: 'Supplier (Inventory)', required: false, context: 'Inventory supplier' },
   ],
   recipes: [
-    { value: 'item_name', label: 'Recipe/Menu Item', required: true },
-    { value: 'ingredient_name', label: 'Ingredient Name', required: true },
-    { value: 'quantity', label: 'Quantity', required: true },
-    { value: 'unit_of_measure', label: 'Unit of Measure', required: true },
-    { value: 'size_modifier', label: 'Size Modifier', required: false },
-    { value: 'modifier_quantity', label: 'Modifier Quantity', required: false },
+    { value: 'item_name', label: 'Recipe/Menu Item Name', required: true, context: 'Final dish or product name' },
+    { value: 'ingredient_name', label: 'Recipe Ingredient', required: true, context: 'Ingredient used in recipe' },
+    { value: 'quantity', label: 'Recipe Quantity', required: true, context: 'Amount needed for recipe' },
+    { value: 'unit_of_measure', label: 'Recipe Unit (cups, grams, oz)', required: true, context: 'Measurement unit in recipe' },
+    { value: 'size_modifier', label: 'Size Modifier (S/M/L)', required: false, context: 'Recipe portion size' },
+    { value: 'modifier_quantity', label: 'Modifier Quantity', required: false, context: 'Quantity adjustment for size' },
   ],
   ingredients: [
-    { value: 'name', label: 'Ingredient Name', required: true },
-    { value: 'sku_code', label: 'SKU Code', required: false },
-    { value: 'unit_cost', label: 'Unit Cost', required: false },
-    { value: 'package_size', label: 'Package Size', required: false },
-    { value: 'unit_of_measure', label: 'Unit of Measure', required: true },
-    { value: 'shelf_life_days', label: 'Shelf Life (Days)', required: false },
-    { value: 'storage_location', label: 'Storage Location', required: false },
-    { value: 'supplier_name', label: 'Supplier', required: false },
+    { value: 'name', label: 'Ingredient Name (Master)', required: true, context: 'Master ingredient record' },
+    { value: 'sku_code', label: 'Ingredient SKU', required: false, context: 'Ingredient identifier code' },
+    { value: 'unit_cost', label: 'Ingredient Cost', required: false, context: 'Cost per ingredient unit' },
+    { value: 'package_size', label: 'Package Size', required: false, context: 'How ingredient is packaged' },
+    { value: 'unit_of_measure', label: 'Purchase Unit (lb, kg, case)', required: true, context: 'Unit when purchasing' },
+    { value: 'shelf_life_days', label: 'Shelf Life (Days)', required: false, context: 'How long ingredient lasts' },
+    { value: 'storage_location', label: 'Storage Location', required: false, context: 'Where ingredient is stored' },
+    { value: 'supplier_name', label: 'Ingredient Supplier', required: false, context: 'Who supplies this ingredient' },
   ],
   menu_items: [
-    { value: 'product_name', label: 'Product Name', required: true },
-    { value: 'product_category', label: 'Category', required: false },
-    { value: 'selling_price', label: 'Selling Price', required: true },
-    { value: 'pos_item_id', label: 'POS Item ID', required: false },
-    { value: 'is_active', label: 'Is Active', required: false },
+    { value: 'product_name', label: 'Menu Item Name', required: true, context: 'Name on menu' },
+    { value: 'product_category', label: 'Menu Category', required: false, context: 'Menu section (appetizers, mains, etc.)' },
+    { value: 'selling_price', label: 'Menu Price', required: true, context: 'Price customers pay' },
+    { value: 'pos_item_id', label: 'POS Item ID', required: false, context: 'Point of sale system ID' },
+    { value: 'is_active', label: 'Menu Item Active', required: false, context: 'Currently available on menu' },
   ],
   orders: [
-    { value: 'order_id', label: 'Order ID', required: true },
-    { value: 'customer_name', label: 'Customer', required: false },
-    { value: 'order_date', label: 'Order Date', required: true },
-    { value: 'item_name', label: 'Item Name', required: true },
-    { value: 'quantity', label: 'Quantity', required: true },
-    { value: 'unit_price', label: 'Unit Price', required: false },
-    { value: 'total_amount', label: 'Total Amount', required: false },
+    { value: 'order_id', label: 'Order ID', required: true, context: 'Unique order identifier' },
+    { value: 'customer_name', label: 'Customer (Orders)', required: false, context: 'Who placed the order' },
+    { value: 'order_date', label: 'Order Date', required: true, context: 'When order was placed' },
+    { value: 'item_name', label: 'Ordered Item', required: true, context: 'What was ordered' },
+    { value: 'quantity', label: 'Order Quantity', required: true, context: 'How many were ordered' },
+    { value: 'unit_price', label: 'Order Unit Price', required: false, context: 'Price per item ordered' },
+    { value: 'total_amount', label: 'Order Total', required: false, context: 'Total for this line item' },
   ],
   suppliers: [
-    { value: 'supplier_name', label: 'Supplier Name', required: true },
-    { value: 'contact_email', label: 'Contact Email', required: false },
-    { value: 'contact_phone', label: 'Contact Phone', required: false },
-    { value: 'address', label: 'Address', required: false },
+    { value: 'supplier_name', label: 'Supplier Name', required: true, context: 'Vendor company name' },
+    { value: 'contact_email', label: 'Supplier Email', required: false, context: 'Supplier contact email' },
+    { value: 'contact_phone', label: 'Supplier Phone', required: false, context: 'Supplier contact phone' },
+    { value: 'address', label: 'Supplier Address', required: false, context: 'Supplier business address' },
   ],
   customers: [
-    { value: 'customer_name', label: 'Customer Name', required: true },
-    { value: 'email', label: 'Email', required: false },
-    { value: 'phone', label: 'Phone', required: false },
-    { value: 'address', label: 'Address', required: false },
+    { value: 'customer_name', label: 'Customer Name', required: true, context: 'Customer full name' },
+    { value: 'email', label: 'Customer Email', required: false, context: 'Customer contact email' },
+    { value: 'phone', label: 'Customer Phone', required: false, context: 'Customer contact phone' },
+    { value: 'address', label: 'Customer Address', required: false, context: 'Customer address' },
   ]
 };
 
@@ -109,25 +109,42 @@ export function ColumnMappingDialog({
     }))
   );
 
-  // Detect entity type based on suggested fields
-  const detectedEntityType = columnDetections.length > 0 
-    ? detectEntityType(columnDetections.map(d => d.suggestedField))
-    : 'inventory';
+  // Combine ALL fields from ALL domains instead of restricting to one entity type
+  const availableFields = [
+    // Add domain headers for organization
+    ...Object.entries(STANDARD_FIELDS).flatMap(([domain, fields]) => 
+      fields.map(field => ({
+        ...field,
+        domain: domain,
+        label: `${field.label}`, // Keep original label
+        groupLabel: domain.charAt(0).toUpperCase() + domain.slice(1) // For grouping
+      }))
+    )
+  ].sort((a, b) => {
+    // Sort by domain first, then by required status, then alphabetically
+    if (a.domain !== b.domain) {
+      return a.domain.localeCompare(b.domain);
+    }
+    if (a.required !== b.required) {
+      return b.required ? 1 : -1; // Required fields first
+    }
+    return a.label.localeCompare(b.label);
+  });
 
-  const availableFields = STANDARD_FIELDS[detectedEntityType as keyof typeof STANDARD_FIELDS] || STANDARD_FIELDS.inventory;
-
-  function detectEntityType(suggestedFields: string[]): string {
-    const fieldCounts = Object.entries(STANDARD_FIELDS).map(([entityType, fields]) => {
-      const matchCount = suggestedFields.filter(field => 
-        fields.some(f => f.value === field)
-      ).length;
-      return { entityType, matchCount };
+  // Detect which domains are being used based on mapped fields
+  const getUsedDomains = () => {
+    const mappedFields = mappings.filter(m => m.targetField && m.targetField !== '__none__');
+    const domains = new Set<string>();
+    
+    mappedFields.forEach(mapping => {
+      const field = availableFields.find(f => f.value === mapping.targetField);
+      if (field?.domain) {
+        domains.add(field.domain);
+      }
     });
-
-    return fieldCounts.reduce((best, current) => 
-      current.matchCount > best.matchCount ? current : best
-    ).entityType;
-  }
+    
+    return Array.from(domains);
+  };
 
   const updateMapping = (sourceColumn: string, targetField: string) => {
     setMappings(prev => prev.map(mapping =>
@@ -163,14 +180,14 @@ export function ColumnMappingDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
+      <DialogContent className="max-w-6xl max-h-[85vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <Brain className="w-5 h-5 text-primary" />
-            Configure Column Mapping
+            <Brain className="w-5 h-5 text-blue-500" />
+            Review AI Results
           </DialogTitle>
           <p className="text-sm text-muted-foreground">
-            Map your data columns to standard fields for {fileName}
+            AI has automatically processed {fileName}. Review and adjust the column mappings if needed.
           </p>
         </DialogHeader>
 
@@ -184,15 +201,31 @@ export function ColumnMappingDialog({
             <Progress value={mappingProgress} />
           </div>
 
-          {/* Entity type detection */}
+          {/* Domain detection based on mapped fields */}
           <div className="p-4 bg-primary/5 rounded-lg">
-            <div className="flex items-center gap-2 mb-2">
-              <Badge variant="secondary" className="capitalize">
-                {detectedEntityType.replace('_', ' ')} Data
-              </Badge>
-              <span className="text-sm text-muted-foreground">
-                Auto-detected based on your column names
-              </span>
+            <div className="flex items-center gap-2 mb-2 flex-wrap">
+              {getUsedDomains().length > 0 ? (
+                <>
+                  <span className="text-sm font-medium">Mapped Domains:</span>
+                  {getUsedDomains().map(domain => (
+                    <Badge key={domain} variant="secondary" className="capitalize">
+                      {domain.replace('_', ' ')}
+                    </Badge>
+                  ))}
+                  <span className="text-sm text-muted-foreground">
+                    Data will be available in these dashboard areas
+                  </span>
+                </>
+              ) : (
+                <>
+                  <Badge variant="outline">
+                    Multi-Domain Mapping Available
+                  </Badge>
+                  <span className="text-sm text-muted-foreground">
+                    Map columns to fields from any dashboard domain
+                  </span>
+                </>
+              )}
             </div>
           </div>
 
@@ -205,8 +238,8 @@ export function ColumnMappingDialog({
                 const selectedField = availableFields.find(f => f.value === mapping?.targetField);
                 
                 return (
-                  <Card key={detection.columnName} className="p-4">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
+                  <Card key={detection.columnName} className="p-5">
+                    <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 items-center">
                       {/* Source column */}
                       <div className="space-y-2">
                         <h4 className="font-medium text-sm">Source Column</h4>
@@ -234,8 +267,8 @@ export function ColumnMappingDialog({
                         </div>
                       </div>
 
-                      {/* Target field selection */}
-                      <div className="space-y-2">
+                      {/* Target field selection - spans 2 columns for better width */}
+                      <div className="space-y-2 lg:col-span-2">
                         <div className="flex items-center gap-2">
                           <h4 className="font-medium text-sm">Target Field</h4>
                           {selectedField?.required && (
@@ -246,25 +279,60 @@ export function ColumnMappingDialog({
                           value={mapping?.targetField || '__none__'}
                           onValueChange={(value) => updateMapping(detection.columnName, value)}
                         >
-                          <SelectTrigger>
+                          <SelectTrigger className="w-full">
                             <SelectValue placeholder="Select field..." />
                           </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="__none__">Don't map this column</SelectItem>
-                            {availableFields.map(field => (
-                              <SelectItem key={field.value} value={field.value}>
-                                <div className="flex items-center justify-between w-full">
-                                  <span>{field.label}</span>
-                                  {field.required && (
-                                    <Badge variant="outline" className="ml-2 text-xs">
-                                      Required
-                                    </Badge>
-                                  )}
+                          <SelectContent className="w-full max-h-96">
+                            <SelectItem value="__none__">
+                              <span className="text-muted-foreground">Don't map this column</span>
+                            </SelectItem>
+                            
+                            {/* Group fields by domain */}
+                            {Object.entries(
+                              availableFields.reduce((groups, field) => {
+                                const domain = field.domain || 'other';
+                                if (!groups[domain]) groups[domain] = [];
+                                groups[domain].push(field);
+                                return groups;
+                              }, {} as Record<string, typeof availableFields>)
+                            ).map(([domain, domainFields]) => (
+                              <div key={domain}>
+                                {/* Domain separator */}
+                                <div className="px-2 py-1.5 text-xs font-semibold text-muted-foreground bg-muted/50 sticky top-0">
+                                  📊 {domain.toUpperCase()} FIELDS
                                 </div>
-                              </SelectItem>
+                                
+                                {/* Fields in this domain */}
+                                {domainFields.map(field => (
+                                  <SelectItem key={field.value} value={field.value}>
+                                    <div className="flex items-center justify-between w-full">
+                                      <span className={field.required ? 'font-medium' : ''}>
+                                        {field.label}
+                                      </span>
+                                      <div className="flex gap-1 ml-2">
+                                        {field.required && (
+                                          <Badge variant="destructive" className="text-xs">
+                                            Required
+                                          </Badge>
+                                        )}
+                                        {(field as any).is_kpi_field && (
+                                          <Badge variant="outline" className="text-xs">
+                                            KPI
+                                          </Badge>
+                                        )}
+                                      </div>
+                                    </div>
+                                  </SelectItem>
+                                ))}
+                              </div>
                             ))}
                           </SelectContent>
                         </Select>
+                        {mapping?.targetField && mapping.targetField !== '__none__' && (
+                          <p className="text-xs text-muted-foreground mt-1">
+                            AI matched this with {detection.confidence}% confidence
+                          </p>
+                        )}
                       </div>
                     </div>
                   </Card>
@@ -312,7 +380,7 @@ export function ColumnMappingDialog({
                 className="min-w-[120px]"
               >
                 <Check className="w-4 h-4 mr-2" />
-                Confirm Mapping
+✅ Approve & Complete Pipeline
               </Button>
             </div>
           </div>

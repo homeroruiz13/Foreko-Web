@@ -29,7 +29,19 @@
       "Bash(grep:*)",
       "Bash(touch:*)",
       "Bash(git rm:*)",
-      "Bash(mv:*)"
+      "Bash(mv:*)",
+      "Bash(npx kill-port:*)",
+      "Bash(npm run:*)",
+      "WebFetch(domain:localhost)",
+      "Bash(DATABASE_URL=\"postgresql://neondb_owner:npg_vJ7XGiETFx8W@ep-weathered-poetry-adxlisz5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require\" node check-files.js)",
+      "Bash(DATABASE_URL=\"postgresql://neondb_owner:npg_vJ7XGiETFx8W@ep-weathered-poetry-adxlisz5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require\" node fix-files.js)",
+      "Bash(DATABASE_URL=\"postgresql://neondb_owner:npg_vJ7XGiETFx8W@ep-weathered-poetry-adxlisz5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require\" node ../check-enum.js)",
+      "Bash(DATABASE_URL=\"postgresql://neondb_owner:npg_vJ7XGiETFx8W@ep-weathered-poetry-adxlisz5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require\" node check-enum.js)",
+      "Bash(DATABASE_URL=\"postgresql://neondb_owner:npg_vJ7XGiETFx8W@ep-weathered-poetry-adxlisz5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require\" node scripts/run-migrations.js)",
+      "Bash(DATABASE_URL=\"postgresql://neondb_owner:npg_vJ7XGiETFx8W@ep-weathered-poetry-adxlisz5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require\" node test-enum.js)",
+      "Bash(DATABASE_URL=\"postgresql://neondb_owner:npg_vJ7XGiETFx8W@ep-weathered-poetry-adxlisz5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require\" node fix-enum.js)",
+      "Bash(DATABASE_URL=\"postgresql://neondb_owner:npg_vJ7XGiETFx8W@ep-weathered-poetry-adxlisz5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require\" node check-table.js)",
+      "Bash(DATABASE_URL=\"postgresql://neondb_owner:npg_vJ7XGiETFx8W@ep-weathered-poetry-adxlisz5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require\" node check-tables.js)"
     ],
     "deny": [],
     "defaultMode": "acceptEdits"
