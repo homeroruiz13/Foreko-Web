@@ -1330,7 +1330,7 @@ export const mockPages = {
             user: {
               firstname: "Homero",
               lastname: "Ruiz",
-              job: "President/CTO",
+              job: "President",
               image: {
                 url: "/images/Homero.png",
                 alternativeText: "Homero Ruiz"
@@ -1400,6 +1400,20 @@ export const mockPages = {
                 alternativeText: "Harish Suresh"
               },
               linkedin: "https://www.linkedin.com/in/harishsuresh0/"
+            }
+          },
+          {
+            id: 6,
+            text: "Andrew leads Foreko's app development and machine learning initiatives, driving innovation in our AI-powered inventory intelligence platform. With expertise in both mobile application development and advanced machine learning algorithms, Andrew ensures our technology delivers cutting-edge solutions for small businesses. He spearheads the development of intelligent features that automate inventory management and provide actionable insights, making complex AI technology accessible and practical for everyday business operations.",
+            user: {
+              firstname: "Andrew",
+              lastname: "Samountry",
+              job: "Head of Engineering",
+              image: {
+                url: "/images/andrew.png",
+                alternativeText: "Andrew Samountry"
+              },
+              linkedin: "https://www.linkedin.com/in/andrew-samountry-632807205/"
             }
           }
         ]
