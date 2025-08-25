@@ -77,9 +77,9 @@ export const TeamStatic = ({ heading, sub_heading, testimonials }: { heading: st
             ) : (
               /* Team Layout */
               <div className="mt-16 pb-20">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                   {testimonials.map((item: any, index: number) => (
-                    <div key={`team-${index}`} className="bg-neutral-900/50 rounded-3xl p-8 border border-neutral-800 hover:border-neutral-700 transition-colors">
+                    <div key={`team-${index}`} className="bg-neutral-900/50 rounded-3xl p-6 border border-neutral-800 hover:border-neutral-700 transition-colors">
                       <div className="flex justify-center mb-6">
                         <Image
                           className="rounded-full"

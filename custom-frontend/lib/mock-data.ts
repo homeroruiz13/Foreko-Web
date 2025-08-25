@@ -1410,7 +1410,7 @@ export const mockPages = {
               lastname: "Samountry",
               job: "Head of Engineering",
               image: {
-                url: "/images/andrew.png",
+                url: "/images/andrew.jpg",
                 alternativeText: "Andrew Samountry"
               },
               linkedin: "https://www.linkedin.com/in/andrew-samountry-632807205/"
