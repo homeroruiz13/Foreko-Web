@@ -4,6 +4,7 @@ export interface AuthData {
   name: string;
   sessionId: string;
   expiresAt: string;
+  companyId?: string;
 }
 
 export function getAuthFromUrl(): AuthData | null {
@@ -65,5 +66,39 @@ export function clearAllAuthAndRedirect() {
     // Force redirect to main app with force logout
     const mainAppUrl = process.env.NEXT_PUBLIC_MAIN_APP_URL || 'http://localhost:3000';
     window.location.href = `${mainAppUrl}/en/sign-in?force=true`;
+  }
+}
+
+export function getAuthFromRequest(request?: Request): AuthData | null {
+  if (!request) return null;
+  
+  try {
+    const url = new URL(request.url);
+    const authString = url.searchParams.get('auth');
+    
+    if (authString) {
+      const decoded = atob(authString);
+      const authData = JSON.parse(decoded);
+      return authData;
+    }
+    
+    // Also try to get from cookies if available
+    const cookies = request.headers.get('cookie');
+    if (cookies) {
+      const authCookie = cookies.split(';').find(c => c.trim().startsWith('foreko_auth='));
+      if (authCookie) {
+        const authValue = authCookie.split('=')[1];
+        if (authValue) {
+          const decoded = atob(authValue);
+          const authData = JSON.parse(decoded);
+          return authData;
+        }
+      }
+    }
+    
+    return null;
+  } catch (error) {
+    console.error('Failed to get auth from request:', error);
+    return null;
   }
 }

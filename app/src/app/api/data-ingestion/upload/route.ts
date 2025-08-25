@@ -7,6 +7,7 @@ import { neon } from '@neondatabase/serverless';
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 import * as XLSX from 'xlsx';
 import { parse } from 'csv-parse/sync';
+import { getAuthFromRequest, type AuthData } from '@/lib/auth';
 
 // Validation schema
 const FileUploadSchema = z.object({
@@ -51,13 +52,18 @@ const s3Client = new S3Client({
   },
 });
 
-// Mock user and company data (replace with actual auth)
-const getCurrentUser = () => ({
-  id: '4fc3b921-5af1-46a1-97f0-0b6a7245073d',
-  email: 'plomerin@gmail.com',
-  name: 'Homero Ruiz',
-  companyId: 'e5d153c6-c9ed-4566-a1a4-dcd560009ef8' // Using a valid UUID for the company
-});
+// Get authenticated user from request
+const getCurrentUser = (request: NextRequest): { id: string; email: string; name: string; companyId: string } | null => {
+  const authData = getAuthFromRequest(request);
+  if (!authData) return null;
+  
+  return {
+    id: authData.userId,
+    email: authData.email,
+    name: authData.name,
+    companyId: authData.companyId || authData.userId // Use companyId if available, otherwise use userId as fallback
+  };
+};
 
 export async function POST(request: NextRequest) {
   try {
@@ -99,7 +105,13 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const user = getCurrentUser();
+    const user = getCurrentUser(request);
+    if (!user) {
+      return NextResponse.json(
+        { error: 'Unauthorized: No valid authentication found' },
+        { status: 401 }
+      );
+    }
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
@@ -315,7 +327,13 @@ export async function GET(request: NextRequest) {
     const limit = parseInt(searchParams.get('limit') || '10');
     const offset = parseInt(searchParams.get('offset') || '0');
 
-    const user = getCurrentUser();
+    const user = getCurrentUser(request);
+    if (!user) {
+      return NextResponse.json(
+        { error: 'Unauthorized: No valid authentication found' },
+        { status: 401 }
+      );
+    }
 
     // Fetch real data from database with proper parameterized queries
     let uploads;

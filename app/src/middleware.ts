@@ -1,6 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { authMiddleware } from './middleware/auth-middleware';
 
 export function middleware(request: NextRequest) {
+  // First check authentication
+  const authResponse = authMiddleware(request);
+  if (authResponse) {
+    return authResponse;
+  }
+
   const response = NextResponse.next();
 
   // Handle CORS for dashboard routes
@@ -34,5 +41,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: '/dashboard/:path*'
+  matcher: ['/dashboard/:path*', '/api/data-ingestion/:path*']
 };

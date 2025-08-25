@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { neon } from '@neondatabase/serverless';
 import { S3Client, ListObjectsV2Command, DeleteObjectCommand } from '@aws-sdk/client-s3';
+import { getAuthFromRequest, type AuthData } from '@/lib/auth';
 
 const sql = process.env.DATABASE_URL ? neon(process.env.DATABASE_URL) : null;
 
@@ -12,12 +13,18 @@ const s3Client = new S3Client({
   },
 });
 
-const getCurrentUser = () => ({
-  id: '4fc3b921-5af1-46a1-97f0-0b6a7245073d',
-  email: 'plomerin@gmail.com',
-  name: 'Homero Ruiz',
-  companyId: 'e5d153c6-c9ed-4566-a1a4-dcd560009ef8'
-});
+// Get authenticated user from request
+const getCurrentUser = (request: NextRequest): { id: string; email: string; name: string; companyId: string } | null => {
+  const authData = getAuthFromRequest(request);
+  if (!authData) return null;
+  
+  return {
+    id: authData.userId,
+    email: authData.email,
+    name: authData.name,
+    companyId: authData.companyId || authData.userId
+  };
+};
 
 export async function DELETE(request: NextRequest) {
   try {
@@ -28,7 +35,13 @@ export async function DELETE(request: NextRequest) {
       );
     }
 
-    const user = getCurrentUser();
+    const user = getCurrentUser(request);
+    if (!user) {
+      return NextResponse.json(
+        { error: 'Unauthorized: No valid authentication found' },
+        { status: 401 }
+      );
+    }
 
     // Get all files for this company to delete from S3
     const files = await sql`
@@ -137,7 +150,13 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const user = getCurrentUser();
+    const user = getCurrentUser(request);
+    if (!user) {
+      return NextResponse.json(
+        { error: 'Unauthorized: No valid authentication found' },
+        { status: 401 }
+      );
+    }
 
     // Get count of files to be deleted
     const fileCount = await sql`
