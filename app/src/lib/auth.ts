@@ -64,7 +64,13 @@ export function clearAllAuthAndRedirect() {
     window.history.replaceState({}, document.title, url.pathname);
     
     // Force redirect to main app with force logout
-    const mainAppUrl = process.env.NEXT_PUBLIC_MAIN_APP_URL || 'http://localhost:3000';
+    let mainAppUrl = process.env.NEXT_PUBLIC_MAIN_APP_URL || 'http://localhost:3000';
+    
+    // Handle different deployed environments
+    if (window.location.hostname === 'hub.foreko.app') {
+      mainAppUrl = 'https://www.foreko.app';
+    }
+    
     window.location.href = `${mainAppUrl}/en/sign-in?force=true`;
   }
 }
@@ -77,22 +83,45 @@ export function getAuthFromRequest(request?: Request): AuthData | null {
     const authString = url.searchParams.get('auth');
     
     if (authString) {
-      const decoded = atob(authString);
-      const authData = JSON.parse(decoded);
-      return authData;
-    }
-    
-    // Also try to get from cookies if available
-    const cookies = request.headers.get('cookie');
-    if (cookies) {
-      const authCookie = cookies.split(';').find(c => c.trim().startsWith('foreko_auth='));
-      if (authCookie) {
-        const authValue = authCookie.split('=')[1];
-        if (authValue) {
-          const decoded = atob(authValue);
-          const authData = JSON.parse(decoded);
+      try {
+        const decoded = atob(decodeURIComponent(authString));
+        const authData = JSON.parse(decoded);
+        
+        // Validate that we have required fields
+        if (authData.userId && authData.email && authData.name) {
           return authData;
         }
+      } catch (decodeError) {
+        console.error('Failed to decode auth parameter:', decodeError);
+      }
+    }
+    
+    // Try to get from cookies if available
+    const cookies = request.headers.get('cookie');
+    if (cookies) {
+      // Try foreko_auth cookie
+      const authCookie = cookies.split(';').find(c => c.trim().startsWith('foreko_auth='));
+      if (authCookie) {
+        try {
+          const authValue = authCookie.split('=')[1];
+          if (authValue) {
+            const decoded = atob(decodeURIComponent(authValue));
+            const authData = JSON.parse(decoded);
+            
+            if (authData.userId && authData.email && authData.name) {
+              return authData;
+            }
+          }
+        } catch (cookieError) {
+          console.error('Failed to decode auth cookie:', cookieError);
+        }
+      }
+      
+      // Try alternative auth cookie names
+      const altAuthCookie = cookies.split(';').find(c => c.trim().startsWith('auth-token='));
+      if (altAuthCookie) {
+        // Handle alternative cookie format if needed
+        console.log('Found alternative auth cookie, but no decoder implemented yet');
       }
     }
     

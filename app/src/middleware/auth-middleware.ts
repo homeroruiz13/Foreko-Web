@@ -10,7 +10,16 @@ export function authMiddleware(req: NextRequest) {
 
   if (!isLoggedIn && pathname.startsWith("/dashboard")) {
     // Redirect to main app login instead of local login
-    const mainAppUrl = process.env.NEXT_PUBLIC_MAIN_APP_URL || 'http://localhost:3000';
+    const host = req.nextUrl.host;
+    let mainAppUrl = process.env.NEXT_PUBLIC_MAIN_APP_URL || 'http://localhost:3000';
+    
+    // Handle different deployed environments
+    if (host === 'hub.foreko.app') {
+      mainAppUrl = 'https://www.foreko.app';
+    } else if (host.includes('localhost')) {
+      mainAppUrl = 'http://localhost:3000';
+    }
+    
     return NextResponse.redirect(`${mainAppUrl}/en/sign-in`);
   }
 
