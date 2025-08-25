@@ -23,24 +23,45 @@ export const ContactForm = ({
   });
 
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    setIsSubmitted(true);
+    setIsLoading(true);
     
-    // Reset form after 3 seconds
-    setTimeout(() => {
-      setIsSubmitted(false);
-      setFormData({
-        fullName: "",
-        email: "",
-        phone: "",
-        company: "",
-        category: "",
-        message: ""
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
       });
-    }, 3000);
+
+      if (response.ok) {
+        setIsSubmitted(true);
+        // Reset form after 3 seconds
+        setTimeout(() => {
+          setIsSubmitted(false);
+          setFormData({
+            fullName: "",
+            email: "",
+            phone: "",
+            company: "",
+            category: "",
+            message: ""
+          });
+        }, 3000);
+      } else {
+        console.error('Failed to send message');
+        alert('Failed to send message. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error sending message:', error);
+      alert('An error occurred. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
@@ -156,8 +177,8 @@ export const ContactForm = ({
               className="pl-4 pt-4 w-full rounded-md text-sm bg-charcoal border border-neutral-800 text-white placeholder-neutral-500 outline-none focus:outline-none active:outline-none focus:ring-2 focus:ring-neutral-600 resize-vertical"
             />
             
-            <Button variant="muted" type="submit" className="w-full py-3">
-              <span className="text-sm">Send Message</span>
+            <Button variant="muted" type="submit" disabled={isLoading} className="w-full py-3">
+              <span className="text-sm">{isLoading ? 'Sending...' : 'Send Message'}</span>
             </Button>
           </form>
         </div>

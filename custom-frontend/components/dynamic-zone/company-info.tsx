@@ -29,28 +29,28 @@ export const CompanyInfo = ({
                 <div className="space-y-4">
                   <div>
                     <h4 className="font-medium text-neutral-300 mb-1">General Inquiries</h4>
-                    <a href="mailto:hello@foreko.com" className="text-blue-400 hover:text-blue-300">
-                      hello@foreko.com
+                    <a href="mailto:forekoai@gmail.com" className="text-blue-400 hover:text-blue-300">
+                      forekoai@gmail.com
                     </a>
                   </div>
                   <div>
                     <h4 className="font-medium text-neutral-300 mb-1">Technical Support</h4>
-                    <a href="mailto:support@foreko.com" className="text-blue-400 hover:text-blue-300">
-                      support@foreko.com
+                    <a href="tel:+14793874531" className="text-blue-400 hover:text-blue-300">
+                      (479) 387-4531
                     </a>
                   </div>
                   <div>
                     <h4 className="font-medium text-neutral-300 mb-1">Sales Team</h4>
-                    <a href="mailto:sales@foreko.com" className="text-blue-400 hover:text-blue-300">
-                      sales@foreko.com
+                    <a href="tel:+14792317576" className="text-blue-400 hover:text-blue-300">
+                      (479) 231-7576
                     </a>
                   </div>
                   <div>
-                    <h4 className="font-medium text-neutral-300 mb-1">Phone Support</h4>
-                    <a href="tel:+15551234567" className="text-blue-400 hover:text-blue-300">
-                      +1 (555) 123-4567
+                    <h4 className="font-medium text-neutral-300 mb-1">General Email</h4>
+                    <a href="mailto:forekoai@gmail.com" className="text-blue-400 hover:text-blue-300">
+                      forekoai@gmail.com
                     </a>
-                    <p className="text-sm text-neutral-500">Monday-Friday, 9 AM - 6 PM EST</p>
+                    <p className="text-sm text-neutral-500">Monday-Friday, 9 AM - 6 PM CST</p>
                   </div>
                 </div>
               </div>
@@ -63,17 +63,15 @@ export const CompanyInfo = ({
                     <h4 className="font-medium text-neutral-300 mb-1">Headquarters</h4>
                     <p className="text-white">
                       Foreko Technologies Inc.<br />
-                      1234 Innovation Drive<br />
-                      Suite 567<br />
-                      San Francisco, CA 94105<br />
+                      Fayetteville, Arkansas<br />
                       United States
                     </p>
                   </div>
                   <div>
                     <h4 className="font-medium text-neutral-300 mb-1">Business Hours</h4>
                     <div className="text-white space-y-1">
-                      <p>Monday - Friday: 8:00 AM - 7:00 PM EST</p>
-                      <p>Saturday: 10:00 AM - 4:00 PM EST</p>
+                      <p>Monday - Friday: 8:00 AM - 7:00 PM CST</p>
+                      <p>Saturday: 10:00 AM - 4:00 PM CST</p>
                       <p>Sunday: Closed</p>
                     </div>
                   </div>
