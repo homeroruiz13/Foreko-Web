@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import { useState, useRef, useCallback, useEffect } from 'react';
+import { useAuth } from '@/hooks/use-auth';
 import { 
   Upload, 
   Plus, 
@@ -82,12 +83,19 @@ export default function DataImportPage() {
   const [uploadDialogOpen, setUploadDialogOpen] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
+  const { auth, isAuthenticated, getAuthParams } = useAuth();
 
   // Load existing uploaded files when component mounts
   useEffect(() => {
     const loadExistingFiles = async () => {
+      if (!isAuthenticated) {
+        setIsLoading(false);
+        return;
+      }
+      
       try {
-        const response = await fetch('/api/data-ingestion/upload');
+        const authParams = getAuthParams();
+        const response = await fetch(`/api/data-ingestion/upload?${authParams}`);
         if (response.ok) {
           const result = await response.json();
           
@@ -97,7 +105,7 @@ export default function DataImportPage() {
             
             if (upload.status === 'review_required' || upload.status === 'mapping_required') {
               try {
-                const statusResponse = await fetch(`/api/data-ingestion/status/${upload.id}`);
+                const statusResponse = await fetch(`/api/data-ingestion/status/${upload.id}?${authParams}`);
                 if (statusResponse.ok) {
                   const statusData = await statusResponse.json();
                   columnDetections = statusData.columnDetections;
@@ -142,7 +150,7 @@ export default function DataImportPage() {
     };
 
     loadExistingFiles();
-  }, []);
+  }, [isAuthenticated, getAuthParams]);
 
   const handleDrag = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -230,7 +238,8 @@ export default function DataImportPage() {
         await new Promise(resolve => setTimeout(resolve, 200));
       }
 
-      const response = await fetch('/api/data-ingestion/upload', {
+      const authParams = getAuthParams();
+      const response = await fetch(`/api/data-ingestion/upload?${authParams}`, {
         method: 'POST',
         body: formData,
       });
@@ -259,7 +268,7 @@ export default function DataImportPage() {
       ));
       
       try {
-        const pipelineResponse = await fetch(`/api/data-ingestion/complete-pipeline/${backendFileId}`, {
+        const pipelineResponse = await fetch(`/api/data-ingestion/complete-pipeline/${backendFileId}?${authParams}`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' }
         });
@@ -267,7 +276,7 @@ export default function DataImportPage() {
         if (pipelineResponse.ok) {
           const pipelineResult = await pipelineResponse.json();
           
-          const analyzeResponse = await fetch(`/api/data-ingestion/analyze/${backendFileId}`, {
+          const analyzeResponse = await fetch(`/api/data-ingestion/analyze/${backendFileId}?${authParams}`, {
             method: 'POST'
           });
           
@@ -353,7 +362,8 @@ export default function DataImportPage() {
 
   const pollFileStatus = useCallback(async (fileId: string) => {
     try {
-      const response = await fetch(`/api/data-ingestion/status/${fileId}`);
+      const authParams = getAuthParams();
+      const response = await fetch(`/api/data-ingestion/status/${fileId}?${authParams}`);
       const status = await response.json();
 
       setFiles(prev => prev.map(f => 
@@ -372,7 +382,7 @@ export default function DataImportPage() {
     } catch (error) {
       console.error('Status polling error:', error);
     }
-  }, []);
+  }, [getAuthParams]);
 
   const removeFile = (fileId: string) => {
     setFiles(prev => prev.filter(f => f.id !== fileId));
@@ -381,7 +391,8 @@ export default function DataImportPage() {
   const handleClearAllData = async () => {
     setIsClearing(true);
     try {
-      const response = await fetch('/api/data-ingestion/clear-data', {
+      const authParams = getAuthParams();
+      const response = await fetch(`/api/data-ingestion/clear-data?${authParams}`, {
         method: 'DELETE'
       });
 
@@ -477,6 +488,18 @@ export default function DataImportPage() {
       minute: '2-digit'
     });
   };
+
+  // Redirect to login if not authenticated
+  if (!isAuthenticated && !isLoading) {
+    return (
+      <div className="flex h-[450px] items-center justify-center">
+        <div className="flex flex-col items-center gap-2">
+          <AlertCircle className="h-8 w-8 text-muted-foreground" />
+          <p className="text-sm text-muted-foreground">Redirecting to sign in...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (isLoading) {
     return (
