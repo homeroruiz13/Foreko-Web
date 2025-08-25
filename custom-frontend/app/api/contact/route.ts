@@ -58,12 +58,12 @@ export async function POST(request: NextRequest) {
 }
 
 // Email sending function with multiple fallbacks
-async function sendEmail(emailData: any) {
+async function sendEmail(emailData: any): Promise<{ success: boolean; fallback?: boolean; message?: string; messageId?: string; method?: string }> {
   // Method 1: Try nodemailer if available
   try {
     if (process.env.GMAIL_APP_PASSWORD) {
       const result = await sendWithNodemailer(emailData);
-      if (result.success) return result;
+      if (result && result.success) return result;
     }
   } catch (error) {
     console.error('Nodemailer failed:', error);
@@ -72,7 +72,7 @@ async function sendEmail(emailData: any) {
   // Method 2: Try Fetch API with email service
   try {
     const result = await sendWithFetch(emailData);
-    if (result.success) return result;
+    if (result && result.success) return result;
   } catch (error) {
     console.error('Fetch email service failed:', error);
   }
@@ -89,7 +89,7 @@ async function sendEmail(emailData: any) {
 }
 
 // Nodemailer implementation
-async function sendWithNodemailer(emailData: any) {
+async function sendWithNodemailer(emailData: any): Promise<{ success: boolean; messageId: string; method: string }> {
   try {
     // Dynamic import to handle serverless environments better
     const nodemailer = await import('nodemailer');
@@ -121,7 +121,7 @@ async function sendWithNodemailer(emailData: any) {
 }
 
 // Fetch-based email service (using EmailJS or similar)
-async function sendWithFetch(emailData: any) {
+async function sendWithFetch(emailData: any): Promise<{ success: boolean; method: string }> {
   // This could be configured to use EmailJS, SendGrid, or other services
   // For now, we'll skip this method
   throw new Error('Fetch email service not configured');
