@@ -8,22 +8,15 @@ export function authMiddleware(req: NextRequest) {
   const authData = getAuthFromRequest(req);
   const isLoggedIn = authData || req.cookies.get("auth-token") || req.cookies.get("foreko_auth");
 
+  // Allow dashboard pages to load without authentication
+  // The pages themselves will handle showing login prompts
   if (!isLoggedIn && pathname.startsWith("/dashboard")) {
-    // Redirect to main app login instead of local login
-    const host = req.nextUrl.host;
-    let mainAppUrl = process.env.NEXT_PUBLIC_MAIN_APP_URL || 'http://localhost:3000';
-    
-    // Handle different deployed environments
-    if (host === 'hub.foreko.app') {
-      mainAppUrl = 'https://www.foreko.app';
-    } else if (host.includes('localhost')) {
-      mainAppUrl = 'http://localhost:3000';
-    }
-    
-    return NextResponse.redirect(`${mainAppUrl}/en/sign-in`);
+    // Don't redirect, let the page handle authentication
+    return NextResponse.next();
   }
 
-  if (!isLoggedIn && pathname.startsWith("/api/data-ingestion")) {
+  // API routes still require authentication
+  if (!isLoggedIn && (pathname.startsWith("/api/data-ingestion") || pathname.startsWith("/api/executive"))) {
     return NextResponse.json(
       { error: 'Unauthorized: Please sign in to access this resource' },
       { status: 401 }
