@@ -43,7 +43,11 @@ interface ChartDataPoint {
 }
 
 interface ExecutiveChartsProps {
-  allData: ChartDataPoint[];
+  allData: {
+    '7d': ChartDataPoint[];
+    '30d': ChartDataPoint[];
+    '90d': ChartDataPoint[];
+  };
   loading?: boolean;
   onTimeRangeChange?: (range: string) => void;
   currentTimeRange?: string;
@@ -84,8 +88,8 @@ export function ExecutiveCharts({ allData, loading }: ExecutiveChartsProps) {
 
   // Get data for each chart based on its time range
   const getChartData = (chartName: keyof typeof timeRanges) => {
-    const range = timeRanges[chartName];
-    const data = allData[range as keyof typeof allData] || [];
+    const range = timeRanges[chartName] as '7d' | '30d' | '90d';
+    const data = allData[range] || [];
     return data.map(point => ({
       ...point,
       date: new Date(point.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
