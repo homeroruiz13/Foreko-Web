@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState, useCallback } from 'react';
-import { getAuthFromUrl, getStoredAuth, clearAllAuthAndRedirect, type AuthData } from '@/lib/auth';
+import { getAuthFromUrl, getStoredAuth, clearAuth, clearAllAuthAndRedirect, type AuthData } from '@/lib/auth';
 
 export function useAuth() {
   const [auth, setAuth] = useState<AuthData | null>(null);
@@ -21,7 +21,10 @@ export function useAuth() {
     if (storedAuth) {
       // Check if auth is expired
       if (storedAuth.expiresAt && new Date(storedAuth.expiresAt) < new Date()) {
-        clearAllAuthAndRedirect();
+        // Clear expired auth but don't redirect automatically
+        clearAuth();
+        setAuth(null);
+        setIsLoading(false);
         return;
       }
       setAuth(storedAuth);
@@ -29,9 +32,9 @@ export function useAuth() {
       return;
     }
 
-    // No auth found - redirect to login
+    // No auth found - just set loading to false, don't auto-redirect
+    setAuth(null);
     setIsLoading(false);
-    clearAllAuthAndRedirect();
   }, []);
 
   // Helper function to get auth headers for API calls

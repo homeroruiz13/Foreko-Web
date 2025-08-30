@@ -136,6 +136,17 @@ export default function OverviewPage() {
       <div className="flex items-center justify-center min-h-[50vh]">
         <div className="text-center">
           <h2 className="text-2xl font-bold text-muted-foreground">Please sign in to view the dashboard</h2>
+          <button 
+            onClick={() => {
+              const mainAppUrl = window.location.hostname === 'hub.foreko.app' 
+                ? 'https://www.foreko.app' 
+                : (process.env.NEXT_PUBLIC_MAIN_APP_URL || 'http://localhost:3000');
+              window.location.href = `${mainAppUrl}/en/sign-in`;
+            }}
+            className="mt-4 px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90"
+          >
+            Sign In
+          </button>
         </div>
       </div>
     );
