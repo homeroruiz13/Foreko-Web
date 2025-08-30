@@ -43,7 +43,7 @@ interface ChartDataPoint {
 }
 
 interface ExecutiveChartsProps {
-  data: ChartDataPoint[];
+  allData: ChartDataPoint[];
   loading?: boolean;
   onTimeRangeChange?: (range: string) => void;
   currentTimeRange?: string;

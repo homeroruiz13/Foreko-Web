@@ -71,7 +71,8 @@
       "Bash(DATABASE_URL=\"postgresql://neondb_owner:npg_vJ7XGiETFx8W@ep-weathered-poetry-adxlisz5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require\" node check-po-columns.js)",
       "Bash(DATABASE_URL=\"postgresql://neondb_owner:npg_vJ7XGiETFx8W@ep-weathered-poetry-adxlisz5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require\" node debug-dashboard.js)",
       "Bash(DATABASE_URL=\"postgresql://neondb_owner:npg_vJ7XGiETFx8W@ep-weathered-poetry-adxlisz5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require\" node recalculate-kpis.js)",
-      "Bash(DATABASE_URL=\"postgresql://neondb_owner:npg_vJ7XGiETFx8W@ep-weathered-poetry-adxlisz5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require\" node update-kpis.js)"
+      "Bash(DATABASE_URL=\"postgresql://neondb_owner:npg_vJ7XGiETFx8W@ep-weathered-poetry-adxlisz5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require\" node update-kpis.js)",
+      "Bash(git pull:*)"
     ],
     "deny": [],
     "defaultMode": "acceptEdits"
