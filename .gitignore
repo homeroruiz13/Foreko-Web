@@ -60,3 +60,10 @@ Thumbs.db
 !app/
 !app/**
 backend/
+
+# Test files
+**/test-*.mjs
+**/test-*.js
+**/*-test.js
+*.test.*
+*.spec.*

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { getAuthFromUrl, getStoredAuth, clearAllAuthAndRedirect, type AuthData } from '@/lib/auth';
 
 export function useAuth() {
@@ -35,7 +35,7 @@ export function useAuth() {
   }, []);
 
   // Helper function to get auth headers for API calls
-  const getAuthHeaders = () => {
+  const getAuthHeaders = useCallback(() => {
     if (!auth) return {};
     
     // Encode auth data for API calls
@@ -43,16 +43,16 @@ export function useAuth() {
     return {
       'X-Auth-Token': authString,
     };
-  };
+  }, [auth]);
 
   // Helper function to get auth query params for API calls
-  const getAuthParams = () => {
+  const getAuthParams = useCallback(() => {
     if (!auth) return '';
     
     // Encode auth data for URL params
     const authString = btoa(JSON.stringify(auth));
     return `auth=${encodeURIComponent(authString)}`;
-  };
+  }, [auth]);
 
   return {
     auth,

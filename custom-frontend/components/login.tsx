@@ -80,12 +80,37 @@ export const Login = ({ forceLogout = false }: { forceLogout?: boolean }) => {
         const authString = btoa(JSON.stringify(authData));
         // Get current locale from pathname or default to 'en'
         const currentLocale = window.location.pathname.split('/')[1] || 'en';
-        const redirectUrl = `/${currentLocale}/dashboard/data-import?auth=${authString}`;
         
-        setSuccess('Login successful! Redirecting to dashboard...');
-        setTimeout(() => {
-          router.push(redirectUrl);
-        }, 1500);
+        // Check if user has uploaded files
+        try {
+          const uploadsResponse = await fetch('/api/data-ingestion/upload', {
+            headers: {
+              'Authorization': `Bearer ${authString}`
+            }
+          });
+          
+          let redirectUrl = `/${currentLocale}/dashboard/data-import?auth=${authString}`;
+          
+          if (uploadsResponse.ok) {
+            const uploadsData = await uploadsResponse.json();
+            // If user has uploaded files, redirect to overview
+            if (uploadsData.uploads && uploadsData.uploads.length > 0) {
+              redirectUrl = `/${currentLocale}/dashboard/overview?auth=${authString}`;
+            }
+          }
+          
+          setSuccess('Login successful! Redirecting to dashboard...');
+          setTimeout(() => {
+            router.push(redirectUrl);
+          }, 1500);
+        } catch (error) {
+          // If checking uploads fails, default to data-import page
+          const defaultUrl = `/${currentLocale}/dashboard/data-import?auth=${authString}`;
+          setSuccess('Login successful! Redirecting to dashboard...');
+          setTimeout(() => {
+            router.push(defaultUrl);
+          }, 1500);
+        }
       } else {
         setError(data.error || 'Something went wrong');
       }

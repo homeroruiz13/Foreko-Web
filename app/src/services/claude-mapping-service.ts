@@ -16,6 +16,10 @@ interface MappingSuggestion {
   confidence: number;
   reasoning: string;
   alternativeSuggestions?: { field: string; confidence: number }[];
+  requiresManualReview?: boolean;
+  wasEnhanced?: boolean;
+  originalConfidence?: number;
+  improvementReason?: string;
 }
 
 interface EntityDetection {
@@ -27,11 +31,21 @@ interface EntityDetection {
 export class ClaudeMappingService {
   private anthropic: Anthropic;
   private standardFields: Map<string, any[]> = new Map();
+  
+  // Use Claude 3 Haiku - fast and efficient, available with your API key
+  private readonly DEFAULT_MODEL = 'claude-3-haiku-20240307';  // The only model available with your current API access
+  private readonly MIN_CONFIDENCE_THRESHOLD = 0.7;
+  private readonly RETRY_CONFIDENCE_THRESHOLD = 0.85;
+  
+  // Opus pricing (per 1K tokens)
+  private readonly OPUS_INPUT_COST = 0.015; // $15 per million
+  private readonly OPUS_OUTPUT_COST = 0.075; // $75 per million
 
   constructor(apiKey: string) {
     this.anthropic = new Anthropic({
       apiKey: apiKey || process.env.ANTHROPIC_API_KEY!,
     });
+    console.log('🧠 Claude Mapping Service initialized with Haiku 3');
   }
 
   /**
@@ -182,8 +196,9 @@ Respond in JSON format:
 `;
 
     try {
+      console.log('🔍 Detecting entity type with Opus...');
       const response = await this.anthropic.messages.create({
-        model: 'claude-3-5-haiku-20241022',
+        model: this.DEFAULT_MODEL,
         max_tokens: 500,
         temperature: 0.1,
         messages: [
@@ -273,8 +288,9 @@ Respond in JSON format:
 `;
 
     try {
+      console.log('🗺️ Generating column mappings with Opus...');
       const response = await this.anthropic.messages.create({
-        model: 'claude-3-5-haiku-20241022',
+        model: this.DEFAULT_MODEL, // Using Opus
         max_tokens: 2000,
         temperature: 0.1,
         messages: [
@@ -285,17 +301,55 @@ Respond in JSON format:
         ],
       });
 
-      const content = response.content[0];
+      let content = response.content[0];
       if (content.type === 'text') {
         try {
           const suggestions = this.extractJSON(content.text);
+          console.log(`✅ Opus mapped columns successfully`);
+          
+          // Estimate and log cost
+          const inputTokens = prompt.length / 4; // Rough estimate
+          const outputTokens = JSON.stringify(suggestions).length / 4;
+          const estimatedCost = (inputTokens / 1000) * this.OPUS_INPUT_COST + (outputTokens / 1000) * this.OPUS_OUTPUT_COST;
+          console.log(`💰 Estimated Opus cost for this mapping: $${estimatedCost.toFixed(4)}`);
           
           // Ensure suggestions is an array
-          const suggestionsArray = Array.isArray(suggestions) ? suggestions : [suggestions];
+          let suggestionsArray = Array.isArray(suggestions) ? suggestions : [suggestions];
+          
+          // Check confidence levels
+          const lowConfidenceMappings = suggestionsArray.filter(s => s.confidence < this.MIN_CONFIDENCE_THRESHOLD * 100);
+          
+          // If we have low confidence mappings, retry with enhanced context
+          if (lowConfidenceMappings.length > 0) {
+            console.log(`Found ${lowConfidenceMappings.length} low confidence mappings, retrying with enhanced context...`);
+            
+            // Enhance prompt with historical mappings
+            const enhancedSuggestions = await this.retryWithEnhancedContext(
+              columns,
+              entityType,
+              companyId,
+              previousMappings,
+              lowConfidenceMappings
+            );
+            
+            // Merge enhanced suggestions
+            if (enhancedSuggestions) {
+              suggestionsArray = this.mergeSuggestions(suggestionsArray, enhancedSuggestions);
+            }
+          }
+          
+          // Flag mappings that still have low confidence for manual review
+          suggestionsArray = suggestionsArray.map(s => ({
+            ...s,
+            requiresManualReview: s.confidence < this.MIN_CONFIDENCE_THRESHOLD * 100
+          }));
           
           // Store AI suggestions in the database
           if (fileUploadId) {
             await this.storeAISuggestions(fileUploadId, suggestionsArray);
+            
+            // Store learning data for high-confidence mappings
+            await this.storeLearningData(companyId, entityType, suggestionsArray);
           }
           
           return suggestionsArray;
@@ -336,8 +390,9 @@ Respond in JSON format:
     mappings: MappingSuggestion[],
     entityType: string
   ): Promise<{ valid: any[]; errors: any[] }> {
+    console.log('🔍 Validating data with Opus...');
     const prompt = `
-You are a data validation expert. Validate and transform this data for ${entityType}.
+You are a data validation expert using Opus's advanced capabilities. Validate and transform this data for ${entityType}.
 
 Mappings:
 ${JSON.stringify(mappings, null, 2)}
@@ -375,7 +430,7 @@ Respond in JSON format:
 
     try {
       const response = await this.anthropic.messages.create({
-        model: 'claude-3-5-haiku-20241022',
+        model: this.DEFAULT_MODEL,
         max_tokens: 2000,
         temperature: 0.1,
         messages: [
@@ -880,6 +935,202 @@ Respond in JSON format:
     // Add more transformation rules as needed
     
     return value;
+  }
+
+  /**
+   * Retry mapping with enhanced context for low-confidence mappings
+   */
+  private async retryWithEnhancedContext(
+    columns: ColumnInfo[],
+    entityType: string,
+    companyId: string,
+    previousMappings: any[],
+    lowConfidenceMappings: MappingSuggestion[]
+  ): Promise<MappingSuggestion[]> {
+    // Get more historical data for better context
+    const extendedLearningData = await sql`
+      SELECT 
+        source_column_name,
+        target_standard_field,
+        success_rate,
+        usage_frequency,
+        entity_type,
+        sample_values
+      FROM data_ingestion.ai_learning_data
+      WHERE 
+        (company_id = ${companyId} OR is_global_learning = true)
+        AND success_rate > 0.5
+      ORDER BY success_rate DESC, usage_frequency DESC
+      LIMIT 100
+    `;
+    
+    const enhancedPrompt = `
+    You are a data mapping expert. These mappings need improvement as they have low confidence.
+    
+    Low Confidence Mappings to Improve:
+    ${JSON.stringify(lowConfidenceMappings, null, 2)}
+    
+    Source Columns with Sample Data:
+    ${JSON.stringify(columns, null, 2)}
+    
+    Historical Successful Mappings (Learn from these patterns):
+    ${JSON.stringify(extendedLearningData, null, 2)}
+    
+    Previous Mappings in this Session:
+    ${JSON.stringify(previousMappings, null, 2)}
+    
+    Available Standard Fields:
+    ${JSON.stringify(this.getAllFieldsForPrompt(), null, 2)}
+    
+    Instructions:
+    1. Re-evaluate the low confidence mappings using the additional context
+    2. Look for patterns in the historical data that match current columns
+    3. Consider the sample values to better understand the data type
+    4. Provide improved confidence scores based on pattern matching
+    5. If still uncertain (confidence < 70), mark for manual review
+    
+    Respond in JSON format with improved mappings:
+    [
+      {
+        "sourceColumn": "column_name",
+        "targetField": "standard_field_name",
+        "confidence": 95,
+        "reasoning": "Improved reasoning based on historical patterns",
+        "improvementReason": "What pattern or context led to better confidence"
+      }
+    ]
+    `;
+    
+    try {
+      console.log('🔄 Retrying with enhanced context using Opus...');
+      const response = await this.anthropic.messages.create({
+        model: this.DEFAULT_MODEL, // Using Opus
+        max_tokens: 2000,
+        temperature: 0.05, // Lower temperature for more deterministic results
+        messages: [
+          {
+            role: 'user',
+            content: enhancedPrompt,
+          },
+        ],
+      });
+      
+      const content = response.content[0];
+      if (content.type === 'text') {
+        const improvedSuggestions = this.extractJSON(content.text);
+        return Array.isArray(improvedSuggestions) ? improvedSuggestions : [improvedSuggestions];
+      }
+    } catch (error) {
+      console.error('Enhanced context retry failed:', error);
+    }
+    
+    return [];
+  }
+
+  /**
+   * Merge original and enhanced suggestions
+   */
+  private mergeSuggestions(
+    original: MappingSuggestion[],
+    enhanced: MappingSuggestion[]
+  ): MappingSuggestion[] {
+    const merged = [...original];
+    
+    for (const enhancedSuggestion of enhanced) {
+      const index = merged.findIndex(s => s.sourceColumn === enhancedSuggestion.sourceColumn);
+      
+      if (index !== -1) {
+        // Only replace if confidence improved significantly
+        if (enhancedSuggestion.confidence > merged[index].confidence + 10) {
+          merged[index] = {
+            ...enhancedSuggestion,
+            wasEnhanced: true,
+            originalConfidence: merged[index].confidence
+          } as any;
+        }
+      }
+    }
+    
+    return merged;
+  }
+
+  /**
+   * Store successful mappings in learning data for future improvements
+   */
+  private async storeLearningData(
+    companyId: string,
+    entityType: string,
+    suggestions: MappingSuggestion[]
+  ): Promise<void> {
+    // Only store high-confidence mappings as learning data
+    const highConfidenceMappings = suggestions.filter(s => s.confidence >= this.RETRY_CONFIDENCE_THRESHOLD * 100);
+    
+    for (const mapping of highConfidenceMappings) {
+      try {
+        await sql`
+          INSERT INTO data_ingestion.ai_learning_data (
+            company_id,
+            entity_type,
+            source_column_name,
+            target_standard_field,
+            confidence_score,
+            usage_frequency,
+            success_rate,
+            is_global_learning
+          ) VALUES (
+            ${companyId},
+            ${entityType},
+            ${mapping.sourceColumn},
+            ${mapping.targetField},
+            ${mapping.confidence / 100},
+            1,
+            ${mapping.confidence / 100},
+            ${mapping.confidence >= 95} -- Global learning for very high confidence
+          )
+          ON CONFLICT (company_id, entity_type, source_column_name, target_standard_field)
+          DO UPDATE SET
+            usage_frequency = ai_learning_data.usage_frequency + 1,
+            confidence_score = (ai_learning_data.confidence_score + ${mapping.confidence / 100}) / 2,
+            updated_at = NOW()
+        `;
+      } catch (error) {
+        console.error('Error storing learning data:', error);
+      }
+    }
+  }
+
+  /**
+   * Queue low-confidence mappings for manual review
+   */
+  async queueForManualReview(
+    fileUploadId: string,
+    lowConfidenceMappings: MappingSuggestion[]
+  ): Promise<void> {
+    try {
+      for (const mapping of lowConfidenceMappings) {
+        await sql`
+          INSERT INTO data_ingestion.manual_review_queue (
+            file_upload_id,
+            source_column,
+            suggested_target,
+            confidence_score,
+            ai_reasoning,
+            status,
+            created_at
+          ) VALUES (
+            ${fileUploadId},
+            ${mapping.sourceColumn},
+            ${mapping.targetField},
+            ${mapping.confidence},
+            ${mapping.reasoning},
+            'pending',
+            NOW()
+          )
+        `;
+      }
+    } catch (error) {
+      console.error('Error queuing for manual review:', error);
+    }
   }
 }
 

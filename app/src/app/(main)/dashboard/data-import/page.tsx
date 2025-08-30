@@ -150,7 +150,7 @@ export default function DataImportPage() {
     };
 
     loadExistingFiles();
-  }, [isAuthenticated, getAuthParams]);
+  }, [isAuthenticated]);
 
   const handleDrag = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -382,7 +382,7 @@ export default function DataImportPage() {
     } catch (error) {
       console.error('Status polling error:', error);
     }
-  }, [getAuthParams]);
+  }, []);
 
   const removeFile = (fileId: string) => {
     setFiles(prev => prev.filter(f => f.id !== fileId));

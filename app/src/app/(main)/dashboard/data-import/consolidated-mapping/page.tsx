@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/table";
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '@/hooks/use-auth';
 
 interface ColumnDetection {
   columnName: string;
@@ -43,31 +44,188 @@ interface ColumnMapping {
   fileName: string;
 }
 
-// Standard field definitions with context distinction
+// Standard field definitions with context distinction - ALL BACKEND FIELDS
 const STANDARD_FIELDS = {
   inventory: [
-    { value: 'item_name', label: 'Item Name (Inventory)', required: true, context: 'Stock items being tracked' },
-    { value: 'sku_code', label: 'SKU Code (Inventory)', required: false, context: 'Inventory item identifier' },
-    { value: 'quantity', label: 'Stock Quantity', required: true, context: 'Current stock level' },
-    { value: 'unit_of_measure', label: 'Stock Unit (each, box, kg)', required: false, context: 'How inventory is counted' },
-    { value: 'unit_cost', label: 'Unit Cost (Inventory)', required: false, context: 'Cost per inventory unit' },
-    { value: 'location', label: 'Storage Location', required: false, context: 'Where inventory is stored' },
-    { value: 'supplier_name', label: 'Supplier (Inventory)', required: false, context: 'Inventory supplier' },
+    // Core Fields
+    { value: 'item_name', label: 'Item Name', required: true, context: 'Stock item/product name' },
+    { value: 'ingredient_name', label: 'Ingredient Name', required: false, context: 'Ingredient/component name' },
+    { value: 'sku_code', label: 'SKU Code', required: false, context: 'Stock keeping unit code' },
+    { value: 'category', label: 'Category', required: false, context: 'Product category' },
+    { value: 'unit_of_measure', label: 'Unit of Measure', required: true, context: 'Measurement unit (each, box, kg)' },
+    { value: 'unit_cost', label: 'Unit Cost', required: false, context: 'Cost per unit' },
+    { value: 'package_size', label: 'Package Size', required: false, context: 'Package/container size' },
+    { value: 'shelf_life_days', label: 'Shelf Life (Days)', required: false, context: 'Product shelf life' },
+    { value: 'storage_location', label: 'Storage Location', required: false, context: 'Storage/bin location' },
+    { value: 'supplier_name', label: 'Supplier Name', required: false, context: 'Primary supplier' },
+    // Inventory Management
+    { value: 'quantity', label: 'Current Quantity', required: true, context: 'Current stock level' },
+    { value: 'current_quantity', label: 'Current Stock', required: false, context: 'Current inventory level' },
+    { value: 'book_quantity', label: 'Book Quantity', required: false, context: 'System book quantity' },
+    { value: 'physical_quantity', label: 'Physical Count', required: false, context: 'Physical count quantity' },
+    { value: 'variance_quantity', label: 'Variance', required: false, context: 'Count variance amount' },
+    { value: 'reorder_point', label: 'Reorder Point', required: false, context: 'Minimum reorder level' },
+    { value: 'safety_stock', label: 'Safety Stock', required: false, context: 'Safety stock level' },
+    { value: 'minimum_quantity', label: 'Min Quantity', required: false, context: 'Minimum stock allowed' },
+    { value: 'maximum_quantity', label: 'Max Quantity', required: false, context: 'Maximum stock allowed' },
+    // Velocity & Analytics
+    { value: 'average_daily_usage', label: 'Avg Daily Usage', required: false, context: 'Daily usage rate' },
+    { value: 'usage_variability', label: 'Usage Variability', required: false, context: 'Usage pattern variability' },
+    { value: 'days_of_supply', label: 'Days of Supply', required: false, context: 'Days of supply available' },
+    { value: 'turnover_rate', label: 'Turnover Rate', required: false, context: 'Inventory turnover rate' },
+    { value: 'current_value', label: 'Current Value', required: false, context: 'Current inventory value' },
+    { value: 'dead_stock_value', label: 'Dead Stock Value', required: false, context: 'Value of dead stock' },
+    { value: 'last_movement_date', label: 'Last Movement', required: false, context: 'Last movement date' },
+    { value: 'days_without_movement', label: 'Days No Movement', required: false, context: 'Days without activity' },
+    // Cycle Count
+    { value: 'count_date', label: 'Count Date', required: false, context: 'Physical count date' },
+    { value: 'counted_by', label: 'Counted By', required: false, context: 'Person who counted' },
+    { value: 'count_reason', label: 'Count Reason', required: false, context: 'Reason for count' },
+    { value: 'is_accurate', label: 'Is Accurate', required: false, context: 'Count accuracy flag' },
+    { value: 'accuracy_method', label: 'Count Method', required: false, context: 'Counting method used' },
+    { value: 'tolerance_percentage', label: 'Tolerance %', required: false, context: 'Acceptable variance %' },
+  ],
+  orders: [
+    // Order Identification
+    { value: 'order_number', label: 'Order Number', required: false, context: 'Order number' },
+    { value: 'order_id', label: 'Order ID', required: true, context: 'Unique order identifier' },
+    { value: 'order_type', label: 'Order Type', required: false, context: 'Sales/purchase order' },
+    { value: 'reference_number', label: 'Reference Number', required: false, context: 'Reference number' },
+    { value: 'invoice_number', label: 'Invoice Number', required: false, context: 'Invoice number' },
+    { value: 'po_number', label: 'PO Number', required: false, context: 'Purchase order number' },
+    // Customer/Supplier Info
+    { value: 'customer_name', label: 'Customer Name', required: false, context: 'Customer name' },
+    { value: 'customer_code', label: 'Customer Code', required: false, context: 'Customer code' },
+    { value: 'customer_email', label: 'Customer Email', required: false, context: 'Customer email' },
+    { value: 'supplier_name', label: 'Supplier Name', required: false, context: 'Supplier/vendor name' },
+    { value: 'supplier_code', label: 'Supplier Code', required: false, context: 'Supplier code' },
+    // Order Items
+    { value: 'item_name', label: 'Item Name', required: true, context: 'Ordered item name' },
+    { value: 'quantity', label: 'Quantity', required: true, context: 'Order quantity' },
+    { value: 'unit_price', label: 'Unit Price', required: false, context: 'Price per unit' },
+    // Order Dates
+    { value: 'order_date', label: 'Order Date', required: true, context: 'Order placement date' },
+    { value: 'requested_date', label: 'Requested Date', required: false, context: 'Requested delivery date' },
+    { value: 'promised_date', label: 'Promised Date', required: false, context: 'Promised delivery date' },
+    { value: 'shipped_date', label: 'Shipped Date', required: false, context: 'Shipment date' },
+    { value: 'delivered_date', label: 'Delivered Date', required: false, context: 'Delivery date' },
+    { value: 'expected_delivery', label: 'Expected Delivery', required: false, context: 'Expected delivery date' },
+    { value: 'actual_delivery', label: 'Actual Delivery', required: false, context: 'Actual delivery date' },
+    // Order Status
+    { value: 'order_status', label: 'Order Status', required: false, context: 'Order status' },
+    { value: 'fulfillment_status', label: 'Fulfillment Status', required: false, context: 'Fulfillment status' },
+    { value: 'payment_status', label: 'Payment Status', required: false, context: 'Payment status' },
+    { value: 'priority', label: 'Priority', required: false, context: 'Order priority' },
+    { value: 'is_urgent', label: 'Is Urgent', required: false, context: 'Urgent flag' },
+    { value: 'is_expedited', label: 'Is Expedited', required: false, context: 'Expedited flag' },
+    // Financial
+    { value: 'subtotal', label: 'Subtotal', required: false, context: 'Subtotal amount' },
+    { value: 'tax_amount', label: 'Tax Amount', required: false, context: 'Tax amount' },
+    { value: 'shipping_cost', label: 'Shipping Cost', required: false, context: 'Shipping cost' },
+    { value: 'discount_amount', label: 'Discount', required: false, context: 'Discount amount' },
+    { value: 'total_amount', label: 'Total Amount', required: false, context: 'Total order value' },
+    { value: 'currency', label: 'Currency', required: false, context: 'Currency code' },
+    { value: 'payment_terms', label: 'Payment Terms', required: false, context: 'Payment terms' },
+  ],
+  financial: [
+    // Transaction Identification
+    { value: 'transaction_id', label: 'Transaction ID', required: false, context: 'Transaction identifier' },
+    { value: 'transaction_number', label: 'Transaction Number', required: false, context: 'Transaction number' },
+    { value: 'invoice_number', label: 'Invoice Number', required: false, context: 'Invoice number' },
+    { value: 'payment_id', label: 'Payment ID', required: false, context: 'Payment identifier' },
+    { value: 'account', label: 'Account', required: true, context: 'Financial account' },
+    { value: 'account_code', label: 'Account Code', required: false, context: 'Account code' },
+    { value: 'account_name', label: 'Account Name', required: false, context: 'Account name' },
+    // Transaction Details
+    { value: 'transaction_type', label: 'Transaction Type', required: true, context: 'Type of transaction' },
+    { value: 'transaction_category', label: 'Category', required: false, context: 'Transaction category' },
+    { value: 'transaction_date', label: 'Transaction Date', required: true, context: 'Transaction date' },
+    { value: 'posting_date', label: 'Posting Date', required: false, context: 'GL posting date' },
+    { value: 'payment_date', label: 'Payment Date', required: false, context: 'Payment date' },
+    // Financial Amounts
+    { value: 'amount', label: 'Amount', required: false, context: 'Transaction amount' },
+    { value: 'debit_amount', label: 'Debit Amount', required: false, context: 'Debit amount' },
+    { value: 'credit_amount', label: 'Credit Amount', required: false, context: 'Credit amount' },
+    { value: 'tax_amount', label: 'Tax Amount', required: false, context: 'Tax amount' },
+    { value: 'total_amount', label: 'Total Amount', required: false, context: 'Total amount' },
+    { value: 'currency', label: 'Currency', required: false, context: 'Currency code' },
+    // Revenue & Expenses
+    { value: 'revenue', label: 'Revenue', required: false, context: 'Revenue amount' },
+    { value: 'gross_revenue', label: 'Gross Revenue', required: false, context: 'Gross revenue' },
+    { value: 'net_revenue', label: 'Net Revenue', required: false, context: 'Net revenue' },
+    { value: 'expense', label: 'Expense', required: false, context: 'Expense amount' },
+    { value: 'operating_expense', label: 'Operating Expense', required: false, context: 'Operating expense' },
+    { value: 'cogs', label: 'Cost of Goods Sold', required: false, context: 'COGS amount' },
+    // Profit Metrics
+    { value: 'gross_profit', label: 'Gross Profit', required: false, context: 'Gross profit' },
+    { value: 'operating_profit', label: 'Operating Profit', required: false, context: 'Operating profit' },
+    { value: 'net_profit', label: 'Net Profit', required: false, context: 'Net profit' },
+    { value: 'profit_margin', label: 'Profit Margin %', required: false, context: 'Profit margin percentage' },
+    // Budget & Forecast
+    { value: 'budget_amount', label: 'Budget Amount', required: false, context: 'Budget amount' },
+    { value: 'forecast_amount', label: 'Forecast Amount', required: false, context: 'Forecast amount' },
+    { value: 'variance_amount', label: 'Variance Amount', required: false, context: 'Budget variance' },
+    { value: 'budget_period', label: 'Budget Period', required: false, context: 'Budget period' },
+  ],
+  logistics: [
+    // Shipment Identification
+    { value: 'shipment_id', label: 'Shipment ID', required: false, context: 'Shipment identifier' },
+    { value: 'tracking_number', label: 'Tracking Number', required: true, context: 'Tracking number' },
+    { value: 'waybill_number', label: 'Waybill Number', required: false, context: 'Waybill number' },
+    { value: 'reference_number', label: 'Reference Number', required: false, context: 'Reference number' },
+    // Carrier Information
+    { value: 'carrier', label: 'Carrier', required: true, context: 'Shipping carrier name' },
+    { value: 'carrier_service', label: 'Service Type', required: false, context: 'Carrier service type' },
+    { value: 'shipping_method', label: 'Shipping Method', required: false, context: 'Shipping method' },
+    { value: 'service_type', label: 'Service Level', required: false, context: 'Service level' },
+    { value: 'delivery_type', label: 'Delivery Type', required: false, context: 'Delivery type' },
+    // Dates & Timing
+    { value: 'ship_date', label: 'Ship Date', required: false, context: 'Shipment date' },
+    { value: 'scheduled_delivery_date', label: 'Scheduled Delivery', required: false, context: 'Scheduled delivery date' },
+    { value: 'actual_delivery_date', label: 'Actual Delivery', required: false, context: 'Actual delivery date' },
+    { value: 'pickup_time', label: 'Pickup Time', required: false, context: 'Pickup time' },
+    { value: 'delivery_time', label: 'Delivery Time', required: false, context: 'Delivery time' },
+    { value: 'transit_days', label: 'Transit Days', required: false, context: 'Days in transit' },
+    // Status & Tracking
+    { value: 'shipment_status', label: 'Shipment Status', required: false, context: 'Current shipment status' },
+    { value: 'delivery_status', label: 'Delivery Status', required: false, context: 'Delivery status' },
+    { value: 'tracking_status', label: 'Tracking Status', required: false, context: 'Tracking status' },
+    { value: 'is_delivered', label: 'Is Delivered', required: false, context: 'Delivered flag' },
+    { value: 'is_delayed', label: 'Is Delayed', required: false, context: 'Delayed flag' },
+    { value: 'is_exception', label: 'Has Exception', required: false, context: 'Exception flag' },
+    // Location Information
+    { value: 'origin_address', label: 'Origin Address', required: false, context: 'Shipment origin address' },
+    { value: 'origin_city', label: 'Origin City', required: false, context: 'Origin city' },
+    { value: 'origin_state', label: 'Origin State', required: false, context: 'Origin state/province' },
+    { value: 'destination_address', label: 'Destination Address', required: false, context: 'Destination address' },
+    { value: 'destination_city', label: 'Destination City', required: false, context: 'Destination city' },
+    { value: 'destination_state', label: 'Destination State', required: false, context: 'Destination state/province' },
+    // Package Details
+    { value: 'package_count', label: 'Package Count', required: false, context: 'Number of packages' },
+    { value: 'weight', label: 'Weight', required: false, context: 'Package weight' },
+    { value: 'weight_unit', label: 'Weight Unit', required: false, context: 'Weight unit (lbs, kg)' },
+    { value: 'volume', label: 'Volume', required: false, context: 'Package volume' },
+    { value: 'package_type', label: 'Package Type', required: false, context: 'Package type' },
+    // Cost Information
+    { value: 'shipping_cost', label: 'Shipping Cost', required: false, context: 'Shipping cost' },
+    { value: 'fuel_surcharge', label: 'Fuel Surcharge', required: false, context: 'Fuel surcharge' },
+    { value: 'total_cost', label: 'Total Cost', required: false, context: 'Total shipping cost' },
   ],
   recipes: [
     { value: 'item_name', label: 'Recipe/Menu Item Name', required: true, context: 'Final dish or product name' },
     { value: 'ingredient_name', label: 'Recipe Ingredient', required: true, context: 'Ingredient used in recipe' },
     { value: 'quantity', label: 'Recipe Quantity', required: true, context: 'Amount needed for recipe' },
-    { value: 'unit_of_measure', label: 'Recipe Unit (cups, grams, oz)', required: true, context: 'Measurement unit in recipe' },
-    { value: 'size_modifier', label: 'Size Modifier (S/M/L)', required: false, context: 'Recipe portion size' },
+    { value: 'unit_of_measure', label: 'Recipe Unit', required: true, context: 'Measurement unit (cups, grams, oz)' },
+    { value: 'size_modifier', label: 'Size Modifier', required: false, context: 'Recipe portion size (S/M/L)' },
     { value: 'modifier_quantity', label: 'Modifier Quantity', required: false, context: 'Quantity adjustment for size' },
   ],
   ingredients: [
-    { value: 'name', label: 'Ingredient Name (Master)', required: true, context: 'Master ingredient record' },
+    { value: 'name', label: 'Ingredient Name', required: true, context: 'Master ingredient record' },
+    { value: 'ingredient_name', label: 'Ingredient Name (Alt)', required: false, context: 'Alternative ingredient name' },
     { value: 'sku_code', label: 'Ingredient SKU', required: false, context: 'Ingredient identifier code' },
     { value: 'unit_cost', label: 'Ingredient Cost', required: false, context: 'Cost per ingredient unit' },
     { value: 'package_size', label: 'Package Size', required: false, context: 'How ingredient is packaged' },
-    { value: 'unit_of_measure', label: 'Purchase Unit (lb, kg, case)', required: true, context: 'Unit when purchasing' },
+    { value: 'unit_of_measure', label: 'Purchase Unit', required: true, context: 'Unit when purchasing (lb, kg, case)' },
     { value: 'shelf_life_days', label: 'Shelf Life (Days)', required: false, context: 'How long ingredient lasts' },
     { value: 'storage_location', label: 'Storage Location', required: false, context: 'Where ingredient is stored' },
     { value: 'supplier_name', label: 'Ingredient Supplier', required: false, context: 'Who supplies this ingredient' },
@@ -79,26 +237,48 @@ const STANDARD_FIELDS = {
     { value: 'pos_item_id', label: 'POS Item ID', required: false, context: 'Point of sale system ID' },
     { value: 'is_active', label: 'Menu Item Active', required: false, context: 'Currently available on menu' },
   ],
-  orders: [
-    { value: 'order_id', label: 'Order ID', required: true, context: 'Unique order identifier' },
-    { value: 'customer_name', label: 'Customer (Orders)', required: false, context: 'Who placed the order' },
-    { value: 'order_date', label: 'Order Date', required: true, context: 'When order was placed' },
-    { value: 'item_name', label: 'Ordered Item', required: true, context: 'What was ordered' },
-    { value: 'quantity', label: 'Order Quantity', required: true, context: 'How many were ordered' },
-    { value: 'unit_price', label: 'Order Unit Price', required: false, context: 'Price per item ordered' },
-    { value: 'total_amount', label: 'Order Total', required: false, context: 'Total for this line item' },
-  ],
   suppliers: [
     { value: 'supplier_name', label: 'Supplier Name', required: true, context: 'Vendor company name' },
+    { value: 'supplier_code', label: 'Supplier Code', required: false, context: 'Supplier identifier' },
+    { value: 'vendor_name', label: 'Vendor Name', required: false, context: 'Alternative vendor name' },
+    { value: 'vendor_id', label: 'Vendor ID', required: false, context: 'Vendor identifier' },
     { value: 'contact_email', label: 'Supplier Email', required: false, context: 'Supplier contact email' },
     { value: 'contact_phone', label: 'Supplier Phone', required: false, context: 'Supplier contact phone' },
     { value: 'address', label: 'Supplier Address', required: false, context: 'Supplier business address' },
+    { value: 'lead_time_days', label: 'Lead Time (Days)', required: false, context: 'Supplier lead time' },
+    { value: 'minimum_order_value', label: 'Min Order Value', required: false, context: 'Minimum order requirement' },
+    { value: 'payment_terms', label: 'Payment Terms', required: false, context: 'Supplier payment terms' },
+    { value: 'performance_score', label: 'Performance Score', required: false, context: 'Supplier performance rating' },
   ],
   customers: [
     { value: 'customer_name', label: 'Customer Name', required: true, context: 'Customer full name' },
+    { value: 'customer_code', label: 'Customer Code', required: false, context: 'Customer identifier' },
+    { value: 'customer_id', label: 'Customer ID', required: false, context: 'Customer ID' },
     { value: 'email', label: 'Customer Email', required: false, context: 'Customer contact email' },
+    { value: 'contact_email', label: 'Contact Email', required: false, context: 'Alternative email' },
     { value: 'phone', label: 'Customer Phone', required: false, context: 'Customer contact phone' },
+    { value: 'contact_phone', label: 'Contact Phone', required: false, context: 'Alternative phone' },
     { value: 'address', label: 'Customer Address', required: false, context: 'Customer address' },
+    { value: 'customer_type', label: 'Customer Type', required: false, context: 'Customer classification' },
+    { value: 'customer_segment', label: 'Customer Segment', required: false, context: 'Customer segment' },
+    { value: 'billing_address', label: 'Billing Address', required: false, context: 'Billing address' },
+    { value: 'shipping_address', label: 'Shipping Address', required: false, context: 'Shipping address' },
+    { value: 'payment_terms', label: 'Payment Terms', required: false, context: 'Customer payment terms' },
+    { value: 'credit_limit', label: 'Credit Limit', required: false, context: 'Customer credit limit' },
+    { value: 'tax_id', label: 'Tax ID', required: false, context: 'Tax identification number' },
+    { value: 'is_active', label: 'Is Active', required: false, context: 'Active customer flag' },
+  ],
+  common: [
+    { value: 'notes', label: 'Notes', required: false, context: 'General notes or comments' },
+    { value: 'tags', label: 'Tags', required: false, context: 'Tags or labels' },
+    { value: 'description', label: 'Description', required: false, context: 'Item description' },
+    { value: 'status', label: 'Status', required: false, context: 'General status field' },
+    { value: 'is_active', label: 'Is Active', required: false, context: 'Active flag' },
+    { value: 'created_at', label: 'Created Date', required: false, context: 'Record creation date' },
+    { value: 'updated_at', label: 'Updated Date', required: false, context: 'Last update date' },
+    { value: 'name', label: 'Name (Generic)', required: false, context: 'Generic name field' },
+    { value: 'code', label: 'Code (Generic)', required: false, context: 'Generic code field' },
+    { value: 'id', label: 'ID (Generic)', required: false, context: 'Generic ID field' },
   ]
 };
 
@@ -109,6 +289,7 @@ export default function ConsolidatedMappingPage() {
   const [isProcessing, setIsProcessing] = useState(false);
   const router = useRouter();
   const { toast } = useToast();
+  const { getAuthParams, isAuthenticated, isLoading: authLoading } = useAuth();
 
   // Combine ALL fields from ALL domains
   const availableFields = [
@@ -132,21 +313,44 @@ export default function ConsolidatedMappingPage() {
 
   // Load all files with their mappings
   useEffect(() => {
+    // Wait for auth to be loaded
+    if (authLoading) return;
+    
+    // Check if authenticated
+    if (!isAuthenticated) {
+      console.log('Not authenticated, redirecting...');
+      router.push('/login');
+      return;
+    }
+    
     const loadAllFileMappings = async () => {
       try {
-        const response = await fetch('/api/data-ingestion/upload');
+        const authParams = getAuthParams();
+        console.log('Auth params:', authParams);
+        
+        const response = await fetch(`/api/data-ingestion/upload?${authParams}`);
+        console.log('Fetching uploads, response status:', response.status);
+        
         if (response.ok) {
           const result = await response.json();
+          console.log('Uploads found:', result.uploads?.length || 0);
+          console.log('Upload statuses:', result.uploads?.map((u: any) => ({ id: u.id, status: u.status })));
           
           const mappings: FileMapping[] = [];
           const consolidatedMappings: ColumnMapping[] = [];
           
-          for (const upload of result.uploads) {
+          for (const upload of result.uploads || []) {
             if (upload.status === 'review_required' || upload.status === 'mapping_required' || upload.status === 'completed') {
               try {
-                const statusResponse = await fetch(`/api/data-ingestion/status/${upload.id}`);
+                const statusResponse = await fetch(`/api/data-ingestion/status/${upload.id}?${authParams}`);
+                console.log(`Fetching status for ${upload.id}, response:`, statusResponse.status);
+                
                 if (statusResponse.ok) {
                   const statusData = await statusResponse.json();
+                  console.log(`Status data for ${upload.id}:`, { 
+                    hasColumnDetections: !!statusData.columnDetections,
+                    detectionsCount: statusData.columnDetections?.length 
+                  });
                   
                   const fileMapping: FileMapping = {
                     fileId: upload.id,
@@ -193,7 +397,7 @@ export default function ConsolidatedMappingPage() {
     };
 
     loadAllFileMappings();
-  }, []);
+  }, [authLoading, isAuthenticated, getAuthParams, router]);
 
   const updateMapping = (fileId: string, sourceColumn: string, targetField: string) => {
     setAllMappings(prev => prev.map(mapping =>
@@ -234,6 +438,8 @@ export default function ConsolidatedMappingPage() {
     setIsProcessing(true);
     
     try {
+      const authParams = getAuthParams();
+      
       // Process each file
       for (const fileMapping of fileMappings) {
         const fileMappings = allMappings.filter(m => m.fileId === fileMapping.fileId && m.targetField);
@@ -241,7 +447,7 @@ export default function ConsolidatedMappingPage() {
         if (fileMappings.length > 0) {
           // Update column mappings
           for (const mapping of fileMappings) {
-            await fetch(`/api/data-ingestion/status/${fileMapping.fileId}`, {
+            await fetch(`/api/data-ingestion/status/${fileMapping.fileId}?${authParams}`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
@@ -256,7 +462,7 @@ export default function ConsolidatedMappingPage() {
           }
           
           // Mark as completed
-          await fetch(`/api/data-ingestion/status/${fileMapping.fileId}`, {
+          await fetch(`/api/data-ingestion/status/${fileMapping.fileId}?${authParams}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ action: 'mark_completed' })
@@ -271,7 +477,7 @@ export default function ConsolidatedMappingPage() {
       
       // Navigate to dashboard overview page
       setTimeout(() => {
-        router.push('/dashboard');
+        router.push('/dashboard/overview');
       }, 2000); // 2 second delay to show the success message
       
     } catch (error) {
@@ -286,13 +492,15 @@ export default function ConsolidatedMappingPage() {
     }
   };
 
-  if (isLoading) {
+  if (isLoading || authLoading) {
     return (
       <div className="flex-1 space-y-4 p-4 pt-6 md:p-8">
         <div className="flex h-[450px] items-center justify-center">
           <div className="flex flex-col items-center gap-2">
             <Loader2 className="h-8 w-8 animate-spin" />
-            <p className="text-sm text-muted-foreground">Loading all file mappings...</p>
+            <p className="text-sm text-muted-foreground">
+              {authLoading ? 'Authenticating...' : 'Loading all file mappings...'}
+            </p>
           </div>
         </div>
       </div>
@@ -513,10 +721,24 @@ export default function ConsolidatedMappingPage() {
                                     groups[domain].push(field);
                                     return groups;
                                   }, {} as Record<string, typeof availableFields>)
-                                ).map(([domain, domainFields]) => (
+                                ).map(([domain, domainFields]) => {
+                                  const domainIcons: Record<string, string> = {
+                                    inventory: '📦',
+                                    orders: '🛒',
+                                    financial: '💰',
+                                    logistics: '🚚',
+                                    suppliers: '🏭',
+                                    customers: '👥',
+                                    recipes: '📋',
+                                    ingredients: '🥘',
+                                    menu_items: '🍽️',
+                                    common: '⚙️'
+                                  };
+                                  const icon = domainIcons[domain] || '📊';
+                                  return (
                                   <div key={domain}>
                                     <div className="px-2 py-1.5 text-xs font-semibold text-muted-foreground bg-muted/50 border-b">
-                                      📊 {domain.toUpperCase()} FIELDS
+                                      {icon} {domain.toUpperCase().replace('_', ' ')} FIELDS
                                     </div>
                                     
                                     {domainFields.map(field => (
@@ -543,7 +765,7 @@ export default function ConsolidatedMappingPage() {
                                       </SelectItem>
                                     ))}
                                   </div>
-                                ))}
+                                )})}
                               </SelectContent>
                             </Select>
                           </TableCell>
