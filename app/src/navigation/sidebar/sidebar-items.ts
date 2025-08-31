@@ -15,6 +15,7 @@ import {
   Banknote,
   Gauge,
   GraduationCap,
+  Package,
   type LucideIcon,
 } from "lucide-react";
 
@@ -52,6 +53,11 @@ export const sidebarItems: NavGroup[] = [
         title: "Overview",
         url: "/dashboard/overview",
         icon: LayoutDashboard,
+      },
+      {
+        title: "Orders",
+        url: "/dashboard/orders",
+        icon: Package,
       },
       {
         title: "CRM",

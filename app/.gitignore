@@ -37,3 +37,4 @@ yarn-error.log*
 next-env.d.ts
 app/local.env
 app/.env.local
+.claude/
