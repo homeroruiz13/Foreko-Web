@@ -317,7 +317,7 @@ export function OrdersCharts({
                         >
                           <tspan
                             x={viewBox.cx}
-                            y={viewBox.cy - 5}
+                            y={(viewBox.cy || 0) - 5}
                             className="fill-foreground text-3xl font-bold"
                           >
                             {displayValue}
