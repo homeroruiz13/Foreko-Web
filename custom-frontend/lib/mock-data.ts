@@ -305,9 +305,9 @@ The question isn't whether to adopt AI, but how quickly you can implement it bef
       title: "The 7 Essential Dashboards Every Business Needs",
       description: "Why scattered data kills business growth and how integrated dashboards save it. Running a business with disconnected systems is like driving with multiple GPS devices showing different routes.",
       slug: "7-essential-dashboards-every-business-needs",
-      publishedAt: "2024-09-11T00:00:00.000Z",
-      createdAt: "2024-09-11T00:00:00.000Z",
-      updatedAt: "2024-09-11T00:00:00.000Z",
+      publishedAt: "2025-08-27T00:00:00.000Z",
+      createdAt: "2025-08-27T00:00:00.000Z",
+      updatedAt: "2025-08-27T00:00:00.000Z",
       locale: "en",
       content: `# The 7 Essential Dashboards Every Business Needs
 
@@ -500,9 +500,9 @@ Most businesses are at Level 1-2. Leaders are pushing toward Level 4-5.`,
       title: "Industry Guide - Inventory Solutions by Sector",
       description: "Why generic inventory systems fail and what your industry really needs. Every industry has unique inventory challenges - explore specialized solutions for each sector.",
       slug: "industry-inventory-solutions-guide",
-      publishedAt: "2024-09-12T00:00:00.000Z",
-      createdAt: "2024-09-12T00:00:00.000Z",
-      updatedAt: "2024-09-12T00:00:00.000Z",
+      publishedAt: "2025-08-27T00:00:00.000Z",
+      createdAt: "2025-08-27T00:00:00.000Z",
+      updatedAt: "2025-08-27T00:00:00.000Z",
       locale: "en",
       content: `# Industry Guide - Inventory Solutions by Sector
 
@@ -665,8 +665,8 @@ Managing multiple clients' inventory in shared spaces with different requirement
 • No customer references in your industry`,
       dynamic_zone: [],
       image: {
-        url: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-        alternativeText: "Industry Inventory Solutions"
+        url: "/images/smallwomen.png",
+        alternativeText: "Restaurant owner using tablet for inventory management"
       },
       categories: [
         { name: "industry" },
@@ -680,77 +680,652 @@ Managing multiple clients' inventory in shared spaces with different requirement
     },
     {
       id: 4,
-      title: "The Ultimate Guide to Restaurant Inventory Management with AI",
-      description: "From food waste to perfect portion planning - learn how restaurants are using Foreko's AI to reduce waste by 40% and optimize their supply chain operations...",
-      slug: "restaurant-inventory-ai-guide",
-      publishedAt: "2024-09-10T00:00:00.000Z",
-      createdAt: "2024-09-10T00:00:00.000Z",
-      updatedAt: "2024-09-10T00:00:00.000Z",
+      title: "The Small Business Guide to Inventory Management",
+      description: "How to Compete with Big Business on a Small Budget. Large corporations have million-dollar systems and teams of analysts. But small businesses can be more agile and efficient with the right approach.",
+      slug: "small-business-inventory-guide",
+      publishedAt: "2025-08-26T00:00:00.000Z",
+      createdAt: "2025-08-26T00:00:00.000Z",
+      updatedAt: "2025-08-26T00:00:00.000Z",
       locale: "en",
-      content: "Restaurant inventory management presents unique challenges - perishable goods, fluctuating demand, and tight margins. Learn how AI-powered solutions are helping restaurants optimize their operations and reduce waste...",
+      content: `# The Small Business Guide to Inventory Management
+
+## How to Compete with Big Business on a Small Budget
+
+Large corporations have million-dollar systems and teams of analysts. But small businesses can be more agile and efficient with the right approach. This guide shows you how.
+
+## The Small Business Advantage
+
+You might think size is a disadvantage, but small businesses have unique strengths:
+
+• **Agility** - Change direction quickly
+• **Relationships** - Know customers personally
+• **Focus** - Fewer SKUs to manage
+• **Innovation** - Try new approaches fast
+• **Efficiency** - Less bureaucracy
+
+The key is leveraging these advantages with smart inventory management.
+
+## Start with the Basics
+
+### The 80/20 Inventory Rule
+
+Focus on the 20% of products that generate 80% of revenue. These are your "A" items that deserve most attention.
+
+• **A Items (20%):** Count weekly, never run out
+• **B Items (30%):** Count monthly, maintain buffer
+• **C Items (50%):** Count quarterly, order when low
+
+### The True Cost of Inventory
+
+Most small businesses only consider purchase price, but true inventory cost includes:
+
+• Storage space (rent/utilities)
+• Insurance and taxes
+• Handling labor
+• Obsolescence risk
+• Opportunity cost of cash
+
+Total carrying cost is typically 25-30% of inventory value annually.
+
+## Free and Low-Cost Tools
+
+### Spreadsheet Power
+
+Before buying software, maximize free tools:
+
+**Google Sheets Inventory Tracker:**
+• Product database
+• Reorder point calculations
+• Basic sales tracking
+• Low stock alerts
+• Simple reporting
+
+**Key Formulas:**
+• Reorder Point = (Average Daily Usage × Lead Time) + Safety Stock
+• EOQ = √(2 × Annual Demand × Order Cost / Holding Cost)
+• Turnover = Cost of Goods Sold / Average Inventory
+
+### When to Upgrade
+
+Consider inventory software when:
+• Managing 50+ SKUs
+• Selling on multiple channels
+• Spending 2+ hours daily on inventory
+• Making costly stock mistakes
+• Ready to scale
+
+## Cash Flow Management
+
+### The Inventory-Cash Balance
+
+Every dollar in inventory is a dollar not in your bank. Smart small businesses:
+
+**Negotiate Payment Terms:**
+• Customers: Net 15-30 days
+• Suppliers: Net 45-60 days
+• Result: Positive cash flow
+
+**Use JIT Principles:**
+• Order frequently in smaller quantities
+• Reduce storage needs
+• Minimize obsolescence
+• Free up cash
+
+**Consider Dropshipping:**
+• No inventory investment
+• No storage costs
+• Focus on marketing
+• Test new products risk-free
+
+## Preventing Common Mistakes
+
+**Mistake 1: Overordering "Deals"**
+Buying 1000 units for 50% off seems smart until you realize it'll take 2 years to sell them.
+
+*Solution:* Calculate turnover time and carrying costs before bulk buying.
+
+**Mistake 2: Ignoring Seasonality**
+Many businesses forget seasonal patterns and get stuck with off-season inventory.
+
+*Solution:* Track monthly sales patterns and plan inventory accordingly.
+
+**Mistake 3: Poor Organization**
+Can't sell what you can't find. Disorganization leads to duplicate orders and lost sales.
+
+*Solution:* Implement location tracking, even if it's just shelf labels.
+
+**Mistake 4: No Backup Suppliers**
+Relying on one supplier is risky. What if they raise prices or go out of business?
+
+*Solution:* Maintain relationships with 2-3 suppliers for critical items.
+
+## Growth Strategies
+
+### Start Lean:
+• Test new products with minimal quantities
+• Use pre-orders to gauge demand
+• Partner with suppliers for consignment
+• Focus on fast-turning items
+
+### Scale Smart:
+• Reinvest profits into inventory
+• Expand successful product lines
+• Add complementary items
+• Build supplier relationships
+
+### Leverage Technology:
+• Use marketplace fulfillment (FBA)
+• Implement barcode scanning
+• Automate reorder points
+• Integrate sales channels
+
+## Success Stories
+
+• **Coffee Shop:** Reduced waste 40% by tracking ingredient usage daily instead of weekly.
+• **Online Boutique:** Increased turns from 4 to 12 annually by focusing on bestsellers.
+• **Hardware Store:** Cut stockouts 75% using simple min/max spreadsheet system.
+• **Gift Shop:** Freed up $30K cash by liquidating dead stock identified through ABC analysis.
+
+## Your 90-Day Action Plan
+
+**Days 1-30: Assess**
+• Count everything
+• Identify dead stock
+• Calculate carrying costs
+• Analyze sales patterns
+
+**Days 31-60: Optimize**
+• Liquidate dead stock
+• Set reorder points
+• Organize storage
+• Negotiate terms
+
+**Days 61-90: Systematize**
+• Implement tracking system
+• Train any staff
+• Document procedures
+• Monitor improvements
+
+## When You're Ready to Scale
+
+Signs you need professional inventory management:
+• Consistent profitable growth
+• Multiple sales channels
+• Growing product catalog
+• Inventory errors costing money
+• Manual tasks overwhelming
+
+Modern cloud-based systems start at $50-200/month and deliver ROI within 60-90 days for most small businesses.`,
       dynamic_zone: [],
       image: {
-        url: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-        alternativeText: "Restaurant Inventory Management"
+        url: "/images/startup.png",
+        alternativeText: "Small Business Inventory Management"
       },
       categories: [
-        { name: "restaurant" },
+        { name: "small-business" },
         { name: "inventory" },
         { name: "guide" }
       ],
       seo: {
-        metaTitle: "Restaurant Inventory Management with AI - Complete Guide",
-        metaDescription: "Learn how restaurants use AI inventory management to reduce waste and optimize operations"
+        metaTitle: "The Small Business Guide to Inventory Management - Foreko",
+        metaDescription: "Learn how to compete with big business on a small budget. Smart inventory management strategies for small businesses."
       }
     },
     {
       id: 5,
-      title: "Why Construction Companies Are Ditching Spreadsheets for Smart Inventory",
-      description: "Field & trades businesses are discovering the power of mobile-first inventory management. See how contractors are managing materials across job sites with 35% efficiency gains...",
-      slug: "construction-smart-inventory",
-      publishedAt: "2024-09-09T00:00:00.000Z",
-      createdAt: "2024-09-09T00:00:00.000Z",
-      updatedAt: "2024-09-09T00:00:00.000Z",
+      title: "KPIs That Actually Matter - A Practical Guide",
+      description: "Stop Tracking Vanity Metrics and Start Measuring What Drives Profit. Most businesses drown in data but thirst for insights. This guide cuts through the noise to focus on KPIs that actually impact your bottom line.",
+      slug: "kpis-that-matter-practical-guide",
+      publishedAt: "2025-08-25T00:00:00.000Z",
+      createdAt: "2025-08-25T00:00:00.000Z",
+      updatedAt: "2025-08-25T00:00:00.000Z",
       locale: "en",
-      content: "Construction and field service companies face unique inventory challenges - materials scattered across job sites, unpredictable demand, and mobile workforce requirements. Discover how smart inventory solutions are solving these problems...",
+      content: `# KPIs That Actually Matter - A Practical Guide
+
+## Stop Tracking Vanity Metrics and Start Measuring What Drives Profit
+
+Most businesses drown in data but thirst for insights. This guide cuts through the noise to focus on KPIs that actually impact your bottom line.
+
+## The Problem with Most KPIs
+
+Companies track dozens of metrics that sound important but don't drive action:
+• Total website visits (but not conversion)
+• Social media followers (but not engagement)
+• Gross sales (but not profitability)
+
+Real KPIs pass three tests:
+1. **Actionable** - You can influence them
+2. **Accessible** - You can measure them easily
+3. **Auditable** - You can verify them
+
+## The Essential Inventory KPIs
+
+### 1. Inventory Turnover Rate
+
+**What It Measures:** How quickly you sell and replace inventory
+
+**Formula:** Cost of Goods Sold ÷ Average Inventory
+
+**Target:** Varies by industry
+• Grocery: 15-20 turns
+• Fashion: 4-6 turns
+• Electronics: 8-10 turns
+• Furniture: 2-4 turns
+
+**Why It Matters:** Money tied up in inventory can't be used elsewhere. Higher turnover = better cash flow.
+
+**Action Steps:**
+• Identify slow movers
+• Reduce order quantities
+• Improve demand forecasting
+• Clear old stock quickly
+
+### 2. Stock-to-Sales Ratio
+
+**What It Measures:** Balance between inventory and sales
+
+**Formula:** Inventory Value ÷ Sales Value
+
+**Target:** 1.5-2.0 for most retail
+
+**Why It Matters:** Too high = excess inventory. Too low = stockouts.
+
+**Red Flags:**
+• Ratio climbing monthly (building excess)
+• Ratio varying wildly (poor planning)
+• Ratio over 3 (cash flow danger)
+
+### 3. Gross Margin Return on Investment (GMROI)
+
+**What It Measures:** Profit generated per dollar of inventory
+
+**Formula:** Gross Margin $ ÷ Average Inventory Cost
+
+**Target:** Minimum 2.0 (making $2 for every $1 invested)
+
+**Power Move:** Calculate GMROI by category to identify winners and losers.
+
+## The Critical Order KPIs
+
+### 4. Perfect Order Rate
+
+**What It Measures:** Orders delivered complete, on-time, damage-free, with correct documentation
+
+**Formula:** Perfect Orders ÷ Total Orders × 100
+
+**Target:** 95% minimum
+
+**Impact:** Each 1% improvement typically increases customer retention by 2%.
+
+### 5. Order Cycle Time
+
+**What It Measures:** Time from order placement to delivery
+
+**Formula:** Average (Delivery Date - Order Date)
+
+**Target:** Beat Amazon's standard in your area
+
+**Customer Truth:** 73% of customers say delivery speed influences purchasing decisions.
+
+## The Financial KPIs That Matter
+
+### 6. Cash Conversion Cycle
+
+**What It Measures:** Days to convert inventory investment back to cash
+
+**Formula:** Days Inventory + Days Receivables - Days Payables
+
+**Target:** As low as possible (negative is ideal!)
+
+**Example:**
+• Days to sell inventory: 30
+• Days to collect payment: 45
+• Days to pay suppliers: 60
+• Cash Conversion Cycle: 15 days
+
+### 7. Carrying Cost Percentage
+
+**What It Measures:** True cost of holding inventory
+
+**Includes:**
+• Storage costs
+• Insurance
+• Taxes
+• Obsolescence
+• Opportunity cost
+
+**Target:** 15-25% of inventory value annually
+
+**Reality Check:** Most businesses underestimate by 10-15%.
+
+## The Customer-Centric KPIs
+
+### 8. Fill Rate
+
+**What It Measures:** Percentage of demand met from stock
+
+**Formula:** Units Shipped ÷ Units Ordered × 100
+
+**Target:** 95-98%
+
+**Lost Sale Reality:** Every 1% improvement in fill rate typically increases revenue by 0.5-1%.
+
+### 9. Backorder Rate
+
+**What It Measures:** Orders that can't be filled immediately
+
+**Formula:** Backordered Items ÷ Total Items Ordered × 100
+
+**Target:** <2%
+
+**Hidden Cost:** Backorders cost 3x more to fulfill than regular orders.
+
+## The Predictive KPIs
+
+### 10. Forecast Accuracy
+
+**What It Measures:** How well you predict demand
+
+**Formula:** 1 - (|Forecast - Actual| ÷ Actual) × 100
+
+**Target:** 85% or higher
+
+**Improvement Path:**
+• Start simple (moving averages)
+• Add seasonality
+• Include promotions
+• Consider external factors
+• Use AI for complex patterns
+
+## Building Your KPI Dashboard
+
+### Start Simple:
+**Week 1:** Pick 3 KPIs most relevant to your biggest problem
+**Week 2:** Set up tracking (spreadsheet is fine)
+**Week 3:** Establish baselines
+**Week 4:** Set improvement targets
+
+### Review Rhythm:
+• **Daily:** Operational KPIs (fill rate, orders)
+• **Weekly:** Tactical KPIs (turnover, cycle time)
+• **Monthly:** Strategic KPIs (margins, cash cycle)
+
+### Warning Signs in Your KPIs:
+• Sudden changes (>20% swing)
+• Consistent decline (3+ periods)
+• Missing targets repeatedly
+• KPIs moving opposite directions
+
+## From KPIs to Action
+
+### The 5 Whys Method:
+**Problem:** Inventory turnover dropped from 8 to 6
+1. Why? Excess inventory built up
+2. Why? Ordered too much last quarter
+3. Why? Forecast was too high
+4. Why? Didn't account for competitor's promotion
+5. Why? No competitive monitoring process
+
+**Solution:** Add competitive intelligence to forecast process
+
+## Your KPI Maturity Path
+
+**Level 1: Reactive** - Check KPIs after problems occur
+**Level 2: Active** - Monitor KPIs regularly
+**Level 3: Proactive** - Set alerts for KPI thresholds
+**Level 4: Predictive** - Forecast future KPI trends
+**Level 5: Prescriptive** - AI recommends actions
+
+Most businesses operate at Level 1-2. Leaders push toward Level 4-5.`,
       dynamic_zone: [],
       image: {
-        url: "https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-        alternativeText: "Construction Smart Inventory"
+        url: "/images/coffee.png",
+        alternativeText: "KPIs Dashboard Analytics"
       },
       categories: [
-        { name: "construction" },
-        { name: "inventory" },
-        { name: "mobile" }
+        { name: "analytics" },
+        { name: "KPIs" },
+        { name: "metrics" }
       ],
       seo: {
-        metaTitle: "Smart Inventory for Construction Companies",
-        metaDescription: "How construction companies are using mobile inventory management for better efficiency"
+        metaTitle: "KPIs That Actually Matter - A Practical Guide",
+        metaDescription: "Stop tracking vanity metrics. Learn which KPIs actually impact your bottom line and how to measure them effectively."
       }
     },
     {
       id: 6,
-      title: "From Chaos to Control: E-commerce Multi-Channel Inventory Mastery",
-      description: "Managing inventory across Shopify, Amazon, and physical stores? Learn the secrets to unified reporting and preventing overselling with AI-powered synchronization...",
-      slug: "ecommerce-multichannel-inventory",
-      publishedAt: "2024-09-08T00:00:00.000Z",
-      createdAt: "2024-09-08T00:00:00.000Z",
-      updatedAt: "2024-09-08T00:00:00.000Z",
+      title: "Future-Proofing Your Business with Smart Inventory",
+      description: "The Technologies and Strategies That Will Define the Next Decade. The future of inventory management is already here - it's just not evenly distributed. This guide explores emerging technologies and strategies that will separate winners from losers.",
+      slug: "future-proofing-smart-inventory",
+      publishedAt: "2025-08-24T00:00:00.000Z",
+      createdAt: "2025-08-24T00:00:00.000Z",
+      updatedAt: "2025-08-24T00:00:00.000Z",
       locale: "en",
-      content: "E-commerce businesses selling across multiple channels face the constant challenge of inventory synchronization. Learn how AI-powered solutions can unify your inventory management across all sales channels...",
+      content: `# Future-Proofing Your Business with Smart Inventory
+
+## The Technologies and Strategies That Will Define the Next Decade
+
+The future of inventory management is already here - it's just not evenly distributed. This guide explores emerging technologies and strategies that will separate winners from losers.
+
+## The Acceleration of Change
+
+Inventory management evolved more in the last 5 years than the previous 50:
+• AI went from concept to reality
+• Same-day delivery became standard
+• Omnichannel went from luxury to necessity
+• Sustainability became a requirement
+• Supply chains went global then local again
+
+The next 5 years will be even more dramatic.
+
+## Artificial Intelligence: From Prediction to Prescription
+
+**Today's AI:** Predicts what will happen
+**Tomorrow's AI:** Prescribes what to do
+
+### Current State:
+• Demand forecasting with 85% accuracy
+• Anomaly detection
+• Price optimization
+• Supplier selection
+
+### Coming Soon:
+• 95%+ forecast accuracy
+• Autonomous ordering
+• Self-optimizing supply chains
+• Negotiation bots
+• Quality prediction
+
+**Real Example:** Major retailers already use AI that automatically adjusts prices, orders stock, and routes shipments without human intervention.
+
+## The Internet of Things (IoT) Revolution
+
+### Smart Shelves and Sensors
+
+Imagine shelves that:
+• Weigh products continuously
+• Alert when stock is low
+• Track expiration dates
+• Monitor temperature
+• Count customer interactions
+
+### RFID Everything
+
+RFID costs dropped 90% in 10 years. Soon, every product will be trackable:
+• Instant inventory counts
+• Automatic checkout
+• Loss prevention
+• Recall management
+• Supply chain visibility
+
+**Practical Application:** A clothing retailer using RFID reduced inventory count time from 40 hours to 2 hours with 99.9% accuracy.
+
+## Sustainability as Competitive Advantage
+
+### The Circular Economy
+
+Forward-thinking businesses are designing out waste:
+• Products designed for disassembly
+• Take-back programs
+• Refurbishment operations
+• Material recovery systems
+• Waste-to-resource conversion
+
+### Carbon-Optimized Inventory
+
+New systems optimize for carbon footprint, not just cost:
+• Local sourcing when carbon-efficient
+• Consolidated shipments
+• Optimal transport modes
+• Warehouse location selection
+• Product lifecycle tracking
+
+**Consumer Reality:** 73% of millennials will pay more for sustainable products.
+
+## The Automation Wave
+
+### Robotic Warehouses
+
+Automation is moving beyond Amazon:
+• Autonomous picking robots
+• Automated storage and retrieval
+• Drone inventory counts
+• Self-driving forklifts
+• Lights-out warehouses
+
+**Cost Reality:** Warehouse automation costs dropped 50% in 5 years and ROI improved to 2-3 years.
+
+### Micro-Fulfillment Centers
+
+Urban micro-warehouses enable:
+• 30-minute delivery
+• Lower last-mile costs
+• Reduced transportation
+• Fresh product delivery
+• Competitive advantage
+
+## Blockchain and Trust
+
+### Supply Chain Transparency
+
+Blockchain enables:
+• Origin verification
+• Authenticity guarantee
+• Ethical sourcing proof
+• Recall precision
+• Regulatory compliance
+
+### Smart Contracts
+
+Automated execution when conditions are met:
+• Payment on delivery confirmation
+• Penalty for late shipment
+• Quality-based pricing
+• Automatic reordering
+• Dispute resolution
+
+**Industry Example:** Walmart requires suppliers to use blockchain for food tracking, reducing contamination investigation from weeks to seconds.
+
+## The Experience Economy
+
+### Personalized Inventory
+
+Future inventory systems will maintain "inventory of one":
+• Made-to-order everything
+• Personalized products
+• Individual pricing
+• Custom bundles
+• Unique experiences
+
+### Experiential Retail
+
+Physical stores become experience centers:
+• Showrooming with home delivery
+• Virtual reality try-ons
+• Augmented reality placement
+• Interactive displays
+• Event spaces
+
+## Preparing for the Future
+
+### Build These Capabilities Now:
+
+**Data Excellence**
+• Clean, organized data
+• Real-time visibility
+• Historical patterns
+• External data feeds
+
+**Integration Readiness**
+• API-first approach
+• Cloud-based systems
+• Flexible architecture
+• Scalable infrastructure
+
+**Team Development**
+• Digital literacy
+• Analytical thinking
+• Continuous learning
+• Change adaptability
+
+**Customer Centricity**
+• Experience focus
+• Feedback loops
+• Personalization capability
+• Service excellence
+
+## The Convergence Point
+
+All these technologies converge into:
+• **Autonomous Commerce** - Self-managing businesses
+• **Predictive Operations** - Problems solved before they occur
+• **Sustainable Profitability** - Good for planet and profit
+• **Hyper-Personalization** - Every customer unique
+• **Resilient Supply Chains** - Anti-fragile operations
+
+## Your Future-Proofing Checklist
+
+### Next 6 Months:
+☐ Audit current technology stack
+☐ Identify biggest vulnerability
+☐ Test one new technology
+☐ Train team on digital tools
+☐ Build data foundation
+
+### Next 12 Months:
+☐ Implement AI/ML pilot
+☐ Add IoT sensors
+☐ Automate one process
+☐ Launch sustainability initiative
+☐ Create innovation budget
+
+### Next 24 Months:
+☐ Scale successful pilots
+☐ Build competitive moat
+☐ Lead in one area
+☐ Share knowledge
+☐ Plan next disruption
+
+## The Choice Before You
+
+Every business faces a choice:
+1. Evolve and thrive in the new economy
+2. Resist and become irrelevant
+
+The tools exist. The knowledge is available. The only question is whether you'll act before competitors do.`,
       dynamic_zone: [],
       image: {
-        url: "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-        alternativeText: "E-commerce Multi-Channel Inventory"
+        url: "/images/smallbus.png",
+        alternativeText: "Future-Proofing Business with Smart Inventory"
       },
       categories: [
-        { name: "ecommerce" },
-        { name: "inventory" },
-        { name: "multichannel" }
+        { name: "future" },
+        { name: "technology" },
+        { name: "innovation" }
       ],
       seo: {
-        metaTitle: "E-commerce Multi-Channel Inventory Management",
-        metaDescription: "Master multi-channel inventory management for your e-commerce business"
+        metaTitle: "Future-Proofing Your Business with Smart Inventory",
+        metaDescription: "Explore emerging technologies and strategies that will define the next decade of inventory management."
       }
     }
   ]
@@ -1657,7 +2232,7 @@ export const mockPages = {
             title: "The 7 Essential Dashboards Every Business Needs",
             description: "Why scattered data kills business growth and how integrated dashboards save it. Running a business with disconnected systems is like driving with multiple GPS devices showing different routes.",
             slug: "7-essential-dashboards-every-business-needs",
-            publishedAt: "September 11, 2024",
+            publishedAt: "August 27, 2025",
             image: {
               url: "/images/ordersdash.png",
               alternativeText: "Essential Business Dashboards"
@@ -1673,10 +2248,10 @@ export const mockPages = {
             title: "Industry Guide - Inventory Solutions by Sector",
             description: "Why generic inventory systems fail and what your industry really needs. Every industry has unique inventory challenges - explore specialized solutions for each sector.",
             slug: "industry-inventory-solutions-guide",
-            publishedAt: "September 12, 2024",
+            publishedAt: "August 27, 2025",
             image: {
-              url: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-              alternativeText: "Industry Inventory Solutions"
+              url: "/images/smallwomen.png",
+              alternativeText: "Restaurant owner using tablet for inventory management"
             },
             categories: [
               { name: "industry" },
@@ -1686,50 +2261,50 @@ export const mockPages = {
           },
           {
             id: 4,
-            title: "The Ultimate Guide to Restaurant Inventory Management with AI",
-            description: "From food waste to perfect portion planning - learn how restaurants are using Foreko's AI to reduce waste by 40% and optimize their supply chain operations...",
-            slug: "restaurant-inventory-ai-guide",
-            publishedAt: "September 10, 2024",
+            title: "The Small Business Guide to Inventory Management",
+            description: "How to Compete with Big Business on a Small Budget. Large corporations have million-dollar systems and teams of analysts. But small businesses can be more agile and efficient with the right approach.",
+            slug: "small-business-inventory-guide",
+            publishedAt: "August 26, 2025",
             image: {
-              url: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-              alternativeText: "Restaurant Inventory Management"
+              url: "/images/startup.png",
+              alternativeText: "Small Business Inventory Management"
             },
             categories: [
-              { name: "restaurant" },
+              { name: "small-business" },
               { name: "inventory" },
               { name: "guide" }
             ]
           },
           {
             id: 5,
-            title: "Why Construction Companies Are Ditching Spreadsheets for Smart Inventory",
-            description: "Field & trades businesses are discovering the power of mobile-first inventory management. See how contractors are managing materials across job sites with 35% efficiency gains...",
-            slug: "construction-smart-inventory",
-            publishedAt: "September 9, 2024",
+            title: "KPIs That Actually Matter - A Practical Guide",
+            description: "Stop Tracking Vanity Metrics and Start Measuring What Drives Profit. Most businesses drown in data but thirst for insights.",
+            slug: "kpis-that-matter-practical-guide",
+            publishedAt: "August 25, 2025",
             image: {
-              url: "https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-              alternativeText: "Construction Smart Inventory"
+              url: "/images/coffee.png",
+              alternativeText: "KPIs Dashboard Analytics"
             },
             categories: [
-              { name: "construction" },
-              { name: "inventory" },
-              { name: "mobile" }
+              { name: "analytics" },
+              { name: "KPIs" },
+              { name: "metrics" }
             ]
           },
           {
             id: 6,
-            title: "From Chaos to Control: E-commerce Multi-Channel Inventory Mastery",
-            description: "Managing inventory across Shopify, Amazon, and physical stores? Learn the secrets to unified reporting and preventing overselling with AI-powered synchronization...",
-            slug: "ecommerce-multichannel-inventory",
-            publishedAt: "September 8, 2024",
+            title: "Future-Proofing Your Business with Smart Inventory",
+            description: "The Technologies and Strategies That Will Define the Next Decade. The future of inventory management is already here - it's just not evenly distributed.",
+            slug: "future-proofing-smart-inventory",
+            publishedAt: "August 24, 2025",
             image: {
-              url: "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-              alternativeText: "E-commerce Multi-Channel Inventory"
+              url: "/images/smallbus.png",
+              alternativeText: "Future-Proofing Business with Smart Inventory"
             },
             categories: [
-              { name: "ecommerce" },
-              { name: "inventory" },
-              { name: "multichannel" }
+              { name: "future" },
+              { name: "technology" },
+              { name: "innovation" }
             ]
           }
         ]
