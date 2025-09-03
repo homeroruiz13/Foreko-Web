@@ -67,7 +67,7 @@ const FeaturedArticle = ({ article, locale }: { article: any, locale: string }) 
   return (
     <Link
       className="block group"
-      href={`/${locale}/blog/${article.slug}`}
+      href={`/${locale}/resources/${article.slug}`}
     >
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
         <div className="order-2 lg:order-1">
@@ -115,7 +115,7 @@ const CompactArticleCard = ({ article, locale }: { article: any, locale: string 
   return (
     <Link
       className="block group border-b border-neutral-800 pb-6 hover:border-neutral-700 transition-colors"
-      href={`/${locale}/blog/${article.slug}`}
+      href={`/${locale}/resources/${article.slug}`}
     >
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 items-start">
         <div className="md:col-span-1">

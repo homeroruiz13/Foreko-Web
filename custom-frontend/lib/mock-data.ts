@@ -170,74 +170,512 @@ export const mockArticles = {
   data: [
     {
       id: 1,
-      title: "Not a Guide to Integrating Foreko with Your Existing Systems",
-      description: "Looking to streamline your inventory management and delivery? This comprehensive guide walks you through the seamless integration of Foreko with your business systems. We'll cover everything (false) from initial setup to advanced configurations (nope), ensuring you have all the tools you need to send your inventory soaring (sure...).",
-      slug: "foreko-integration-guide",
-      publishedAt: "2024-09-11T00:00:00.000Z",
-      createdAt: "2024-09-11T00:00:00.000Z",
-      updatedAt: "2024-09-11T00:00:00.000Z",
+      title: "The Complete Guide to AI-Powered Inventory Management",
+      description: "How AI is revolutionizing inventory management for modern businesses. Discover how artificial intelligence is transforming the way businesses manage their stock.",
+      slug: "ai-powered-inventory-management-guide",
+      publishedAt: "2025-09-03T00:00:00.000Z",
+      createdAt: "2025-09-03T00:00:00.000Z",
+      updatedAt: "2025-09-03T00:00:00.000Z",
       locale: "en",
-      content: "Looking to streamline your inventory management and delivery? This comprehensive guide walks you through the seamless integration of Foreko with your business systems. We'll cover everything from initial setup to advanced configurations, ensuring you have all the tools you need to send your inventory soaring. Small businesses are increasingly turning to AI-powered solutions to streamline their inventory management processes...",
+      content: `# The Complete Guide to AI-Powered Inventory Management
+
+## How AI is Revolutionizing Inventory Management for Modern Businesses
+
+Inventory management has evolved from clipboards and spreadsheets to sophisticated AI systems that predict, optimize, and automate. This guide explores how artificial intelligence is transforming the way businesses manage their stock.
+
+## The Hidden Cost of Traditional Inventory Management
+
+Most businesses don't realize how much poor inventory management costs them. Studies show that companies typically have 20-30% of their capital tied up in inventory, with much of it being dead stock or at risk of stockouts.
+
+### The Real Numbers:
+• **$1.1 trillion** globally tied up in excess inventory
+• **23%** average dead stock across industries
+• **4-6 hours** daily spent on manual inventory tasks
+• **73%** of businesses experience monthly stockouts
+• **65%** forecast accuracy with spreadsheets
+
+These aren't just statistics - they represent real money lost and opportunities missed.
+
+## Understanding AI in Inventory Management
+
+### What Makes It "AI-Powered"?
+
+Traditional inventory systems use fixed formulas and rules. If inventory drops below X, order Y. Simple, but inflexible.
+
+AI-powered systems learn from patterns. They analyze:
+• Historical sales data
+• Seasonal trends
+• Market conditions
+• Weather patterns
+• Social media sentiment
+• Economic indicators
+• Supplier performance
+
+The AI discovers hidden patterns humans miss. For example, it might notice that rainy Tuesdays increase umbrella sales by 340%, or that social media mentions correlate with demand spikes 3 days later.
+
+## Key Benefits of AI Inventory Management
+
+### 1. Predictive Demand Forecasting
+Instead of reacting to stockouts, AI predicts them weeks in advance. Machine learning algorithms analyze dozens of factors to forecast demand with 85-95% accuracy, compared to 60-70% with traditional methods.
+
+### 2. Dynamic Reorder Points
+**Traditional:** Fixed reorder point of 100 units
+**AI-Powered:** Adjusts daily based on trends, seasonality, and risk factors
+
+The AI might set your reorder point at 80 units in slow season but 150 during peak times, preventing both stockouts and overstock.
+
+### 3. Automated Purchase Orders
+AI doesn't just tell you what to order - it can generate complete purchase orders, select the best suppliers, and even negotiate optimal quantities for bulk discounts.
+
+### 4. Dead Stock Prevention
+By analyzing sales velocity and market trends, AI identifies slow-moving inventory before it becomes dead stock, suggesting promotions or transfers to prevent losses.
+
+## Real-World Success Stories
+
+• **Electronics Retailer:** Reduced stockouts by 78% while carrying 25% less inventory
+• **Restaurant Chain:** Cut food waste by 42% across 18 locations
+• **E-commerce Brand:** Eliminated overselling across 5 channels, improved margins by 15%
+• **Distributor:** Reduced manual ordering time from 6 hours to 30 minutes daily
+
+## How Confidence Scoring Works
+
+One unique aspect of AI inventory management is confidence scoring. Every prediction includes a confidence level:
+
+• **95-100% Confidence:** Highly reliable, safe to automate
+• **85-94% Confidence:** Very good, minimal review needed
+• **70-84% Confidence:** Good, quick review recommended
+• **Below 70%:** Needs human judgment
+
+This transparency helps you know when to trust the AI and when to apply human expertise.
+
+## The Triple-Bucket Savings Approach
+
+AI-powered systems track savings in three stages:
+1. **Potential Savings** - Opportunities identified
+2. **In-Flight Savings** - Actions being taken
+3. **Realized Savings** - Money actually saved
+
+This methodology proves ROI and helps prioritize actions.
+
+## Is AI Right for Your Business?
+
+AI inventory management works best for businesses with:
+• At least 50 SKUs
+• $1M+ annual revenue
+• Historical sales data (6+ months)
+• Desire to scale efficiently
+
+Even smaller businesses benefit, but the ROI is most dramatic at scale.
+
+## Getting Started with AI Inventory Management
+
+1. **Assess Current State** - Understand your inventory challenges
+2. **Clean Your Data** - AI needs quality data to learn
+3. **Start Small** - Begin with top-selling SKUs
+4. **Measure Results** - Track improvements in key metrics
+5. **Scale Gradually** - Expand as confidence grows
+
+## The Future of Inventory Management
+
+AI is just beginning. Coming advances include:
+• Voice-activated ordering
+• Augmented reality warehouse management
+• Blockchain supply chain tracking
+• Quantum computing optimization
+• Autonomous fulfillment centers
+
+The question isn't whether to adopt AI, but how quickly you can implement it before competitors gain the advantage.`,
       dynamic_zone: [],
       image: {
-        url: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-        alternativeText: "Foreko Integration Guide"
+        url: "/images/article1.png",
+        alternativeText: "AI Inventory Management"
       },
       categories: [
+        { name: "AI" },
         { name: "inventory" },
-        { name: "software" }
+        { name: "guide" }
       ],
       seo: {
-        metaTitle: "Foreko Integration Guide for Small Businesses",
-        metaDescription: "Learn how to integrate Foreko AI inventory management with your existing business systems"
+        metaTitle: "The Complete Guide to AI-Powered Inventory Management",
+        metaDescription: "Learn how AI is revolutionizing inventory management with predictive forecasting, automated reordering, and real-time optimization."
       }
     },
     {
       id: 2,
-      title: "5 Reasons Why Your Inventory Needs to Go AI-Powered",
-      description: "Discover the top five benefits of launching your inventory into the future with Foreko's AI-powered management system. From predictive analytics to automated reordering...",
-      slug: "inventory-ai-powered",
+      title: "The 7 Essential Dashboards Every Business Needs",
+      description: "Why scattered data kills business growth and how integrated dashboards save it. Running a business with disconnected systems is like driving with multiple GPS devices showing different routes.",
+      slug: "7-essential-dashboards-every-business-needs",
       publishedAt: "2024-09-11T00:00:00.000Z",
       createdAt: "2024-09-11T00:00:00.000Z",
       updatedAt: "2024-09-11T00:00:00.000Z",
       locale: "en",
-      content: "Discover the top five benefits of launching your inventory into the future with Foreko's AI-powered management system. From predictive analytics to automated reordering, learn why smart businesses are making the switch from manual spreadsheets to intelligent automation...",
+      content: `# The 7 Essential Dashboards Every Business Needs
+
+## Why Scattered Data Kills Business Growth (And How Integrated Dashboards Save It)
+
+Running a business with disconnected systems is like driving with multiple GPS devices showing different routes. This guide explores the seven essential dashboards that give you complete business visibility.
+
+## The Problem with Data Silos
+
+Most businesses suffer from data fragmentation:
+• Sales data in one system
+• Inventory in spreadsheets
+• Financials in accounting software
+• Customer data in CRM
+• Shipping in carrier portals
+
+This fragmentation causes:
+• **Delayed decisions** - Gathering data takes hours
+• **Missed opportunities** - Can't spot trends quickly
+• **Costly mistakes** - Acting on outdated information
+• **Team frustration** - Everyone sees different numbers
+
+## The Power of Integrated Dashboards
+
+Integrated dashboards connect all your data sources into unified views. Like a pilot's cockpit, they show everything you need at a glance.
+
+## Dashboard #1: Executive Dashboard
+
+**Purpose:** Give leadership complete business oversight
+
+**Key Metrics to Track:**
+• Company health score
+• Revenue vs. goals
+• Cash position
+• Critical alerts
+• Department performance
+
+**Why It Matters:** CEOs need to spot problems before they become crises. An executive dashboard provides early warning systems for the entire business.
+
+**Real Impact:** "Our executive dashboard helped us spot a supply chain issue 3 weeks before it would have caused stockouts, saving us $200K" - Manufacturing CEO
+
+## Dashboard #2: Financial Dashboard
+
+**Purpose:** Monitor profitability and cash flow
+
+**Critical Metrics:**
+• Gross margins by product/customer
+• Operating expenses
+• Cash runway
+• Budget variance
+• Working capital
+
+**Hidden Insights:** Most businesses don't know their true product profitability. A financial dashboard reveals which products make money and which drain resources.
+
+**Power Move:** Set up alerts when margins drop below targets or expenses exceed budgets.
+
+## Dashboard #3: Customer Dashboard
+
+**Purpose:** Understand customer behavior and value
+
+**Must-Track Metrics:**
+• Customer lifetime value
+• Retention rates
+• Net promoter score
+• Acquisition costs
+• Churn indicators
+
+**The 80/20 Rule:** Typically 20% of customers generate 80% of profits. A customer dashboard identifies your VIPs and at-risk accounts.
+
+**Growth Hack:** Use cohort analysis to understand which customer segments grow fastest.
+
+## Dashboard #4: AI Insights Dashboard
+
+**Purpose:** Surface predictions and opportunities
+
+**Intelligence Provided:**
+• Demand forecasts
+• Risk alerts
+• Optimization opportunities
+• Anomaly detection
+• Savings tracking
+
+**Competitive Advantage:** While competitors react to problems, you prevent them. AI insights help you see around corners.
+
+**Example Alert:** "Unusual order pattern detected - possible bulk buyer. Recommendation: Reach out with volume discount offer."
+
+## Dashboard #5: Orders Dashboard
+
+**Purpose:** Optimize fulfillment and procurement
+
+**Operational Metrics:**
+• Order fill rates
+• Cycle times
+• Perfect order percentage
+• Backorder levels
+• Supplier performance
+
+**The Domino Effect:** Poor order management cascades into inventory problems, customer complaints, and cash flow issues. This dashboard prevents that cascade.
+
+**Quick Win:** Track "perfect orders" (complete, on-time, damage-free, accurate documentation) to identify process improvements.
+
+## Dashboard #6: Inventory Dashboard
+
+**Purpose:** Balance stock levels and cash flow
+
+**Critical KPIs:**
+• Turnover rates
+• Stock accuracy
+• Dead stock percentage
+• Carrying costs
+• Service levels
+
+**Money Finder:** Most businesses have 20-30% dead stock. An inventory dashboard identifies it for liquidation, freeing up cash.
+
+**Pro Tip:** Monitor ABC analysis - focus on the 20% of SKUs that generate 80% of revenue.
+
+## Dashboard #7: Logistics Dashboard
+
+**Purpose:** Ensure reliable, cost-effective delivery
+
+**Performance Metrics:**
+• On-time delivery rates
+• Shipping costs
+• Transit times
+• Carrier performance
+• Exception rates
+
+**Customer Truth:** Delivery experience determines whether customers order again. This dashboard ensures you meet expectations.
+
+**Cost Saver:** Compare carrier performance to negotiate better rates and service levels.
+
+## How Dashboards Work Together
+
+The magic happens when dashboards connect:
+• Inventory low? → Orders dashboard triggers purchase order
+• Customer complaint? → Check logistics for delivery issues
+• Margins dropping? → Financial dashboard shows why
+• Sales spike? → AI dashboard predicted it last week
+
+## Building Your Dashboard Strategy
+
+**Start Here:**
+1. Identify your biggest pain point
+2. Implement that dashboard first
+3. Add connected dashboards gradually
+4. Train teams on their relevant views
+5. Review and refine weekly
+
+**Common Mistakes to Avoid:**
+• Information overload (too many metrics)
+• Vanity metrics (impressive but not actionable)
+• Set-and-forget (dashboards need evolution)
+• One-size-fits-all (departments need different views)
+
+## The ROI of Integrated Dashboards
+
+Companies with integrated dashboards report:
+• 40% faster decision-making
+• 25% reduction in operational costs
+• 30% improvement in customer satisfaction
+• 50% less time gathering reports
+• 3x more likely to spot opportunities
+
+## Your Dashboard Maturity Journey
+
+**Level 1: Chaos** - Data in spreadsheets, no visibility
+**Level 2: Basic** - Some dashboards, still disconnected
+**Level 3: Connected** - Integrated dashboards, real-time data
+**Level 4: Intelligent** - AI-powered insights and predictions
+**Level 5: Autonomous** - Self-optimizing operations
+
+Most businesses are at Level 1-2. Leaders are pushing toward Level 4-5.`,
       dynamic_zone: [],
       image: {
-        url: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-        alternativeText: "AI-Powered Inventory"
+        url: "/images/ordersdash.png",
+        alternativeText: "Essential Business Dashboards"
       },
       categories: [
-        { name: "inventory" }
+        { name: "dashboards" },
+        { name: "analytics" },
+        { name: "guide" }
       ],
       seo: {
-        metaTitle: "5 Reasons to Use AI-Powered Inventory Management",
-        metaDescription: "Discover the benefits of AI-powered inventory management for small businesses"
+        metaTitle: "The 7 Essential Dashboards Every Business Needs",
+        metaDescription: "Learn why scattered data kills business growth and how integrated dashboards can save your business with complete visibility."
       }
     },
     {
       id: 3,
-      title: "Case Study: How Rodriguez Electronics Launched Their Inventory to New Heights",
-      description: "In this case study, we explore how Rodriguez Electronics leveraged Foreko to revolutionize their multi-channel inventory management, reducing costs by 30% and eliminating stockouts...",
-      slug: "rodriguez-electronics-case-study",
+      title: "Industry Guide - Inventory Solutions by Sector",
+      description: "Why generic inventory systems fail and what your industry really needs. Every industry has unique inventory challenges - explore specialized solutions for each sector.",
+      slug: "industry-inventory-solutions-guide",
       publishedAt: "2024-09-12T00:00:00.000Z",
       createdAt: "2024-09-12T00:00:00.000Z",
       updatedAt: "2024-09-12T00:00:00.000Z",
       locale: "en",
-      content: "In this case study, we explore how Rodriguez Electronics leveraged Foreko to revolutionize their multi-channel inventory management. Managing 500+ SKUs across multiple channels was overwhelming until they discovered AI-powered automation...",
+      content: `# Industry Guide - Inventory Solutions by Sector
+
+## Why Generic Inventory Systems Fail (And What Your Industry Really Needs)
+
+Every industry has unique inventory challenges. A restaurant managing fresh ingredients has vastly different needs than an e-commerce store or manufacturer. This guide explores specialized solutions for each sector.
+
+## Restaurant & Food Service
+
+### Your Unique Challenges:
+
+The food industry battles constant enemies: spoilage, fluctuating prices, and thin margins. With ingredients expiring daily and food costs typically 30% of revenue, precision matters.
+
+### Critical Requirements:
+
+**Recipe-Level Tracking:** You don't stock "pizza" - you stock dough, sauce, cheese, and toppings. Modern systems track ingredients and automatically calculate recipe costs as prices change.
+
+**Expiration Management:** FIFO (First In, First Out) isn't just best practice - it's essential for food safety. Smart systems track expiration dates and alert before waste occurs.
+
+**Multi-Location Complexity:** Chain restaurants need central kitchen management, transfer tracking between locations, and consistency across all sites.
+
+### Technology Solutions:
+• Predictive ordering based on weather and events
+• Automatic recipe costing updates
+• Prep planning based on forecasts
+• Integration with POS systems
+• Health compliance tracking
+
+**Success Metric:** Leading restaurants achieve 4-6% food waste versus industry average of 10%.
+
+## E-Commerce & Retail
+
+### Your Unique Challenges:
+
+Selling across multiple channels creates synchronization nightmares. One inventory pool must serve your website, Amazon, eBay, and physical store - without overselling.
+
+### Critical Requirements:
+
+**Channel Synchronization:** Real-time inventory updates across all platforms. When item sells on Amazon, your Shopify store must know instantly.
+
+**FBA Optimization:** Balance between FBA fees and fulfillment speed. Smart systems calculate when to use FBA versus self-fulfillment.
+
+**Seasonal Planning:** Black Friday can make or break your year. You need systems that predict seasonal spikes and ensure stock without overbuying.
+
+### Technology Solutions:
+• Multi-channel inventory pooling
+• Automated repricing based on competition
+• Return processing and restocking
+• Bundle and kit management
+• Marketplace fee optimization
+
+**Success Metric:** Top e-commerce brands achieve 0% oversells and 15+ inventory turns annually.
+
+## Manufacturing & Distribution
+
+### Your Unique Challenges:
+
+Complex bill of materials (BOMs), long supplier lead times, and production scheduling create planning nightmares. One missing component can halt entire production lines.
+
+### Critical Requirements:
+
+**BOM Management:** Multi-level BOMs with thousands of components. Systems must track raw materials through sub-assemblies to finished goods.
+
+**MRP Calculations:** Material Requirements Planning that considers production schedules, lead times, and minimum order quantities.
+
+**Quality Tracking:** Lot and serial number tracking for recalls and warranty claims. Complete traceability from supplier to customer.
+
+### Technology Solutions:
+• Multi-level BOM explosion
+• Capacity planning integration
+• Supplier performance scoring
+• Alternative component management
+• Cost rollup calculations
+
+**Success Metric:** Leading manufacturers achieve 95% on-time delivery with 20% less inventory.
+
+## Healthcare & Medical
+
+### Your Unique Challenges:
+
+Life-or-death inventory requirements with strict regulations. Expired medications can't be sold, recalls must be instant, and stockouts can impact patient care.
+
+### Critical Requirements:
+
+**Compliance Tracking:** FDA regulations, chain of custody, temperature monitoring, and audit trails. Every movement must be documented.
+
+**Consignment Management:** Many high-value items (like surgical implants) are on consignment. Track ownership and usage accurately.
+
+**Par Level Management:** Each department needs specific stock levels. OR requirements differ from ER or pharmacy needs.
+
+### Technology Solutions:
+• Automatic FDA compliance reporting
+• Temperature and humidity monitoring
+• Recall management systems
+• Charge capture integration
+• Expiration date automation
+
+**Success Metric:** Leading healthcare providers achieve 99.9% availability with 0% expired product usage.
+
+## Construction & Field Service
+
+### Your Unique Challenges:
+
+Inventory scattered across job sites, trucks, and warehouses. Tools disappear, materials get transferred between jobs, and weather delays change everything.
+
+### Critical Requirements:
+
+**Mobile Access:** Field workers need to check/update inventory from job sites, often without internet connection.
+
+**Tool Tracking:** High-value tools and equipment need tracking. Who has it? Which job site? When due back?
+
+**Project-Based Inventory:** Track materials by job for accurate costing. Know exactly what went into each project.
+
+### Technology Solutions:
+• Offline mobile apps
+• Barcode/RFID tool tracking
+• Job cost integration
+• Equipment maintenance scheduling
+• Weather-adjusted planning
+
+**Success Metric:** Leading contractors reduce tool loss by 90% and improve job margins by 15%.
+
+## 3PL & Logistics Providers
+
+### Your Unique Challenges:
+
+Managing multiple clients' inventory in shared spaces with different requirements, billing models, and SLAs.
+
+### Critical Requirements:
+
+**Client Segregation:** Complete separation of client inventories with individual portals and reporting.
+
+**Billing Automation:** Complex billing based on storage, handling, and value-added services.
+
+**SLA Management:** Track and prove compliance with service level agreements.
+
+### Technology Solutions:
+• Multi-tenant architecture
+• Client portal access
+• Automated billing calculations
+• Cross-docking optimization
+• Real-time visibility for clients
+
+**Success Metric:** Top 3PLs achieve 99.8% inventory accuracy with 100% SLA compliance.
+
+## Choosing the Right Solution
+
+### Questions to Ask:
+1. Does it handle my industry's specific requirements?
+2. Can it integrate with my existing systems?
+3. Will it scale as we grow?
+4. Does it comply with our regulations?
+5. What's the real ROI timeline?
+
+### Red Flags to Avoid:
+• "One size fits all" messaging
+• No industry-specific features
+• Limited integration options
+• Unclear pricing models
+• No customer references in your industry`,
       dynamic_zone: [],
       image: {
         url: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-        alternativeText: "Rodriguez Electronics Case Study"
+        alternativeText: "Industry Inventory Solutions"
       },
       categories: [
-        { name: "analytics" },
+        { name: "industry" },
         { name: "inventory" },
-        { name: "case-study" }
+        { name: "guide" }
       ],
       seo: {
-        metaTitle: "Rodriguez Electronics Foreko Case Study",
-        metaDescription: "How Rodriguez Electronics used Foreko to transform their inventory management"
+        metaTitle: "Industry Guide - Inventory Solutions by Sector",
+        metaDescription: "Discover specialized inventory solutions for restaurants, e-commerce, manufacturing, healthcare, construction, and logistics industries."
       }
     },
     {
@@ -1200,47 +1638,50 @@ export const mockPages = {
         articles: [
           {
             id: 1,
-            title: "Not a Guide to Integrating Foreko with Your Existing Systems",
-            description: "Looking to streamline your inventory management and delivery? This comprehensive guide walks you through the seamless integration of Foreko with your business systems. We'll cover everything (false) from initial setup to advanced configurations (nope), ensuring you have all the tools you need to send your inventory soaring (sure...).",
-            slug: "foreko-integration-guide",
-            publishedAt: "September 11, 2024",
+            title: "The Complete Guide to AI-Powered Inventory Management",
+            description: "How AI is revolutionizing inventory management for modern businesses. Discover how artificial intelligence is transforming the way businesses manage their stock, from predictive forecasting to automated reordering.",
+            slug: "ai-powered-inventory-management-guide",
+            publishedAt: "September 3, 2025",
             image: {
-              url: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-              alternativeText: "Foreko Integration Guide"
+              url: "/images/article1.png",
+              alternativeText: "AI Inventory Management"
             },
             categories: [
+              { name: "AI" },
               { name: "inventory" },
-              { name: "software" }
+              { name: "guide" }
             ]
           },
           {
             id: 2,
-            title: "5 Reasons Why Your Inventory Needs to Go AI-Powered",
-            description: "Discover the top five benefits of launching your inventory into the future with Foreko's AI-powered management system. From predictive analytics to automated reordering...",
-            slug: "inventory-ai-powered",
+            title: "The 7 Essential Dashboards Every Business Needs",
+            description: "Why scattered data kills business growth and how integrated dashboards save it. Running a business with disconnected systems is like driving with multiple GPS devices showing different routes.",
+            slug: "7-essential-dashboards-every-business-needs",
             publishedAt: "September 11, 2024",
             image: {
-              url: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-              alternativeText: "AI-Powered Inventory"
+              url: "/images/ordersdash.png",
+              alternativeText: "Essential Business Dashboards"
             },
             categories: [
-              { name: "inventory" }
+              { name: "dashboards" },
+              { name: "analytics" },
+              { name: "guide" }
             ]
           },
           {
             id: 3,
-            title: "Case Study: How Rodriguez Electronics Launched Their Inventory to New Heights",
-            description: "In this case study, we explore how Rodriguez Electronics leveraged Foreko to revolutionize their multi-channel inventory management, reducing costs by 30% and eliminating stockouts...",
-            slug: "rodriguez-electronics-case-study",
+            title: "Industry Guide - Inventory Solutions by Sector",
+            description: "Why generic inventory systems fail and what your industry really needs. Every industry has unique inventory challenges - explore specialized solutions for each sector.",
+            slug: "industry-inventory-solutions-guide",
             publishedAt: "September 12, 2024",
             image: {
               url: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-              alternativeText: "Rodriguez Electronics Case Study"
+              alternativeText: "Industry Inventory Solutions"
             },
             categories: [
-              { name: "analytics" },
+              { name: "industry" },
               { name: "inventory" },
-              { name: "case-study" }
+              { name: "guide" }
             ]
           },
           {

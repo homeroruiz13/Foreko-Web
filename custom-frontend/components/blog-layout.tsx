@@ -20,7 +20,7 @@ export async function BlogLayout({
   return (
     <Container className="mt-16 lg:mt-32">
       <div className="flex justify-between items-center px-2 py-8">
-        <Link href="/blog" className="flex space-x-2 items-center">
+        <Link href="/resources" className="flex space-x-2 items-center">
           <IconArrowLeft className="w-4 h-4 text-muted" />
           <span className="text-sm text-muted">Back</span>
         </Link>
@@ -29,10 +29,12 @@ export async function BlogLayout({
         {article.image ? (
           <Image
             src={getImageUrl(article.image.url)}
-            height="800"
-            width="800"
-            className="h-40 md:h-96 w-full aspect-square object-cover rounded-3xl [mask-image:radial-gradient(circle,white,transparent)]"
+            height="600"
+            width="1200"
+            className="h-64 md:h-96 w-full object-cover rounded-3xl"
             alt={article.title}
+            quality={100}
+            priority
           />
         ) : (
           <div className="h-40 md:h-96 w-full aspect-square rounded-3xl shadow-derek bg-neutral-900 flex items-center justify-center">
