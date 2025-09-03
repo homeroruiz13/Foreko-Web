@@ -2342,7 +2342,7 @@ export const mockPages = {
         testimonials: [
           {
             id: 1,
-            text: "As a Computer Science student at the University of Arkansas, I witnessed firsthand how small businesses struggled with inventory chaos while having no access to the advanced tools that could help them. At Foreko, I lead all software development including AI model architecture, front-end development, and the core technology that powers our inventory intelligence platform. Foreko was born from the belief that every entrepreneur deserves the same technological advantages, regardless of their company's size.",
+            text: "As President, Homero leads Foreko's technology development, managing the front-end and back-end of the platform. He is responsible for building the websites, dashboards, and applications that connect seamlessly with the company's systems. In addition, Homero develops the machine learning models that drive forecasting and inventory optimization, turning complex algorithms into practical business tools. With his focus on reliability and usability, he ensures the Foreko platform delivers an intuitive experience that businesses can depend on. His work is central to transforming innovative ideas into functional solutions that help businesses run more efficiently.",
             user: {
               firstname: "Homero",
               lastname: "Ruiz",
@@ -2356,7 +2356,7 @@ export const mockPages = {
           },
           {
             id: 2,
-            text: "Pursuing Information Systems with Business Analytics concentration and Supply Chain Management minor at University of Arkansas. As President, Jason leads our database infrastructure and algorithm development, ensuring our software can scale efficiently. He combines deep technical expertise in data architecture with strategic business vision, helping shape Foreko's roadmap and core inventory intelligence algorithms.",
+            text: "As Chief Executive Officer, Jason sets the vision and strategic direction for Foreko. He built the company's database infrastructure and leads the development of its machine learning foundation, ensuring the platform is both scalable and intelligent. With a background in Information Systems, Business Analytics, and Supply Chain Management at the University of Arkansas, Jason bridges technology and leadership to guide Foreko's long-term growth. His focus is on positioning Foreko as a trusted partner that empowers businesses to make confident, data-driven inventory decisions and achieve sustainable success.",
             user: {
               firstname: "Jason",
               lastname: "Luu",
@@ -2366,6 +2366,20 @@ export const mockPages = {
                 alternativeText: "Jason Luu"
               },
               linkedin: "https://www.linkedin.com/in/jasonmluu/"
+            }
+          },
+          {
+            id: 3,
+            text: "As Head of Supply Chain, Alexis leads the design of Foreko's logistics and inventory frameworks. A Supply Chain Management student at the University of Arkansas, he specializes in logistics optimization and operational efficiency. At Foreko, Alexis develops the algorithms that manage orders, fulfillment, and distribution, ensuring the platform reflects real-world supply chain challenges. His expertise provides businesses with seamless connections across inventory, logistics, and delivery processes. By focusing on supply chain precision, Alexis ensures Foreko's platform helps businesses minimize inefficiencies and achieve smoother, more reliable operations.",
+            user: {
+              firstname: "Alexis",
+              lastname: "Rodas",
+              job: "Head of Supply Chain",
+              image: {
+                url: "/images/alexis.png",
+                alternativeText: "Alexis Rodas"
+              },
+              linkedin: "https://www.linkedin.com/in/alexis-rodas-3b6890230/"
             }
           }
         ]
@@ -2378,7 +2392,7 @@ export const mockPages = {
         testimonials: [
           {
             id: 3,
-            text: "University of Arkansas graduate with extensive financial analysis and Fintech background, including hands-on experience with SAP, Power Automate, and SQL at Tyson Foods. At Foreko, Hao specializes in financial analytics for our AI models, ensuring our inventory intelligence platform delivers accurate cost optimization and ROI predictions. His expertise helps small businesses make data-driven financial decisions about their inventory investments.",
+            text: "As Head of Finance, Hao directs Foreko's financial strategy, reporting, and planning to ensure the company's growth is built on sound foundations. A University of Arkansas graduate, he brings financial analysis and fintech expertise from his experience with SAP, Power Automate, and SQL at Tyson Foods. At Foreko, Hao manages financial forecasting, builds reporting frameworks, and integrates cost analysis into the platform. His work ensures that businesses receive accurate ROI predictions and clear financial insights tied to their inventory decisions. By combining technical ability with financial acumen, Hao helps Foreko and its customers make smarter, data-driven financial choices.",
             user: {
               firstname: "Hao",
               lastname: "Pham", 
@@ -2392,35 +2406,21 @@ export const mockPages = {
           },
           {
             id: 4,
-            text: "Supply Chain Management student at University of Arkansas specializing in logistics optimization. At Foreko, Alexis leads our marketing initiatives and develops the sophisticated logistical algorithms that power our inventory management models. His expertise ensures our AI understands real-world supply chain complexities and delivery optimization challenges that small businesses face daily.",
+            text: "As Head of Business Development, Alonso is responsible for driving Foreko's growth by building relationships with businesses and expanding the company's reach. This role focuses on identifying potential partners, engaging directly with entrepreneurs, and demonstrating how Foreko's AI-powered platform can help them manage inventory more effectively. At Foreko, Alonso leads outreach efforts, develops strategies to connect with small and mid-sized businesses, and ensures that new clients are successfully introduced to the platform. By combining communication skills with a deep understanding of Foreko's value, Alonso plays a vital role in scaling adoption. Their work ensures Foreko not only grows its customer base but also creates lasting partnerships that strengthen the impact of the platform.",
             user: {
-              firstname: "Alexis",
-              lastname: "Rodas",
-              job: "Head of Supply Chain",
+              firstname: "Alonso",
+              lastname: "Manon",
+              job: "Head of Business Development",
               image: {
-                url: "/images/alexis.png",
-                alternativeText: "Alexis Rodas"
+                url: "/images/alonso.png",
+                alternativeText: "Alonso Manon"
               },
-              linkedin: "https://www.linkedin.com/in/alexis-rodas-3b6890230/"
+              linkedin: "https://www.linkedin.com/in/alonso-manon/"
             }
           },
           {
             id: 5,
-            text: "Industrial Engineering student at the University of Arkansas, Harish brings fresh analytical perspectives and innovative problem-solving approaches to Foreko's operations team. His academic focus on process optimization and systems analysis directly supports our mission to streamline inventory management for small businesses. Harish combines theoretical knowledge with practical application, helping design more efficient operational workflows that enhance our platform's effectiveness.",
-            user: {
-              firstname: "Harish",
-              lastname: "Suresh",
-              job: "Head of Operations",
-              image: {
-                url: "/images/harish.png",
-                alternativeText: "Harish Suresh"
-              },
-              linkedin: "https://www.linkedin.com/in/harishsuresh0/"
-            }
-          },
-          {
-            id: 6,
-            text: "Andrew leads Foreko's app development and machine learning initiatives, driving innovation in our AI-powered inventory intelligence platform. With expertise in both mobile application development and advanced machine learning algorithms, Andrew ensures our technology delivers cutting-edge solutions for small businesses. He spearheads the development of intelligent features that automate inventory management and provide actionable insights, making complex AI technology accessible and practical for everyday business operations.",
+            text: "As Head of Engineering, Andrew leads Foreko's app development and engineering innovation. With expertise in mobile applications and software systems, he ensures Foreko's platform is both modern and reliable. Andrew also drives the development of intelligent features powered by machine learning, enabling businesses to benefit from automation and predictive insights. His focus is on building scalable applications that make complex technology simple for everyday users. By combining engineering skill with practical design, Andrew ensures Foreko continues to deliver cutting-edge solutions tailored to small business needs.",
             user: {
               firstname: "Andrew",
               lastname: "Samountry",
@@ -2430,6 +2430,34 @@ export const mockPages = {
                 alternativeText: "Andrew Samountry"
               },
               linkedin: "https://www.linkedin.com/in/andrew-samountry-632807205/"
+            }
+          },
+          {
+            id: 6,
+            text: "As Head of Marketing, Olivia leads Foreko's brand strategy and outreach efforts. A dedicated student with a passion for business marketing, social media, and supply chain, she focuses on building Foreko's presence and communicating its value to business owners. At Foreko, Olivia develops marketing initiatives, manages communications, and ensures that the company's message highlights its role as an AI-powered partner for smarter inventory management. Her work translates complex technology into clear, engaging stories that resonate with entrepreneurs. By combining creativity with business knowledge, Olivia helps position Foreko as a trusted and recognizable brand in the market.",
+            user: {
+              firstname: "Olivia",
+              lastname: "Baer",
+              job: "Head of Marketing",
+              image: {
+                url: "/images/olivia.png",
+                alternativeText: "Olivia Baer"
+              },
+              linkedin: "https://www.linkedin.com/in/olivia-baer25/"
+            }
+          },
+          {
+            id: 7,
+            text: "As Head of Operations, Harish is responsible for process optimization at Foreko and for the businesses that adopt the platform. An Industrial Engineering student at the University of Arkansas, he applies systems analysis and process design to streamline workflows. At Foreko, Harish develops operational models that enhance scalability and efficiency across the platform. He also works with partner businesses to improve their internal processes, aligning technology with practical execution. By focusing on operational excellence, Harish ensures Foreko is built for growth while helping clients simplify and optimize their day-to-day operations.",
+            user: {
+              firstname: "Harish",
+              lastname: "Suresh",
+              job: "Head of Operations",
+              image: {
+                url: "/images/harish.png",
+                alternativeText: "Harish Suresh"
+              },
+              linkedin: "https://www.linkedin.com/in/harishsuresh0/"
             }
           }
         ]
