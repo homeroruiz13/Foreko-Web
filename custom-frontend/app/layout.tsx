@@ -1,10 +1,22 @@
-import type { Viewport } from "next";
+import type { Viewport, Metadata } from "next";
 import { Locale, i18n } from '@/i18n.config'
 
 import "./globals.css";
 import "../styles/foreko-app.css";
 
 import { SlugProvider } from "./context/SlugContext";
+
+export const metadata: Metadata = {
+  icons: {
+    icon: [
+      { url: '/icon.png?v=2', type: 'image/png' },
+      { url: '/favicon.ico?v=2' },
+    ],
+    apple: [
+      { url: '/apple-icon.png?v=2' },
+    ],
+  },
+};
 
 export const viewport: Viewport = {
   themeColor: [
