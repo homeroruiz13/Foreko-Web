@@ -65,40 +65,40 @@ export const mockPageData = {
       testimonials: [
         {
           id: 1,
-          text: "Foreko eliminated our inventory headaches. The AI suggestions are spot-on and saved us thousands in lost sales.",
+          text: "Foreko transformed our medical supply inventory management. We now predict demand accurately and have reduced stock-outs by 85%, ensuring critical supplies are always available.",
           user: {
-            firstname: "Sarah",
-            lastname: "Chen",
-            job: "Owner, Chen's Boutique",
+            firstname: "Javier",
+            lastname: "Ruiz Avila",
+            job: "Director, Dermedica - Mexico City",
             image: {
-              url: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
-              alternativeText: "Sarah Chen"
+              url: "https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
+              alternativeText: "Javier Ruiz Avila"
             }
           }
         },
         {
           id: 2,
-          text: "Finally, a dashboard that speaks my language. No more complex spreadsheets - everything I need in one place.",
+          text: "Running a food truck means tight margins and zero waste. Foreko's AI helps me order exactly what I need, cutting food waste by 40% and boosting profits.",
           user: {
-            firstname: "Mike",
-            lastname: "Rodriguez",
-            job: "Founder, Rodriguez Auto Parts",
+            firstname: "Aiden",
+            lastname: "Samountry",
+            job: "Owner, Bee Styles Food Truck",
             image: {
-              url: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
-              alternativeText: "Mike Rodriguez"
+              url: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
+              alternativeText: "Aiden Samountry"
             }
           }
         },
         {
           id: 3,
-          text: "The integration with our Shopify store is seamless. We can track everything from inventory to customer insights in real-time.",
+          text: "As a growing craft brewery in Northwest Arkansas, managing inventory across ingredients and merchandise was overwhelming. Foreko simplified everything and increased our efficiency by 60%.",
           user: {
-            firstname: "Emma",
-            lastname: "Thompson",
-            job: "CEO, Thompson's Online Store",
+            firstname: "Marcus",
+            lastname: "Harrison",
+            job: "Founder, Ozark Mountain Brewing - Bentonville, AR",
             image: {
-              url: "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
-              alternativeText: "Emma Thompson"
+              url: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
+              alternativeText: "Marcus Harrison"
             }
           }
         }
@@ -2062,31 +2062,31 @@ export const mockPages = {
         __component: "dynamic-zone.testimonials",
         id: 2,
         heading: "Retail",
-        sub_heading: "From inventory chaos to streamlined operations",
+        sub_heading: "Northwest Arkansas retailers transforming their operations",
         testimonials: [
           {
             id: 1,
-            text: "Foreko helped us reduce inventory holding costs by 30% while eliminating stockouts. The AI predictions are incredibly accurate for our seasonal products.",
+            text: "Our Bentonville boutique struggled with seasonal inventory until Foreko. Now we predict demand weeks ahead and reduced overstock by 45%.",
             user: {
-              firstname: "Sarah",
-              lastname: "Mitchell",
-              job: "Owner, Mitchell's Outdoor Gear",
+              firstname: "Jennifer",
+              lastname: "Martinez",
+              job: "Owner, The Market Place - Bentonville",
               image: {
-                url: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
-                alternativeText: "Sarah Mitchell"
+                url: "https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
+                alternativeText: "Jennifer Martinez"
               }
             }
           },
           {
             id: 2,
-            text: "Managing 500+ SKUs across multiple channels was overwhelming. Now I have a single dashboard that shows me exactly what to reorder and when.",
+            text: "Managing inventory for our three Rogers locations was a nightmare. Foreko's AI now optimizes stock levels across all stores automatically.",
             user: {
-              firstname: "Carlos",
-              lastname: "Rodriguez",
-              job: "Founder, Rodriguez Electronics",
+              firstname: "David",
+              lastname: "Thompson",
+              job: "CEO, Natural State Outfitters - Rogers",
               image: {
-                url: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
-                alternativeText: "Carlos Rodriguez"
+                url: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
+                alternativeText: "David Thompson"
               }
             }
           }
@@ -2096,31 +2096,31 @@ export const mockPages = {
         __component: "dynamic-zone.testimonials",
         id: 3,
         heading: "E-commerce",
-        sub_heading: "From spreadsheets to smart inventory automation",
+        sub_heading: "Local online businesses scaling with smart inventory",
         testimonials: [
           {
             id: 3,
-            text: "Before Foreko, I was constantly either out of stock or overstocked. The AI forecasting helped me optimize my inventory levels and increase profits by 25%.",
+            text: "Our Fayetteville-based art supply business went from local to national. Foreko manages inventory across Amazon, Etsy, and our website flawlessly.",
             user: {
-              firstname: "Emma",
-              lastname: "Thompson",
-              job: "CEO, Thompson's Online Store",
+              firstname: "Rachel",
+              lastname: "Anderson",
+              job: "Founder, Ozark Art Supply Co - Fayetteville",
               image: {
-                url: "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
-                alternativeText: "Emma Thompson"
+                url: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
+                alternativeText: "Rachel Anderson"
               }
             }
           },
           {
             id: 4,
-            text: "The integration with our Shopify store is seamless. We can track everything from inventory to customer insights in real-time across all our sales channels.",
+            text: "Selling Arkansas-made products online meant complex inventory. Foreko's AI predicts demand spikes during Razorback games and local events perfectly.",
             user: {
-              firstname: "Michael",
-              lastname: "Chen",
-              job: "Founder, Chen's Tech Store",
+              firstname: "Blake",
+              lastname: "Williams",
+              job: "CEO, Arkansas Made Store - Springdale",
               image: {
-                url: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
-                alternativeText: "Michael Chen"
+                url: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
+                alternativeText: "Blake Williams"
               }
             }
           }
@@ -2130,31 +2130,31 @@ export const mockPages = {
         __component: "dynamic-zone.testimonials",
         id: 4,
         heading: "Restaurants",
-        sub_heading: "From food waste to perfect portion planning",
+        sub_heading: "NWA's thriving food scene powered by smart inventory",
         testimonials: [
           {
             id: 5,
-            text: "Foreko's AI helped us reduce food waste by 40% by predicting exactly how much inventory we need based on seasonal patterns and local events.",
+            text: "Running a BBQ restaurant in Bentonville means unpredictable crowds. Foreko helps us prep for busy weekends and reduces meat waste by 35%.",
             user: {
-              firstname: "Maria",
-              lastname: "Garcia",
-              job: "Owner, Garcia's Family Restaurant",
+              firstname: "Tommy",
+              lastname: "Jackson",
+              job: "Owner, Smoke & Bones BBQ - Bentonville",
               image: {
-                url: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
-                alternativeText: "Maria Garcia"
+                url: "https://images.unsplash.com/photo-1556157382-97eda2d62296?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
+                alternativeText: "Tommy Jackson"
               }
             }
           },
           {
             id: 6,
-            text: "Managing inventory for three restaurant locations was a nightmare. Now I can see all locations in one dashboard and optimize ordering across all sites.",
+            text: "Our farm-to-table concept requires fresh local ingredients. Foreko coordinates with our suppliers and predicts exactly what we need each week.",
             user: {
-              firstname: "Antonio",
-              lastname: "Rossi",
-              job: "Chef & Owner, Rossi's Italian Kitchen",
+              firstname: "Emily",
+              lastname: "Roberts",
+              job: "Chef & Owner, The Hive - Rogers",
               image: {
-                url: "https://images.unsplash.com/photo-1583394838336-acd977736f90?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
-                alternativeText: "Antonio Rossi"
+                url: "https://images.unsplash.com/photo-1607746882042-944635dfe10e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
+                alternativeText: "Emily Roberts"
               }
             }
           }
@@ -2164,31 +2164,31 @@ export const mockPages = {
         __component: "dynamic-zone.testimonials",
         id: 5,
         heading: "Field & Trades",
-        sub_heading: "From tool chaos to organized efficiency",
+        sub_heading: "Supporting NWA's booming construction and service industry",
         testimonials: [
           {
             id: 7,
-            text: "As a contractor, keeping track of materials across multiple job sites was impossible. Foreko's mobile dashboard lets me manage inventory from anywhere.",
+            text: "With all the growth in Northwest Arkansas, managing materials for multiple construction sites was chaos. Foreko keeps our projects on schedule.",
             user: {
-              firstname: "James",
-              lastname: "Wilson",
-              job: "Owner, Wilson Construction",
+              firstname: "Mike",
+              lastname: "Peterson",
+              job: "Owner, Peterson Construction - Springdale",
               image: {
-                url: "https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
-                alternativeText: "James Wilson"
+                url: "https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
+                alternativeText: "Mike Peterson"
               }
             }
           },
           {
             id: 8,
-            text: "The AI predictions help us stock the right parts before service calls. Our technician efficiency improved by 35% since we're never missing critical components.",
+            text: "Servicing homes across Benton and Washington counties means smart parts management. Foreko ensures our trucks are always stocked right.",
             user: {
-              firstname: "Lisa",
-              lastname: "Johnson",
-              job: "Operations Manager, Johnson HVAC",
+              firstname: "Amanda",
+              lastname: "Davis",
+              job: "Operations Director, Natural State Plumbing - Fayetteville",
               image: {
-                url: "https://images.unsplash.com/photo-1494790108755-2616c669c8c0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
-                alternativeText: "Lisa Johnson"
+                url: "https://images.unsplash.com/photo-1598550874175-4d0ef436c909?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
+                alternativeText: "Amanda Davis"
               }
             }
           }
@@ -2557,14 +2557,40 @@ export const mockPages = {
         testimonials: [
           {
             id: 1,
-            text: "The Foreko support team helped us get set up in just 30 minutes. They really understand small business needs.",
+            text: "The Foreko support team helped us get set up in just 30 minutes. They really understand small business needs in Northwest Arkansas.",
             user: {
-              firstname: "Maria",
-              lastname: "Garcia",
-              job: "Owner, Garcia's Restaurant Supply",
+              firstname: "Jessica",
+              lastname: "Thompson",
+              job: "Owner, Bella Vista Coffee Roasters",
               image: {
-                url: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUwIiBoZWlnaHQ9IjE1MCIgdmlld0JveD0iMCAwIDE1MCAxNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxNTAiIGhlaWdodD0iMTUwIiBmaWxsPSIjRkY2QjM5Ii8+Cjx0ZXh0IHg9Ijc1IiB5PSI3NSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjI0IiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPk1HPC90ZXh0Pgo8L3N2Zz4K",
-                alternativeText: "Maria Garcia"
+                url: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
+                alternativeText: "Jessica Thompson"
+              }
+            }
+          },
+          {
+            id: 2,
+            text: "Outstanding support! They helped us integrate with our local supplier network in Fayetteville. Response time is always under an hour.",
+            user: {
+              firstname: "Robert",
+              lastname: "Chen",
+              job: "CEO, NWA Tech Solutions - Fayetteville",
+              image: {
+                url: "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
+                alternativeText: "Robert Chen"
+              }
+            }
+          },
+          {
+            id: 3,
+            text: "Foreko's team went above and beyond to customize the system for our Rogers distribution center. Best customer service we've experienced.",
+            user: {
+              firstname: "Ashley",
+              lastname: "Martinez",
+              job: "Operations Director, Ozark Distribution - Rogers",
+              image: {
+                url: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
+                alternativeText: "Ashley Martinez"
               }
             }
           }
